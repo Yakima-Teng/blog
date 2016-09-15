@@ -97,7 +97,7 @@
       <section class="app-footer-widget" ng-if="randomPosts.length">
         <h4>Articles</h4>
         <ul class="posts">
-          <li ng-repeat="item in randomPosts"><a ng-href="/blog/#/posts/{{item.ID}}">{{item.post_title}}</a> <span>{{item.post_date}}</span></li>
+          <li ng-repeat="item in randomPosts"><a ng-href="/blog/#/posts/{{item.ID}}">{{item.post_title}}</a> <span>{{formatDate(item.post_date)}}</span></li>
         </ul>
       </section>
     </div>
