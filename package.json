@@ -24,7 +24,7 @@
     "gulp-connect-proxy": "^0.3.1",
     "gulp-connect-reproxy": "^0.0.98",
     "gulp-flatten": "^0.3.0",
-    "gulp-imagemin": "^3.0.2",
+    "gulp-imagemin": "^3.0.3",
     "gulp-less": "^3.1.0",
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^1.6.0",

@@ -9,9 +9,12 @@
                 <span class="date">{{formatDate(item['post_date'])}}</span>
             </aside>
             <article class="app-post-content" ng-bind-html="item['post_excerpt'].html"></article>
-            <footer class="app-post-footer">
-                <span class="title">现有评论数：</span>
-                <span class="item"><a href="">0（功能待完善）</a></span>
+            <footer ng-show="item.comment_count === 0" class="app-post-footer">
+                <span class="title">暂无评论</span>
+            </footer>
+            <footer ng-show="item.comment_count !== 0" class="app-post-footer">
+                <span class="title">最新评论</span>
+                <span class="item"><a ng-href="{{'/blog/#/posts/' + item['ID']}}">{{item.recent_comment_content}}</a></span>
             </footer>
         </article>
         <article ng-show="!isLoadingPosts && !recentPosts.length">

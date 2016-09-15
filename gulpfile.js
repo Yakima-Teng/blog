@@ -135,12 +135,6 @@ gulp.task('connect', () => {
     root: 'dist/',
     port: port,
     livereload: true,
-    // middleware (connect, opt) {
-    //   opt.route = '/blog/v1'
-    //   opt.context = 'localhost:18080/blog/v1'
-    //   const proxy = new Proxy(opt)
-    //   return [proxy]
-    // }
     middleware (connect, opt) {
       return [
         proxy('/blog/v1', {
