@@ -14,10 +14,8 @@ const minifycss = require('gulp-clean-css')
 const uglify = require('gulp-uglify')
 const concat = require('gulp-concat')
 const connect = require('gulp-connect')
-// const Proxy = require('gulp-api-proxy')
-// const Proxy = require('gulp-connect-proxy')
-// const Reproxy = require('gulp-connect-reproxy')
 const proxy = require('http-proxy-middleware')
+const templateCache = require('gulp-angular-templatecache')
 
 const SOURCE = './src/'
 const DEST = './dist/blog/'
@@ -45,11 +43,25 @@ gulp.task('copy-and-minify-images', () => {
   .pipe(connect.reload())
 })
 
-// copy files under src/tpls to build/tpls
-gulp.task('copy-templates', () => {
+/**
+ * copy files under src/tpls to build/tpls
+ */
+// gulp.task('copy-templates', () => {
+//   return gulp.src(SOURCE + 'tpls/**/*.html')
+//     .pipe(gulp.dest(DEST + 'tpls'))
+//     .pipe(connect.reload())
+// })
+
+// cache angular templates
+gulp.task('cache-templates', () => {
   return gulp.src(SOURCE + 'tpls/**/*.html')
-    .pipe(gulp.dest(DEST + 'tpls'))
-    .pipe(connect.reload())
+    .pipe(templateCache('templates.js', {
+      root: 'tpls/',
+      module: 'templates',
+      standalone: true
+    }))
+    .pipe(gulp.dest(SOURCE + 'scripts'))
+    // .pipe(connect.reload())
 })
 
 // copy fonts under src/fonts to build/fonts
@@ -80,7 +92,7 @@ gulp.task('less', () => {
 })
 
 gulp.task('js-states', () => {
-  return gulp.src(SOURCE + 'scripts/states/**/*.js')
+  return gulp.src([SOURCE + 'scripts/states/**/*.js'])
     .pipe(concat('app-states.js'))
     .pipe(gulp.dest(SOURCE + 'scripts/temp'))
 })
@@ -109,9 +121,10 @@ gulp.task('third', () => {
     .pipe(gulp.dest(DEST + 'js'))
 })
 
-gulp.task('js', ['js-states'], () => {
+gulp.task('js', ['js-states', 'cache-templates'], () => {
   return gulp.src([
     SOURCE + 'scripts/app-base.js',
+    SOURCE + 'scripts/templates.js',
     SOURCE + 'scripts/temp/app-states.js',
     SOURCE + 'scripts/app.js'
   ])
@@ -173,7 +186,7 @@ gulp.task('build', ['copy-index', 'third', 'copy-and-minify-images', 'copy-templ
   console.log('Congratulations! You have successfully completed the build operation.')
 })
 
-gulp.task('dev', ['connect', 'copy-index', 'third', 'copy-and-minify-images', 'copy-templates', 'copy-fonts', 'less', 'js'], () => {
+gulp.task('dev', ['connect', 'copy-index', 'third', 'copy-and-minify-images', 'copy-fonts', 'less', 'js'], () => {
   console.log('Congratulations! You have successfully completed the dev operation.')
   gulp.watch(SOURCE + 'index.html', ['copy-index']).on('change', event => {
     console.log(`File ${event.path} was ${event.type}, running task \"copy-index\"...`)
@@ -187,9 +200,9 @@ gulp.task('dev', ['connect', 'copy-index', 'third', 'copy-and-minify-images', 'c
     .on('change', event => {
       console.log(`File ${event.path} was ${event.type}, running task \"copy-and-minify-images\"...`)
     })
-  gulp.watch(SOURCE + 'tpls/**/*.html', ['copy-templates']).on('change', event => {
-    console.log(`File ${event.path} was ${event.type}, running task \"copy-templates\"...`)
-  })
+  // gulp.watch(SOURCE + 'tpls/**/*.html', ['cache-templates']).on('change', event => {
+  //   console.log(`File ${event.path} was ${event.type}, running task \"cache-templates\"...`)
+  // })
   gulp.watch([
     SOURCE + 'styles/**/*.less',
     SOURCE + 'styles/**/*.css'
@@ -201,6 +214,8 @@ gulp.task('dev', ['connect', 'copy-index', 'third', 'copy-and-minify-images', 'c
     SOURCE + 'scripts/states/**/*.js',
     SOURCE + 'scripts/app-base.js',
     // SOURCE + 'scripts/temp/app-states.js',
+    // SOURCE + 'scripts/templates.js',
+    SOURCE + 'tpls/**/*.html',
     SOURCE + 'scripts/app.js'
   ], ['js']).on('change', event => {
     console.log(`File ${event.path} was ${event.type}, running task \"js\"...`)

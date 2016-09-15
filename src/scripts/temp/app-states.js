@@ -18,7 +18,6 @@ var archive = {
     }, undefined, true);
   }
 };
-
 var categories = {
   url: '/categories',
   templateUrl: 'tpls/categories.html',

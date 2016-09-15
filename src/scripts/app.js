@@ -2,7 +2,7 @@
  * Created by Administrator on 4/16.
  */
 'use strict';
-angular.module('app', ['app-base', 'ui.router'])
+angular.module('app', ['app-base', 'ui.router', 'templates'])
   .config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/1');
     $stateProvider
