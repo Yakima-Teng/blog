@@ -1,0 +1,33 @@
+<article class="app-posts">
+    <div>
+        <article class="app-post" ng-show="!isLoadingPosts && recentPosts.length" ng-repeat="item in recentPosts">
+            <header class="app-post-header">
+                <a ng-href="{{'/blog/#/posts/' + item['ID']}}">{{item['post_title']}}</a>
+            </header>
+            <aside class="app-post-byline">
+                <span class="category"><a ng-href="{{'/blog/#/categories/' + item.slug + '/1'}}">{{item.name}}</a></span>
+                <span class="date">{{formatDate(item['post_date'])}}</span>
+            </aside>
+            <article class="app-post-content" ng-bind-html="item['post_excerpt'].html"></article>
+            <footer class="app-post-footer">
+                <span class="title">现有评论数：</span>
+                <span class="item"><a href="">0（功能待完善）</a></span>
+            </footer>
+        </article>
+        <article ng-show="!isLoadingPosts && !recentPosts.length">
+            (⊙o⊙)哦，没有文章了
+        </article>
+        <article ng-show="isLoadingPosts" class="waiting">
+            <i class="fa fa-cog fa-spin fa-3x fa-fw margin-bottom"></i>
+            加载中
+        </article>
+    </div>
+</article>
+<section class="app-page-nav" ng-if="recentPosts.length">
+    <a ng-if="currentPostsPageId > 1" ng-href="{{baseLink + (currentPostsPageId - 1)}}" class="first"></a>
+    <a ng-if="currentPostsPageId > 5 && recentPosts.length == 10" ng-repeat="i in [-5,-4,-3,-2,-1,0,1,2,3,4]" ng-class="{true: 'active'}[i == 0]" ng-href="{{baseLink + (currentPostsPageId + i)}}">{{currentPostsPageId + i}}</a>
+    <a ng-if="currentPostsPageId > 5 && recentPosts.length < 10" ng-repeat="i in [-5,-4,-3,-2,-1,0]" ng-class="{true: 'active'}[i == 0]" ng-href="{{baseLink + (currentPostsPageId + i)}}">{{currentPostsPageId + i}}</a>
+    <a ng-if="currentPostsPageId <= 5 && recentPosts.length == 10" ng-repeat="i in [1,2,3,4,5,6,7,8,9,10]" ng-class="{'active': i == currentPostsPageId}" ng-href="{{baseLink + i}}">{{i}}</a>
+    <a ng-if="currentPostsPageId <= 5 && recentPosts.length < 10 && i <= currentPostsPageId" ng-repeat="i in [1,2,3,4,5,6,7,8,9,10]" ng-class="{'active': i == currentPostsPageId}" ng-href="{{baseLink + i}}">{{i}}</a>
+    <a ng-if="recentPosts.length == 10" ng-href="{{baseLink + (currentPostsPageId + 1)}}" class="last"></a>
+</section>

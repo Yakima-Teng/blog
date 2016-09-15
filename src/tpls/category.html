@@ -1,0 +1,10 @@
+<article>
+    <ul class="category_posts">
+        <li ng-repeat="item in posts">
+            <a class="clearfix" ng-href="/blog/#/posts/{{item.ID}}">
+                <span>{{item.post_title}}</span>
+                <span>{{item.post_date}}</span>
+            </a>
+        </li>
+    </ul>
+</article>

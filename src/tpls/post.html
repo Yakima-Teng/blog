@@ -1,0 +1,93 @@
+<article class="app-post">
+  <header class="app-post-header">
+    <a ng-href="{{'/blog/#/posts/' + post['ID']}}">{{post.post_title}}</a>
+  </header>
+  <aside class="app-post-byline">
+    <span class="category"><a ng-href="{{'/blog/#/categories/' + post.slug + '/1'}}">{{post.name}}</a></span>
+    <span class="date">{{formatDate(post['post_date'])}}</span>
+  </aside>
+  <article class="app-post-content" ng-bind-html="post.post_content"></article>
+  <footer class="app-post-footer">
+    <span class="title">相关文章</span>
+    <span class="item" ng-repeat="item in relatedPosts">
+      <a ng-href="/blog/#/posts/{{item['ID']}}">{{item.post_title}}</a>
+    </span>
+  </footer>
+  <section class="app-post-nav">
+    <span class="pre">上一篇文章的标题</span>
+    <span class="next">下一篇文章的标题</span>
+  </section>
+  <section class="post_comments">
+    <section ng-repeat="commentOne in relatedComments | filter:getFirstLevelComments" class="post_comment">
+      <header class="header">
+        <a ng-href="{{commentOne.comment_author_url}}" class="post_comment_author">{{commentOne.comment_author}}</a>
+        <span class="item">{{formatDate(commentOne.comment_date)}}</span>
+        <span class="item">{{judgeBrowser(commentOne.comment_agent)}}</span>
+        <span ng-click="reply(commentOne)" class="item outstanding">回复</span>
+      </header>
+      <article class="post_comment_content">{{commentOne.comment_content}}</article>
+      <section ng-repeat="commentTwo in relatedComments | hasParentComment:commentOne.comment_ID" class="post_comment inner-comment">
+        <header class="header">
+          <a ng-href="{{commentTwo.comment_author_url}}" class="post_comment_author">{{commentTwo.comment_author}}</a>
+          <span class="item">{{formatDate(commentTwo.comment_date)}}</span>
+          <span class="item">{{judgeBrowser(commentTwo.comment_agent)}}</span>
+          <span ng-click="reply(commentTwo)" class="item outstanding">回复</span>
+        </header>
+        <article class="post_comment_content">{{commentTwo.comment_content}}</article>
+        <section ng-repeat="commentThree in relatedComments | hasParentComment:commentTwo.comment_ID" class="post_comment inner-comment">
+          <header class="header">
+            <a ng-href="{{commentThree.comment_author_url}}" class="post_comment_author">{{commentThree.comment_author}}</a>
+            <span class="item">{{formatDate(commentThree.comment_date)}}</span>
+            <span class="item">{{judgeBrowser(commentThree.comment_agent)}}</span>
+            <span ng-click="reply(commentThree)" class="item outstanding">回复</span>
+          </header>
+          <article class="post_comment_content">{{commentThree.comment_content}}</article>
+          <section ng-repeat="commentFour in relatedComments | hasParentComment:commentThree.comment_ID" class="post_comment inner-comment">
+            <header class="header">
+              <a ng-href="{{commentFour.comment_author_url}}" class="post_comment_author">{{commentFour.comment_author}}</a>
+              <span class="item">{{formatDate(commentFour.comment_date)}}</span>
+              <span class="item">{{judgeBrowser(commentFour.comment_agent)}}</span>
+              <span ng-click="reply(commentFour)" class="item outstanding">回复</span>
+            </header>
+            <article class="post_comment_content">{{commentFour.comment_content}}</article>
+            <section ng-repeat="commentFive in relatedComments | hasParentComment:commentFour.comment_ID" class="post_comment inner-comment">
+              <header class="header">
+                <a ng-href="{{commentFive.comment_author_url}}" class="post_comment_author">{{commentFive.comment_author}}</a>
+                <span class="item">{{formatDate(commentFive.comment_date)}}</span>
+                <span class="item">{{judgeBrowser(commentFive.comment_agent)}}</span>
+                <!-- <span ng-click="reply(commentFive)" class="item outstanding">回复</span> -->
+              </header>
+              <article class="post_comment_content">{{commentFive.comment_content}}</article>
+            </section>
+          </section>
+        </section>
+      </section>
+    </section>
+  </section>
+  <section class="comment_submit">
+    <div class="fields">
+      <div class="item">
+        <label for="commentAuthor" class="label">Name</label>
+        <input ng-model="comment.author" id="commentAuthor" type="text" class="field" placeholder="Your name">
+      </div>
+      <div class="item">
+        <label for="commentEmail" class="label">Email</label>
+        <input ng-model="comment.email" id="commentEmail" type="text" class="field" placeholder="Your email">
+      </div>
+      <div class="item">
+        <label for="commentUrl" class="label">Blog Url</label>
+        <input ng-model="comment.url" id="commentUrl" type="text" class="field" placeholder="your blog url">
+      </div>
+    </div>
+    <div class="content">
+      <div ng-class="{'show': comment.tip !== ''}" class="detail-mask">
+        <div class="tip">
+          <div class="text">{{comment.tip}}</div>
+          <div class="timing">（弹框将于{{comment.timing}}秒后关闭）</div>
+        </div>
+      </div>
+      <textarea ng-model="comment.message" class="detail" id="commentMessage" placeholder="为防止垃圾评论，要求评论内容需以英文开头，以中文结尾，比如：Hello,你真棒"></textarea>
+      <button ng-click="submitComment()" class="submit">发表评论</button>
+    </div>
+  </section>
+</article>
