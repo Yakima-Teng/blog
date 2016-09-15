@@ -1,17 +1,46 @@
-@import (less) "./normalize.css";
-@import (less) "./font-awesome.css";
-@import (less) "./bt.css";
-@import (less) "./highlight/monokai-sublime.css";
-@import "./tools";
+/**
+ * 引用的外部样式库
+ */
+@import (less) "app-reference/normalize.css";
+@import (less) "app-reference/font-awesome.css";
+@import (less) "app-reference/bubble-tip.css";
+@import (less) "app-reference/highlight/monokai-sublime.css";
 
-@import "app-paddings";
-@import "app-structure";
-@import "app-nav";
+/**
+ * 全局样式
+ */
+@import "app-global/app-global.less";
 
-@import "app-sidebar";
-@import "app-footer";
+/**
+ * 顶部导航
+ */
+@import "app-header/app-nav.less";
 
-@import "app-posts";
-@import "app-post";
+/**
+ * 主体区域
+ */
 
-@import "app-loading";
+// 摘要列表页
+@import "app-posts/app-excerpts.less";
+@import "app-posts/app-page-nav.less";
+
+// 具体文章页
+@import "app-post/app-post.less";
+@import "app-post/app-post-content";
+@import "app-post/app-post-comments.less";
+@import "app-post/app-post-comment-submit.less";
+
+/**
+ * 侧栏
+ */
+@import "app-sidebar/app-sidebar.less";
+
+/**
+ * 博客底部区域
+ */
+@import "app-footer/app-footer.less";
+
+/**
+ * 遮罩层效果
+ */
+@import "app-effects/app-loading.less";

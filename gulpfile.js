@@ -157,7 +157,7 @@ gulp.task('help', () => {
   console.log(' gulp third                      将src/references中引用的第三方js合并后输出到dist/js/third(.min).js')
   console.log(' gulp copy-templates             将src/templates下的模版文件拷贝到dist/tpls目录下')
   console.log(' gulp copy-fonts                 将src/fonts下的字体文件拷贝至dist/fonts目录下')
-  console.log(' gulp less                       将src/styles/app.less文件编译到dist/css下并命名为app(.min).css')
+  console.log(' gulp less                       将src/styles/app.less文件编译(并添加浏览器厂商前缀)到dist/css下并命名为app(.min).css')
   console.log(' gulp js-states                  将src/scripts/states目录下的视图controllers合并到src/scripts/temp/app-states.js')
   console.log(' gulp js                         合并src/scripts/app.js && app-base.js和src/scripts/temp/app-states.js至dist/js/app(.min).js')
   console.log(' gulp dev                        执行上述各种任务，并对经常修改的脚本、样式、html、图片文件开启了监听自动刷新功能')

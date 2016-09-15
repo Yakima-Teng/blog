@@ -17,7 +17,7 @@
     <span class="pre">上一篇文章的标题</span>
     <span class="next">下一篇文章的标题</span>
   </section>
-  <section class="post_comments">
+  <section class="app-post-comments">
     <section ng-repeat="commentOne in relatedComments | filter:getFirstLevelComments" class="post_comment">
       <header class="header">
         <a ng-href="{{commentOne.comment_author_url}}" class="post_comment_author">{{commentOne.comment_author}}</a>
@@ -64,7 +64,7 @@
       </section>
     </section>
   </section>
-  <section class="comment_submit">
+  <section class="app-post-comment-submit">
     <div class="fields">
       <div class="item">
         <label for="commentAuthor" class="label">Name</label>
