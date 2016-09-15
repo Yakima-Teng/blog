@@ -1,5 +1,5 @@
 <section class="post">
   <h3 class="post_title">{{post.post_title}}</h3>
-  <p class="post_byline">{{post.post_date}}</p>
+  <p class="post_byline">{{formatDate(post.post_date)}}</p>
   <article class="app-post-content" ng-bind-html="post.post_content"></article>
 </section>
