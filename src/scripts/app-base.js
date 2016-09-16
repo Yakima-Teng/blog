@@ -164,8 +164,6 @@ angular.module('app-base', ['ngSanitize'])
      */
     $rootScope.insertTagP = function (content) {
       // 先判断原文中是否含有html标签，若有的话，只将中间没有内容（空格/tab等也视为无内容）的成对<p></p>标签删除掉，没有html的纯文本才进行标签处理
-      console.log(/(<\/a>)|(<\/p>)|(<\/ul>)|(<\/div>)|(<\/dl>)|(<\/article>)|(<\/header>)|(<\/footer>)|(<\/pre>)/.test(content))
-      console.log(content)
       if (!/(<\/a>)|(<\/p>)|(<\/ul>)|(<\/div>)|(<\/dl>)|(<\/article>)|(<\/header>)|(<\/footer>)|(<\/pre>)/.test(content)) {
         // replace newline character with html element <p></p>, \u0085代表下一行的字符，\u2028行分隔符，\u2029分段符
         content = '<p>' + content.replace(/\B(\n|\r|(\r\n)|(\u0085)|(\u2028)|(\u2029))+\B/g, '</p><p>') + '</p>'
@@ -174,11 +172,9 @@ angular.module('app-base', ['ngSanitize'])
         content = content.replace(/<\/p>\s+?<p>/g, '</p><p>')
         content = content.replace(/<p>(<h[1-6]>)/g, '$1')
         content = content.replace(/(<\/h[1-6]>)<\/p>/g, '$1')
-        console.log(content)
       } else {
         content = content.replace(/<p>\s*?<\/p>/g, '')
         content = content.replace(/<\/p>\s+?<p>/g, '</p><p>')
-        console.log(content)
       }
       return content
     }
@@ -214,7 +210,7 @@ angular.module('app-base', ['ngSanitize'])
       return [year, month, day].join('-') + ' ' + hour + ':' + minute
     }
   }])
-  .filter('hasParentComment', function () {
+  .filter('hasParentComment', [function () {
     return function (originalArray, parentCommentId) {
       var childComments = []
       for (var i = 0, length = originalArray.length; i < length; i++) {
@@ -224,7 +220,7 @@ angular.module('app-base', ['ngSanitize'])
       }
       return childComments
     }
-  })
+  }])
   .directive('activeLink', ['$location', function ($location) {
     var link = function (scope, element) {
       scope.$watch(function () {
@@ -233,7 +229,9 @@ angular.module('app-base', ['ngSanitize'])
         var url = element.attr('href')
         if (path.replace(/[0-9]*$/g, '') === url.replace(/^\/blog\/#/g, '').replace(/[0-9]*$/g, '')) {
           element.addClass('active')
-          element.append('<span class="selected"></span>')
+          if (element.find('span.selected').length < 1) {
+            element.append('<span class="selected"></span>')
+          }
         } else {
           element.removeClass('active')
           element.find('span.selected').remove()
@@ -245,4 +243,3 @@ angular.module('app-base', ['ngSanitize'])
       link: link
     }
   }])
-
