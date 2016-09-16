@@ -225,4 +225,25 @@ angular.module('app-base', ['ngSanitize'])
       return childComments
     }
   })
+  .directive('activeLink', ['$location', function ($location) {
+    var link = function (scope, element) {
+      scope.$watch(function () {
+        return $location.path()
+      }, function (path) {
+        var url = element.attr('href')
+        console.log(path, url)
+        if (path.replace(/[0-9]*$/g, '') === url.replace(/^\/blog\/#/g, '').replace(/[0-9]*$/g, '')) {
+          element.addClass('active')
+          element.append('<span class="selected"></span>')
+        } else {
+          element.removeClass('active')
+          element.find('span.selected').remove()
+        }
+      })
+    }
+    return {
+      restrict: 'A',
+      link: link
+    }
+  }])
 
