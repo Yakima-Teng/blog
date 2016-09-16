@@ -14,7 +14,12 @@ angular.module('app', ['app-base', 'ui.router', 'templates'])
       .state('登陆管理', login)
       .state('文章列表', posts)
   }])
-  .run(['$rootScope', '$state', 'Api', function($rootScope, $state, Api) {
+  .run(['$rootScope', '$state', '$timeout', 'Api', function($rootScope, $state, $timeout, Api) {
+    window.app = $rootScope
+    $rootScope.isLoading = true
+    $timeout(() => {
+      $rootScope.isLoading = false
+    }, 1000)
     Api.get('/blog/v1/categories')
       .success(data => $rootScope.categories = data.responseBody)
       .error(() => {})
