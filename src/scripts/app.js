@@ -3,7 +3,7 @@
  */
 'use strict';
 angular.module('app', ['app-base', 'ui.router', 'templates'])
-  .config(function($stateProvider, $urlRouterProvider) {
+  .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/1');
     $stateProvider
       .state('所有目录', categories)
@@ -14,8 +14,8 @@ angular.module('app', ['app-base', 'ui.router', 'templates'])
       .state('指定月份', archive)
       .state('登陆管理', login)
       .state('文章列表', posts)
-  })
-  .run(function($rootScope, $state) {
+  }])
+  .run(['$rootScope', '$state', function($rootScope, $state) {
     $rootScope.$httpGet('/blog/v1/categories', null, function(data, status, headers, config) {
       $rootScope.categories = data.responseBody;
     }, function(data, status, headers, config) {
@@ -78,4 +78,4 @@ angular.module('app', ['app-base', 'ui.router', 'templates'])
       $('html, body').animate({scrollTop: 0}, 'slow');
       enableTooltips('app-nav');
     }
-  })
+  }])

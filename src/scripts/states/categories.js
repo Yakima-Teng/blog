@@ -1,7 +1,7 @@
 var categories = {
   url: '/categories',
   templateUrl: 'tpls/categories.html',
-  controller: function($rootScope, $scope, $stateParams) {
+  controller: ['$rootScope', '$scope', '$stateParams', function($rootScope, $scope, $stateParams) {
     for (var i = 0; i < $rootScope.categories.length; i++) {
       (function(index) {
         $rootScope.$httpGet('/blog/v1/posts', {
@@ -30,5 +30,5 @@ var categories = {
       'pharmaceutical-knowledge': 'fa-university',
       'reading-book': 'fa-book'
     };
-  }
+  }]
 };

@@ -2,7 +2,7 @@
 var posts = {
   url: '/:id',
   templateUrl: 'tpls/posts.html',
-  controller: function($rootScope, $scope, $stateParams) {
+  controller: ['$rootScope', '$scope', '$stateParams', function($rootScope, $scope, $stateParams) {
     $scope.baseLink = '/blog/#/'
     $scope.currentPostsPageId = parseInt($stateParams.id)
     $scope.isLoadingPosts = true
@@ -17,5 +17,5 @@ var posts = {
     }, function(data, status, headers, config) {
       $scope.isLoadingPosts = false
     }, undefined, true)
-  }
+  }]
 }

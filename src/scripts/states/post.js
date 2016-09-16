@@ -1,7 +1,7 @@
 var post = {
   url: '/posts/:id',
   templateUrl: 'tpls/post.html',
-  controller: function ($rootScope, $scope, $stateParams, $timeout, $interval, $sce) {
+  controller: ['$rootScope', '$scope', '$stateParams', '$timeout', '$interval', '$sce', function ($rootScope, $scope, $stateParams, $timeout, $interval, $sce) {
     /**
      * 获取当前postId对应的文章内容
      */
@@ -172,5 +172,5 @@ var post = {
     $scope.getPost()
     $scope.getRelatedPost()
     $scope.getComments()
-  }
+  }]
 }

@@ -1,7 +1,7 @@
 var archive = {
   url: '/archives/:year-:month/:id',
   templateUrl: 'tpls/posts.html',
-  controller: function($rootScope, $scope, $stateParams) {
+  controller: ['$rootScope', '$scope', '$stateParams', function($rootScope, $scope, $stateParams) {
     $scope.baseLink = '/blog/#/archives/' + $stateParams.year + '-' + $stateParams.month + '/';
     $scope.currentPostsPageId = parseInt($stateParams.id);
     $scope.isLoadingPosts = true;
@@ -16,12 +16,12 @@ var archive = {
     }, function(data, status, headers, config) {
       $scope.isLoadingPosts = false;
     }, undefined, true);
-  }
+  }]
 };
 var categories = {
   url: '/categories',
   templateUrl: 'tpls/categories.html',
-  controller: function($rootScope, $scope, $stateParams) {
+  controller: ['$rootScope', '$scope', '$stateParams', function($rootScope, $scope, $stateParams) {
     for (var i = 0; i < $rootScope.categories.length; i++) {
       (function(index) {
         $rootScope.$httpGet('/blog/v1/posts', {
@@ -50,12 +50,12 @@ var categories = {
       'pharmaceutical-knowledge': 'fa-university',
       'reading-book': 'fa-book'
     };
-  }
+  }]
 };
 var category = {
   url: '/categories/:slug/:id',
   templateUrl: 'tpls/posts.html',
-  controller: function($rootScope, $scope, $stateParams) {
+  controller: ['$rootScope', '$scope', '$stateParams', function($rootScope, $scope, $stateParams) {
     $scope.baseLink = '/blog/#/categories/' + $stateParams.slug + '/';
     $scope.currentPostsPageId = parseInt($stateParams.id);
     $scope.isLoadingPosts = true;
@@ -71,12 +71,12 @@ var category = {
     }, function(data, status, headers, config) {
       $scope.isLoadingPosts = false;
     }, undefined, true);
-  }
+  }]
 };
 var login = {
   url: '/login',
   templateUrl: 'tpls/login.html',
-  controller: function($rootScope, $scope) {
+  controller: ['$rootScope', '$scope', function($rootScope, $scope) {
     // $scope.output = document.getElementById('output');
     // $scope.writeToScreen = function(msg) {
     //     var output = document.getElementById('')
@@ -107,23 +107,23 @@ var login = {
     //     };
     // };
     // $scope.InitWebSocket();
-  }
+  }]
 };
 var page = {
   url: '/pages/:name',
   templateUrl: 'tpls/page.html',
-  controller: function($rootScope, $scope, $stateParams) {
+  controller: ['$rootScope', '$scope', '$stateParams', function($rootScope, $scope, $stateParams) {
     $rootScope.$httpGet('/blog/v1/pages/' + $stateParams.name, null, function(data, status, headers, config) {
       $scope.post = data.responseBody;
     }, function(data, status, headers, config) {
       console.log(data);
     }, undefined, true);
-  }
+  }]
 };
 var post = {
   url: '/posts/:id',
   templateUrl: 'tpls/post.html',
-  controller: function ($rootScope, $scope, $stateParams, $timeout, $interval, $sce) {
+  controller: ['$rootScope', '$scope', '$stateParams', '$timeout', '$interval', '$sce', function ($rootScope, $scope, $stateParams, $timeout, $interval, $sce) {
     /**
      * 获取当前postId对应的文章内容
      */
@@ -294,14 +294,14 @@ var post = {
     $scope.getPost()
     $scope.getRelatedPost()
     $scope.getComments()
-  }
+  }]
 }
 
 'use strict'
 var posts = {
   url: '/:id',
   templateUrl: 'tpls/posts.html',
-  controller: function($rootScope, $scope, $stateParams) {
+  controller: ['$rootScope', '$scope', '$stateParams', function($rootScope, $scope, $stateParams) {
     $scope.baseLink = '/blog/#/'
     $scope.currentPostsPageId = parseInt($stateParams.id)
     $scope.isLoadingPosts = true
@@ -316,13 +316,13 @@ var posts = {
     }, function(data, status, headers, config) {
       $scope.isLoadingPosts = false
     }, undefined, true)
-  }
+  }]
 }
 
 var randomPost = {
 	url: '/posts/random',
 	templateUrl: 'tpls/post.html',
-	controller: function($rootScope, $scope, $injector) {
+	controller: ['$rootScope', '$scope', '$injector', function($rootScope, $scope, $injector) {
 		$injector.get('$templateCache').removeAll();
 		$rootScope.$httpGet('/blog/v1/posts', {
 			sortby: 'ID',
@@ -354,5 +354,5 @@ var randomPost = {
 		}, function(data, status, headers, config) {
 			console.log(data);
 		}, undefined, true);
-	}
+	}]
 };

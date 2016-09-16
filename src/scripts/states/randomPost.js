@@ -1,7 +1,7 @@
 var randomPost = {
 	url: '/posts/random',
 	templateUrl: 'tpls/post.html',
-	controller: function($rootScope, $scope, $injector) {
+	controller: ['$rootScope', '$scope', '$injector', function($rootScope, $scope, $injector) {
 		$injector.get('$templateCache').removeAll();
 		$rootScope.$httpGet('/blog/v1/posts', {
 			sortby: 'ID',
@@ -33,5 +33,5 @@ var randomPost = {
 		}, function(data, status, headers, config) {
 			console.log(data);
 		}, undefined, true);
-	}
+	}]
 };

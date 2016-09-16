@@ -3,7 +3,7 @@
  */
 'use strict'
 angular.module('app-base', ['ngSanitize'])
-  .run(function ($rootScope, $http, $httpParamSerializerJQLike) {
+  .run(['$rootScope', '$http', '$httpParamSerializerJQLike', function ($rootScope, $http, $httpParamSerializerJQLike) {
     $rootScope.pageTitle = '滕运锋 | Yakima Teng'
     $rootScope.friends = [
       {
@@ -213,7 +213,7 @@ angular.module('app-base', ['ngSanitize'])
       var minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : '' + date.getMinutes()
       return [year, month, day].join('-') + ' ' + hour + ':' + minute
     }
-  })
+  }])
   .filter('hasParentComment', function () {
     return function (originalArray, parentCommentId) {
       var childComments = []

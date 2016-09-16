@@ -1,7 +1,7 @@
 var login = {
   url: '/login',
   templateUrl: 'tpls/login.html',
-  controller: function($rootScope, $scope) {
+  controller: ['$rootScope', '$scope', function($rootScope, $scope) {
     // $scope.output = document.getElementById('output');
     // $scope.writeToScreen = function(msg) {
     //     var output = document.getElementById('')
@@ -32,5 +32,5 @@ var login = {
     //     };
     // };
     // $scope.InitWebSocket();
-  }
+  }]
 };

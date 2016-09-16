@@ -5,6 +5,7 @@
   "main": "src/index.html",
   "scripts": {
     "dev": "gulp dev",
+    "build": "gulp build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -22,9 +23,11 @@
     "gulp-concat": "^2.6.0",
     "gulp-connect": "^5.0.0",
     "gulp-flatten": "^0.3.0",
+    "gulp-html-replace": "^1.6.1",
     "gulp-imagemin": "^3.0.3",
     "gulp-less": "^3.1.0",
     "gulp-rename": "^1.2.2",
+    "gulp-sequence": "^0.4.6",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^2.0.0",
     "http-proxy-middleware": "^0.17.1",

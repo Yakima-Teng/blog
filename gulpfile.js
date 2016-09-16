@@ -16,19 +16,76 @@ const concat = require('gulp-concat')
 const connect = require('gulp-connect')
 const proxy = require('http-proxy-middleware')
 const templateCache = require('gulp-angular-templatecache')
+const htmlreplace = require('gulp-html-replace')
+const gulpSequence = require('gulp-sequence')
 
 const SOURCE = './src/'
-const DEST = './dist/blog/'
-const port = 3000
+let WWW = 'dist/'
+let DEST = './' + WWW + 'blog/'
+let port = 3000
 
-// copy index.html from src folder to dist folder while original file still exists
+/***********************************************************************************
+ *                                                                                  *
+ * reset value of variables WWW and DEST                                            *
+ * will be the first task among series of 'gulp dev' tasks                          *
+ *                                                                                  *
+ ***********************************************************************************/
+gulp.task('before-dev', () => {
+  WWW = 'dev/'
+  DEST = './' + WWW + 'blog/'
+  return
+})
+
+/***********************************************************************************
+ *                                                                                  *
+ * reset value of variables WWW and DEST                                            *
+ * will be the first task among series of 'gulp build' tasks                        *
+ *                                                                                  *
+ ***********************************************************************************/
+gulp.task('before-build', () => {
+  WWW = 'dist/'
+  DEST = './' + WWW + 'blog/'
+  return
+})
+
+/***********************************************************************************
+ *                                                                                  *
+ * copy index.html from SOURCE folder to DEST folder                                *
+ * this task will be explilcitly called under 'gulp dev' command                    *
+ * and implicitly called under 'gulp build' command by calling task 'html-replace'  *
+ *                                                                                  *
+ ***********************************************************************************/
 gulp.task('copy-index', () => {
   return gulp.src(SOURCE + 'index.html')
     .pipe(gulp.dest(DEST))
     .pipe(connect.reload())
 })
 
-// copy and minify images from src/assets folder to dist/img folder with original folder structure removed
+/***********************************************************************************
+ *                                                                                  *
+ * replace linked uncompressed .css, .js files to compressed ones                   *
+ * this task will only be called under 'gulp build' command                         *
+ *                                                                                  *
+ ***********************************************************************************/
+gulp.task('html-replace', ['copy-index'], () => {
+  return gulp.src(DEST + 'index.html')
+    .pipe(htmlreplace({
+      'css': 'css/app.min.css',
+      'third': 'js/third.min.js',
+      'app': 'js/app.min.js'
+    }))
+    .pipe(gulp.dest(DEST))
+    .pipe(connect.reload())
+})
+
+/***********************************************************************************
+ *                                                                                  *
+ * copy and minify images                                                           *
+ * from SOURCE /assets folder to DEST /img folder                                        *
+ * with original folder structure removed (it's structure that was removed)         *
+ * this task will be called under both 'gulp dev' and 'gulp build' command          *
+ *                                                                                  *
+ ***********************************************************************************/
 gulp.task('copy-and-minify-images', () => {
   return gulp.src([
     SOURCE + 'assets/**/*.jpg',
@@ -43,16 +100,26 @@ gulp.task('copy-and-minify-images', () => {
   .pipe(connect.reload())
 })
 
-/**
- * copy files under src/tpls to build/tpls
- */
+/***********************************************************************************
+ *                                                                                  *
+ * copy files under SOURCE /tpls to DEST /tpls                                          *
+ * not used now, so commented                                                       *
+ * remained for future use, so do not delete these commented lines                  *
+ *                                                                                  *
+ ***********************************************************************************/
 // gulp.task('copy-templates', () => {
 //   return gulp.src(SOURCE + 'tpls/**/*.html')
 //     .pipe(gulp.dest(DEST + 'tpls'))
 //     .pipe(connect.reload())
 // })
 
-// cache angular templates
+/***********************************************************************************
+ *                                                                                  *
+ * cache angular templates                                                          *
+ * will be called under both 'gulp dev' and 'gulp build' commands                   *
+ * by and large, only one of this task and 'copy-templates' will be active          *
+ *                                                                                  *
+ ***********************************************************************************/
 gulp.task('cache-templates', () => {
   return gulp.src(SOURCE + 'tpls/**/*.html')
     .pipe(templateCache('templates.js', {
@@ -61,16 +128,25 @@ gulp.task('cache-templates', () => {
       standalone: true
     }))
     .pipe(gulp.dest(SOURCE + 'scripts'))
-    // .pipe(connect.reload())
 })
 
-// copy fonts under src/fonts to build/fonts
+/***********************************************************************************
+ *                                                                                  *
+ * copy fonts under SOURCE /fonts to DEST /fonts                                    *
+ * will be called under both 'gulp dev' and 'gulp build' commands                   *
+ *                                                                                  *
+ ***********************************************************************************/
 gulp.task('copy-fonts', () => {
   return gulp.src(SOURCE + 'fonts/*.*')
     .pipe(gulp.dest(DEST + 'fonts'))
 })
 
-// transform app.less file in src/styles to app.css and app.min.css files in dist/css
+/***********************************************************************************
+ *                                                                                  *
+ * transform app.less in SOURCE /styles to app(.min).css files in DEST /css         *
+ * will be called under both 'gulp dev' and 'gulp build' commands                   *
+ *                                                                                  *
+ ***********************************************************************************/
 gulp.task('less', () => {
   return gulp.src(SOURCE + 'styles/app.less')
     .pipe(less({
@@ -91,14 +167,25 @@ gulp.task('less', () => {
     .pipe(connect.reload())
 })
 
+/***********************************************************************************
+ *                                                                                  *
+ * concatenate states files to SOURCE /scripts/temp/app-states.js                   *
+ * will be called implicitly under both 'gulp dev' and 'gulp build' commands        *
+ *                                                                                  *
+ ***********************************************************************************/
 gulp.task('js-states', () => {
   return gulp.src([SOURCE + 'scripts/states/**/*.js'])
     .pipe(concat('app-states.js'))
     .pipe(gulp.dest(SOURCE + 'scripts/temp'))
 })
-// tidy third-party javascript files in src/references to third.js and third.min.js under dist/js
-// these files won't be revised in high frequency and in most case won't be revised
-// therefore they can be transformed in one single file to store in user browser clients
+
+/***********************************************************************************
+ *                                                                                  *
+ * concatenate third party .js files to DEST /js/third(.min).js                     *
+ * these files won't be revised in high frequency                                   *
+ * so extracted as a single files to take advantage in browser cache                *
+ *                                                                                  *
+ ***********************************************************************************/
 gulp.task('third', () => {
   return gulp.src([
     SOURCE + 'references/jquery-1.12.2.js',
@@ -121,6 +208,11 @@ gulp.task('third', () => {
     .pipe(gulp.dest(DEST + 'js'))
 })
 
+/***********************************************************************************
+ *                                                                                  *
+ * produce DEST /scripts/app(.min).js files                                         *
+ *                                                                                  *
+ ***********************************************************************************/
 gulp.task('js', ['js-states', 'cache-templates'], () => {
   return gulp.src([
     SOURCE + 'scripts/app-base.js',
@@ -138,14 +230,25 @@ gulp.task('js', ['js-states', 'cache-templates'], () => {
   .pipe(connect.reload())
 })
 
-// empty dist folder
+/***********************************************************************************
+ *                                                                                  *
+ * empty dist folder                                                                *
+ * will be called as first task among series of 'gulp dev' or 'gulp build' tasks    *
+ *                                                                                  *
+ ***********************************************************************************/
 gulp.task('clean', () => {
-  return del([DEST + '**/*'])
+  return del([WWW])
 })
 
+/***********************************************************************************
+ *                                                                                  *
+ * create a localhost server                                                        *
+ * with proxy set for '/blog/v1' to target server
+ *                                                                                  *
+ ***********************************************************************************/
 gulp.task('connect', () => {
   connect.server({
-    root: 'dist/',
+    root: WWW,
     port: port,
     livereload: true,
     middleware (connect, opt) {
@@ -158,9 +261,95 @@ gulp.task('connect', () => {
       ]
     }
   })
+  return
 })
 
-// help guide
+/***********************************************************************************
+ *                                                                                  *
+ * set task 'help' as the default gulp task                                         *
+ *                                                                                  *
+ ***********************************************************************************/
+gulp.task('default', () => {
+  return gulp.start('help')
+})
+
+/***********************************************************************************
+ *                                                                                  *
+ * watch function                                                                   *
+ *                                                                                  *
+ ***********************************************************************************/
+gulp.task('watch', () => {
+  gulp.watch(SOURCE + 'index.html', ['copy-index']).on('change', event => {
+    console.log(`File ${event.path} was ${event.type}, running task \"copy-index\"...`)
+  })
+  gulp.watch([
+    SOURCE + 'assets/**/*.jpg',
+    SOURCE + 'assets/**/*.jpeg',
+    SOURCE + 'assets/**/*.png',
+    SOURCE + 'assets/**/*.gif'
+  ], ['copy-and-minify-images'])
+    .on('change', event => {
+      console.log(`File ${event.path} was ${event.type}, running task \"copy-and-minify-images\"...`)
+    })
+  gulp.watch([
+    SOURCE + 'styles/**/*.less',
+    SOURCE + 'styles/**/*.css'
+  ], ['less'])
+    .on('change', event => {
+      console.log(`File ${event.path} was ${event.type}, running task \"less\"...`)
+    })
+  gulp.watch([
+    SOURCE + 'scripts/states/**/*.js',
+    SOURCE + 'scripts/app-base.js',
+    SOURCE + 'tpls/**/*.html',
+    SOURCE + 'scripts/app.js'
+  ], ['js']).on('change', event => {
+    console.log(`File ${event.path} was ${event.type}, running task \"js\"...`)
+  })
+  return
+})
+
+/***********************************************************************************
+ *                                                                                  *
+ * simple tip words after 'gulp build' command                                      *
+ *                                                                                  *
+ ***********************************************************************************/
+gulp.task('after-build', ['watch'], () => {
+  console.log(`Build operation completed! Open localhost:${port}/blog to see the website`)
+  return
+})
+
+/***********************************************************************************
+ *                                                                                  *
+ * simple tip words after 'guld dev' command                                        *
+ *                                                                                  *
+ ***********************************************************************************/
+gulp.task('after-dev', ['watch'], () => {
+  console.log(`Dev operation completed! Open localhost:${port}/blog to see the website`)
+  return
+})
+/***********************************************************************************
+ *                                                                                  *
+ * files will be produced under dist folder                                         *
+ * watch is not available under 'gulp build' command                                *
+ * 'connect' task is excuted for convenient checkinig purpose                       *
+ *                                                                                  *
+ ***********************************************************************************/
+gulp.task('build', gulpSequence('before-build', ['clean', 'connect'], ['html-replace', 'third', 'copy-and-minify-images', 'copy-fonts', 'less', 'js'], 'after-build'))
+
+/***********************************************************************************
+ *                                                                                  *
+ * files will be produced under dev folder                                          *
+ * almost same tasks as 'gulp build' command excerpt for available watch function   *
+ *                                                                                  *
+ ***********************************************************************************/
+gulp.task('dev', gulpSequence('before-dev', ['clean', 'connect'], ['copy-index', 'third', 'copy-and-minify-images', 'copy-fonts', 'less', 'js'], 'after-dev'))
+
+/***********************************************************************************
+ *                                                                                  *
+ * great help guide                                                                 *
+ *                                                                                  *
+ ***********************************************************************************/
 gulp.task('help', () => {
   console.log(' -------------------------------- 说明开始 --------------------------------')
   console.log(` 运行gulp dev命令后，在浏览器上访问localhost:${port}即可访问本Angular DEMO，修改html、less、js文件后页面将自动刷新`)
@@ -176,48 +365,4 @@ gulp.task('help', () => {
   console.log(' gulp dev                        执行上述各种任务，并对经常修改的脚本、样式、html、图片文件开启了监听自动刷新功能')
   console.log(' gulp build                      同gulp dev，但不会开启文件监听')
   console.log(' -------------------------------- 说明结束 --------------------------------')
-})
-
-gulp.task('default', () => {
-  return gulp.start('help')
-})
-
-gulp.task('build', ['copy-index', 'third', 'copy-and-minify-images', 'copy-templates', 'copy-fonts', 'less', 'js'], () => {
-  console.log('Congratulations! You have successfully completed the build operation.')
-})
-
-gulp.task('dev', ['connect', 'copy-index', 'third', 'copy-and-minify-images', 'copy-fonts', 'less', 'js'], () => {
-  console.log('Congratulations! You have successfully completed the dev operation.')
-  gulp.watch(SOURCE + 'index.html', ['copy-index']).on('change', event => {
-    console.log(`File ${event.path} was ${event.type}, running task \"copy-index\"...`)
-  })
-  gulp.watch([
-    SOURCE + 'assets/**/*.jpg',
-    SOURCE + 'assets/**/*.jpeg',
-    SOURCE + 'assets/**/*.png',
-    SOURCE + 'assets/**/*.gif'
-  ], ['copy-and-minify-images'])
-    .on('change', event => {
-      console.log(`File ${event.path} was ${event.type}, running task \"copy-and-minify-images\"...`)
-    })
-  // gulp.watch(SOURCE + 'tpls/**/*.html', ['cache-templates']).on('change', event => {
-  //   console.log(`File ${event.path} was ${event.type}, running task \"cache-templates\"...`)
-  // })
-  gulp.watch([
-    SOURCE + 'styles/**/*.less',
-    SOURCE + 'styles/**/*.css'
-  ], ['less'])
-    .on('change', event => {
-      console.log(`File ${event.path} was ${event.type}, running task \"less\"...`)
-    })
-  gulp.watch([
-    SOURCE + 'scripts/states/**/*.js',
-    SOURCE + 'scripts/app-base.js',
-    // SOURCE + 'scripts/temp/app-states.js',
-    // SOURCE + 'scripts/templates.js',
-    SOURCE + 'tpls/**/*.html',
-    SOURCE + 'scripts/app.js'
-  ], ['js']).on('change', event => {
-    console.log(`File ${event.path} was ${event.type}, running task \"js\"...`)
-  })
 })
