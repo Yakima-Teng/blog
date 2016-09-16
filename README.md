@@ -6,7 +6,9 @@
 
 * 使用了ES6语法；
 
-* 前端自动化采用的是gulp。
+* 前端自动化采用的是gulp；
+
+* 该单页应用（SPA）的在线地址为：[http://yakima.duapp.com/blog](http://yakima.duapp.com/blog)
 
 ## 使用说明
 
