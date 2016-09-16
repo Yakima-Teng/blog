@@ -1,20 +1,17 @@
 {
-  "name": "blog_angular",
+  "name": "blog",
   "version": "1.0.0",
-  "description": "",
+  "description": "A blog (front-end part) build with Angular 1.5+",
+  "author": "Yakima Teng",
+  "email": "cleveryun@163.com",
   "main": "src/index.html",
   "scripts": {
     "dev": "gulp dev",
     "build": "gulp build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "angular": "^1.5.8",
-    "angular-route": "^1.5.8",
-    "bootstrap": "^3.3.7"
-  },
+  "license": "MIT",
+  "dependencies": {},
   "devDependencies": {
     "babel-preset-es2015": "^6.14.0",
     "del": "^2.2.1",
