@@ -1,12 +1,12 @@
 # blog
 
-一共会发布三个版本，quote_base、quote_normal和quote。您现在看到的是quote_normal版本。这三个版本是不断重构得到的，可以作为vue.js学习者的进阶参考。因为是根据生产实际开发的版本，也是现在比较流行的微信端SPA，或许是有些意义的demo吧。
+2016年9月15日早上无聊开启手机VPN访问了下AngularJS官网，发现Angular2终于出正式版了，心血来潮之际决定整理一下这个自己业余时间写的前端项目作为对Angular1的告别。主要说明如下：
 
-* quote_base版：vue.js的基础使用，不涉及component的概念，也不涉及vue.js的周边产品（如vue-router、vuex）和webpack；
+* 使用了angular.js（1.5.8版本）, angular-sanitize.js, angular-ui-router.js；
 
-* quote_normal版本：quote_base的进阶，涉及component的概念和webpack（基于vue-cli）的使用，不涉及vue-router和vuex；
+* 使用了ES6语法；
 
-* quote版：quote_normal的进阶，涉及component的概念和webpack的使用，同时涉及了vue-router和vuex的使用。
+* 前端自动化采用的是gulp。
 
 ## 使用说明
 
@@ -15,23 +15,39 @@
 ``` bash
 $ npm install # 安装所需依赖包
 
-$ npm run dev # 开发时，开启本地服务器
+$ npm run dev # 开发时使用，生成的文件在dev目录下，使用未压缩的.css, .js
 
-$ npm run build # 生成生产状态下使用的文件，生成后的文件在dist目录中
+$ npm run build # 生成生产环境下使用的文件(dist目录下)，使用压缩的.css, .js
 ```
 
-通过npm run dev命令开启服务后，用浏览器打开ttp://localhost:8080/demos/quote/index.html即可访问本地demo文件
+通过npm run dev或npm run build命令开启服务后，用浏览器打开ttp://localhost:3000/blog即可访问本地demo文件
 
-通过npm run build命令生成的生产文件的主页是quote.html文件，对应的url路径需要是/demos/quote/quote.html
+实际上执行npm run dev或npm run build与执行gulp dev或gulp build是等价的，具体可以看package.json中scripts的内容。对于开发环境和生产环境，默认都开启了文件监控，因为angular的依赖注入原因，不排除你修改代码后在开发环境下一切正常但切换到生产环境时缺因为js文件压缩的原因在浏览器上出现了报错，为了发现这种问题，在生产环境下也开启了文件监控便于调试。（注意，注入依赖时请一定使用数组形式，否则就会出现这种问题）
+
+请勿修改gulpfile.js中'connect'任务下的target值，否则将导致无法获取文章、评论、目录等数据
+
+gulp命令相关的task可以直接看gulpfile.js文件，已经美化了注释，可读性还可以，也可以直接在项目根目录开启命令行工具，执行:
+
+``` bash
+$ gulp
+```
+
+然后你会看到类似下面这样的提示信息：
+
+<div align="center">
+  <img src="snapshots/gulp-help.png" alt="gulp-help" width="99%">
+</div>
 
 ## 截图
 
 <div align="center">
-  <img src="snapshots/basic-info.png" alt="basic-info" width="30%">
+  <img src="snapshots/post_English.png" alt="post_English" width="99%">
 
-  <img src="snapshots/custom.png" alt="custom" width="30%">
+  <img src="snapshots/post_Chinese.png" alt="post_Chinese" width="99%">
 
-  <img src="snapshots/applicant.png" alt="applicant" width="30%">
+  <img src="snapshots/footer.png" alt="footer" width="99%">
+
+  <img src="snapshots/list.png" alt="list" width="99%">
 </div>
 
 ## 运行环境
@@ -44,52 +60,34 @@ $ npm run build # 生成生产状态下使用的文件，生成后的文件在di
 
 ## 目录结构
 
-目录主体是通过vue-cli工具生成的，我自己添加的主要是在src目录下的内容
+dist和dev目录是运行npm run dev/build或其他gulp命令后生成的，git clone本仓库时一开始是没有这些目录的，我们的源文件存放在src目录下。
 
 <pre>
 .
-├── build/                      # webpack配置文件
+├── dev/                        # 用于存放开发环境下生成的文件
+├── dist/                       # 用于存放生产环境下生成的文件
 ├── snapshots/                  # app快照
-├── config/
-│   ├── index.js                # 项目配置文件
 ├── src/
-│   ├── main.js                 # app入口文件
-│   ├── App.vue                 # app主组件(component)（Root下一级）
-│   ├── views/                  # 各种页面(其实也是组件)
-│   ├── components/             # 各种组件(component)
+│   ├── index.html              # app入口文件
+│   ├── tpls/                   # html模版文件
+│   ├── fonts/                  # 字体文件
+│   ├── references/             # 第三方脚本文件
 │   ├── styles/                 # 各种样式文件
 │   ├── scripts/                # 各种脚本文件
-│   ├── mock/                   # 各种模拟数据
-│   └── assets/                 # 资源文件 (会被webpack处理)
-├── static/                     # 纯静态资源 (直接被复制到生产文件build下，不会被webpack处理)
-├── test/
-│   └── unit/                   # unit tests
-│   │   ├── specs/              # test spec files
-│   │   ├── index.js            # test build entry file
-│   │   └── karma.conf.js       # test runner config file
-│   └── e2e/                    # e2e tests
-│   │   ├── specs/              # test spec files
-│   │   ├── custom-assertions/  # custom assertions for e2e tests
-│   │   ├── runner.js           # test runner script
-│   │   └── nightwatch.conf.js  # test runner config file
-├── .babelrc                    # babel config
-├── .editorconfig.js            # editor config
-├── .eslintrc.js                # eslint config
-├── index.html                  # index.html模版
+│   └── assets/                 # 图片文件
+├── .gitignore                  # 取消git版本控制的文件/目录
+├── .gulpfile.js                # 定义gulp工具的task命令
+├── README.md                   # 说明文件
 └── package.json                # 命令脚本和依赖包
 .
 </pre>
 
 ## 相关文档
 
-* [vue](http://cn.vuejs.org/)
+* [AngularJS: API](https://docs.angularjs.org/api)
 
-* [vue-cli](https://github.com/vuejs/vue-cli)
-
-* [vuejs-templates](http://vuejs-templates.github.io/webpack/)
-
-* [vue-loader](http://vuejs.github.io/vue-loader)
+* [DEMO](http://yakima.duapp.com/blog)
 
 ## LICENSE
 
-ISC
+MIT

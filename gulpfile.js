@@ -108,11 +108,11 @@ gulp.task('copy-and-minify-images', () => {
  * remained for future use, so do not delete these commented lines                  *
  *                                                                                  *
  ***********************************************************************************/
-// gulp.task('copy-templates', () => {
-//   return gulp.src(SOURCE + 'tpls/**/*.html')
-//     .pipe(gulp.dest(DEST + 'tpls'))
-//     .pipe(connect.reload())
-// })
+gulp.task('copy-templates', () => {
+  return gulp.src(SOURCE + 'tpls/**/*.html')
+    .pipe(gulp.dest(DEST + 'tpls'))
+    .pipe(connect.reload())
+})
 
 /***********************************************************************************
  *                                                                                  *
@@ -361,11 +361,12 @@ gulp.task('help', () => {
   console.log(' gulp copy-and-minify-images     复制并压缩图片文件到dist/img目录(移除原目录结构)')
   console.log(' gulp third                      将src/references中引用的第三方js合并后输出到dist/js/third(.min).js')
   console.log(' gulp copy-templates             将src/templates下的模版文件拷贝到dist/tpls目录下')
+  console.log(' gulp cache-templates            将html模版文件转成javascript形式附加到Angular的缓存中，避免了对模版文件的ajax请求')
   console.log(' gulp copy-fonts                 将src/fonts下的字体文件拷贝至dist/fonts目录下')
   console.log(' gulp less                       将src/styles/app.less文件编译(并添加浏览器厂商前缀)到dist/css下并命名为app(.min).css')
   console.log(' gulp js-states                  将src/scripts/states目录下的视图controllers合并到src/scripts/temp/app-states.js')
-  console.log(' gulp js                         合并src/scripts/app.js && app-base.js和src/scripts/temp/app-states.js至dist/js/app(.min).js')
-  console.log(' gulp dev                        执行上述各种任务，并对经常修改的脚本、样式、html、图片文件开启了监听自动刷新功能')
-  console.log(' gulp build                      同gulp dev，但不会开启文件监听')
+  console.log(' gulp js                         合并src/scripts/下我们自己写的js源文件至dist/js/app(.min).js')
+  console.log(' gulp build                      执行多种开发任务，启用压缩的样式和脚本文件，并对经常修改的脚本、样式、html、图片文件开启了监听自动刷新功能')
+  console.log(' gulp dev                        基本同gulp build，但文件生成目录由build改为dev，并且启用的是未压缩的样式和脚本文件')
   console.log(' -------------------------------- 说明结束 --------------------------------')
 })
