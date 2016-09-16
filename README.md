@@ -8,11 +8,11 @@
 
 * 前端自动化采用的是gulp；
 
-* 该单页应用（SPA）的在线地址为：[http://yakima.duapp.com/blog](http://yakima.duapp.com/blog)
+* 该单页应用（SPA）的在线地址为：[http://yakima.duapp.com/blog](http://yakima.duapp.com/blog)。
 
 ## 使用说明
 
-安装所需模块，开启本地服务器
+安装所需模块，开启本地服务器：
 
 ``` bash
 $ npm install # 安装所需依赖包
@@ -22,11 +22,11 @@ $ npm run dev # 开发时使用，生成的文件在dev目录下，使用未压�
 $ npm run build # 生成生产环境下使用的文件(dist目录下)，使用压缩的.css, .js
 ```
 
-通过npm run dev或npm run build命令开启服务后，用浏览器打开ttp://localhost:3000/blog即可访问本地demo文件
+通过npm run dev或npm run build命令开启服务后，用浏览器打开ttp://localhost:3000/blog即可访问本地demo文件。
 
-实际上执行npm run dev或npm run build与执行gulp dev或gulp build是等价的，具体可以看package.json中scripts的内容。对于开发环境和生产环境，默认都开启了文件监控，因为angular的依赖注入原因，不排除你修改代码后在开发环境下一切正常但切换到生产环境时缺因为js文件压缩的原因在浏览器上出现了报错，为了发现这种问题，在生产环境下也开启了文件监控便于调试。（注意，注入依赖时请一定使用数组形式，否则就会出现这种问题）
+实际上执行npm run dev或npm run build与执行gulp dev或gulp build是等价的，具体可以看package.json中scripts的内容。对于开发环境和生产环境，默认都开启了文件监控，因为angular的依赖注入原因，不排除你修改代码后在开发环境下一切正常但切换到生产环境时缺因为js文件压缩的原因在浏览器上出现了报错，为了发现这种问题，在生产环境下也开启了文件监控便于调试。（注意，注入依赖时请一定使用数组形式，否则就会出现这种问题）。
 
-请勿修改gulpfile.js中'connect'任务下的target值，否则将导致无法获取文章、评论、目录等数据
+请勿修改gulpfile.js中'connect'任务下的target值，否则将导致无法获取文章、评论、目录等数据。
 
 gulp命令相关的task可以直接看gulpfile.js文件，已经美化了注释，可读性还可以，也可以直接在项目根目录开启命令行工具，执行:
 
@@ -56,9 +56,9 @@ $ gulp
 
 我自己本地使用的运行环境如下：
 
-1. Node: v4.4.5
-2. npm: 2.15.5
-3. cnpm: 4.2.0 （用于代替npm，因为使用的是国内的镜像，在大陆下载更快）
+1. Node: v4.4.5;
+2. npm: 2.15.5;
+3. cnpm: 4.2.0 （用于代替npm，因为使用的是国内的镜像，在大陆下载更快）。
 
 ## 目录结构
 
