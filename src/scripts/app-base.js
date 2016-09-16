@@ -231,7 +231,6 @@ angular.module('app-base', ['ngSanitize'])
         return $location.path()
       }, function (path) {
         var url = element.attr('href')
-        console.log(path, url)
         if (path.replace(/[0-9]*$/g, '') === url.replace(/^\/blog\/#/g, '').replace(/[0-9]*$/g, '')) {
           element.addClass('active')
           element.append('<span class="selected"></span>')

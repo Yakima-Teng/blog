@@ -1,7 +1,6 @@
 /**
  * Created by Administrator on 4/16.
  */
-'use strict';
 angular.module('app', ['app-base', 'ui.router', 'templates'])
   .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/1');
@@ -60,11 +59,6 @@ angular.module('app', ['app-base', 'ui.router', 'templates'])
       alert('Search function is not available now!');
     };
 
-    // $rootScope.submitComment = function(e) {
-    //     e.preventDefault();
-    //     alert('Comment function is not available now!');
-    // };
-
     $rootScope.login = function(e) {
       var $el = $(e.target || e.srcElement);
       e.preventDefault();
@@ -74,7 +68,7 @@ angular.module('app', ['app-base', 'ui.router', 'templates'])
     $rootScope.currentYear = new Date().getFullYear();
 
     // 若滚动条不在顶部，当锚点改变时让滚动条回到顶部
-    window.onload = window.onhashchange = function() {
+    window.onload = window.onhashchange = () => {
       $('html, body').animate({scrollTop: 0}, 'slow');
       enableTooltips('app-nav');
     }

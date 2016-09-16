@@ -18,6 +18,7 @@ const proxy = require('http-proxy-middleware')
 const templateCache = require('gulp-angular-templatecache')
 const htmlreplace = require('gulp-html-replace')
 const gulpSequence = require('gulp-sequence')
+const babel = require('gulp-babel')
 
 const SOURCE = './src/'
 let WWW = 'dist/'
@@ -221,6 +222,9 @@ gulp.task('js', ['js-states', 'cache-templates'], () => {
     SOURCE + 'scripts/app.js'
   ])
   .pipe(concat('app.js'))
+  .pipe(babel({
+    presets: ['es2015']
+  }))
   .pipe(gulp.dest(DEST + 'js'))
   .pipe(uglify())
   .pipe(rename({
