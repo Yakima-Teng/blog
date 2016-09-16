@@ -1,55 +1,61 @@
-var post = {
+const post = {
   url: '/posts/:id',
   templateUrl: 'tpls/post.html',
-  controller: ['$rootScope', '$scope', '$stateParams', '$timeout', '$interval', '$sce', function ($rootScope, $scope, $stateParams, $timeout, $interval, $sce) {
+  controller: ['$rootScope', '$scope', '$stateParams', '$timeout', '$interval', '$sce', 'Api', function ($rootScope, $scope, $stateParams, $timeout, $interval, $sce, Api) {
+    $scope.postId = $stateParams.id
+
+    $scope.comment = {
+      parent: '',
+      author: '',
+      email: '',
+      url: '',
+      message: '',
+      // 提交评论时（后）的反馈信息
+      tip: '',
+      // 提交评论时的倒计时
+      timing: 5,
+      // 判断是否允许提交评论: true可以，false不可以：防止用户连续快速点击评论按钮
+      flag: true,
+      // 回复评论时显示在评论内容开头的提示文字
+      replyHint: ''
+    }
+
     /**
      * 获取当前postId对应的文章内容
      */
-    $scope.getPost = function () {
-      $rootScope.$httpGet('/blog/v1/posts/' + $scope.postId, null, function (data, status, headers, config) {
-        $scope.post = data.responseBody
-        $scope.post.post_content = $sce.trustAsHtml($rootScope.insertTagP($scope.post.post_content))
-        $rootScope.highlightCode()
-      }, null, undefined, false)
-    }
+    Api.get(`/blog/v1/posts/${$scope.postId}`).success(data => {
+      $scope.post = data.responseBody
+      $scope.post.post_content = $sce.trustAsHtml(Api.insertTagP($scope.post.post_content))
+      Api.highlightCode()
+    })
 
     /**
      * 获取随机的一篇与当前文章相关的文章
      */
-    $scope.getRelatedPost = function () {
-      $rootScope.$httpGet('/blog/v1/related-posts', {
-        id: $scope.postId,
-        limit: 1
-      }, function (data, status, headers, config) {
-        $scope.relatedPosts = data.responseBody
-      }, null, 20000, true)
-    }
+    $scope.getRelatedPost = () => Api.get('/blog/v1/related-posts', {
+      id: $scope.postId,
+      limit: 1
+    }).success(data => $scope.relatedPosts = data.responseBody)
 
     /**
      * 获取最新的20条评论
      */
-    $scope.getComments = function () {
-      $rootScope.$httpGet('/blog/v1/comments', {
-        postId: $scope.postId,
-        limit: 20
-      }, function (data, status, headers, config) {
-        $scope.relatedComments = data.responseBody
-      }, null, undefined, true)
-    }
+    $scope.getComments = () => Api.get('/blog/v1/comments', {
+      postId: $scope.postId,
+      limit: 20
+    }).success(data => $scope.relatedComments = data.responseBody)
 
     /**
      * n秒倒计时，倒计时结束后清空评论反馈信息
      * 回调函数可选
      */
-    $scope.countingDown = function (n, cb) {
+    $scope.countingDown = (n, cb) => {
       $scope.comment.timing = n
-      $timeout(function () {
+      $timeout(() => {
         $scope.comment.tip = ''
-        if (cb) {
-          cb()
-        }
+        if (cb) { cb() }
       }, n * 1000)
-      var timer = $interval(function () {
+      let timer = $interval(() => {
         $scope.comment.timing--
         if ($scope.comment.timing < 1) {
           $interval.cancel(timer)
@@ -61,7 +67,7 @@ var post = {
     /**
      * 验证评论
      */
-    $scope.validateComment = function () {
+    $scope.validateComment = () => {
       if (!$scope.comment.author) {
         $scope.comment.tip = '请输入姓名'
         $('#commentAuthor').trigger('focus')
@@ -92,11 +98,10 @@ var post = {
     /**
      * 回复评论
      */
-    $scope.reply = function (commentObj) {
-      var c = commentObj
-      console.log(c)
+    $scope.reply = (commentObj) => {
+      const c = commentObj
       $scope.comment.parent = c.comment_ID
-      $scope.comment.replyHint = 'to [[' + c.comment_author + ']]: '
+      $scope.comment.replyHint = `to [[${c.comment_author}]]: `
       $scope.comment.message = $scope.comment.replyHint
       // 点击评论按钮后跳转到评论输入框
       $('#commentMessage').trigger('focus')
@@ -105,7 +110,7 @@ var post = {
     /**
      * 提交评论
      */
-    $scope.submitComment = function () {
+    $scope.submitComment = () => {
       if ($scope.comment.flag === false || $scope.validateComment() === false) {
         return
       }
@@ -115,33 +120,33 @@ var post = {
         $scope.comment.parent = '0'
         $scope.comment.replyHint = ''
       }
-      $rootScope.$httpPost('/blog/v1/submit-comment', {
+      Api.post('/blog/v1/submit-comment', {
         postId: $scope.postId,
         parent: $scope.comment.parent,
         author: $scope.comment.author,
         email: $scope.comment.email,
         url: $scope.comment.url,
         message: $scope.comment.message
-      }, function (resp) {
-        var d = resp.data.responseBody
-        if (!d.success) {
+      }).success(data => {
+        const d = data.responseBody
+        if (d.success === false) {
           $scope.comment.tip = d.msg
-          $scope.countingDown(6, function () {
+          $scope.countingDown(6, () => {
             $scope.comment.flag = true
           })
           return
         }
         $scope.comment.tip = d.msg
-        $scope.countingDown(6, function () {
+        $scope.countingDown(6, () => {
           $scope.comment.flag = true
         })
         $scope.getComments()
-      }, function () {
+      }).error(() => {
         $scope.comment.tip = '提交评论失败，可能是网络问题'
-        $scope.countingDown(6, function () {
+        $scope.countingDown(6, () => {
           $scope.comment.flag = true
         })
-      }, undefined, true)
+      })
     }
 
     /**
@@ -151,25 +156,6 @@ var post = {
       return comment.comment_parent === 0
     }
 
-    $scope.postId = $stateParams.id
-
-    $scope.comment = {
-      parent: '',
-      author: '',
-      email: '',
-      url: '',
-      message: '',
-      // 提交评论时（后）的反馈信息
-      tip: '',
-      // 提交评论时的倒计时
-      timing: 5,
-      // 判断是否允许提交评论: true可以，false不可以：防止用户连续快速点击评论按钮
-      flag: true,
-      // 回复评论时显示在评论内容开头的提示文字
-      replyHint: ''
-    }
-
-    $scope.getPost()
     $scope.getRelatedPost()
     $scope.getComments()
   }]

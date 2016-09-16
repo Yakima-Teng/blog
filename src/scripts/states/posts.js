@@ -1,21 +1,18 @@
-'use strict'
-var posts = {
+const posts = {
   url: '/:id',
   templateUrl: 'tpls/posts.html',
-  controller: ['$rootScope', '$scope', '$stateParams', function($rootScope, $scope, $stateParams) {
+  controller: ['$rootScope', '$scope', '$stateParams', 'Api', function($rootScope, $scope, $stateParams, Api) {
     $scope.baseLink = '/blog/#/'
     $scope.currentPostsPageId = parseInt($stateParams.id)
     $scope.isLoadingPosts = true
-    $rootScope.$httpGet('/blog/v1/excerpts', {
+    Api.get('/blog/v1/excerpts', {
       sortby: 'ID',
       order: 'desc',
       offset: (parseInt($stateParams.id) - 1) * 10,
       limit: '10'
-    }, function(data, status, headers, config) {
+    }).success(data => {
       $scope.recentPosts = data.responseBody
       $scope.isLoadingPosts = false
-    }, function(data, status, headers, config) {
-      $scope.isLoadingPosts = false
-    }, undefined, true)
+    })
   }]
 }

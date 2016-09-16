@@ -1,7 +1,6 @@
 /**
  * Created by Administrator on 4/16.
  */
-'use strict'
 angular.module('app-base', ['ngSanitize'])
   .run(['$rootScope', '$http', '$httpParamSerializerJQLike', function ($rootScope, $http, $httpParamSerializerJQLike) {
     $rootScope.pageTitle = '滕运锋 | Yakima Teng'
@@ -19,78 +18,6 @@ angular.module('app-base', ['ngSanitize'])
         name: '阮一峰'
       }
     ]
-    $rootScope.$httpPost = function (url, data, success, fail, timeout, noPageLoading) {
-      if (!noPageLoading) {
-        $rootScope.isLoading = true
-      }
-      $http.post(url, $httpParamSerializerJQLike(data), {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-          'Accept': '*/*'
-        },
-        timeout: timeout
-      }).then(function (resp) {
-        if (!noPageLoading) {
-          $rootScope.isLoading = false
-        }
-        if (angular.isFunction(success)) {
-          success(resp)
-        }
-      }, function (resp) {
-        if (!noPageLoading) {
-          $rootScope.isLoading = false
-        }
-        if (angular.isFunction(fail)) {
-          fail(resp)
-        }
-      })
-    }
-
-    $rootScope.$httpGet = function (url, data, success, fail, timeout, noPageLoading) {
-      if (!noPageLoading) {
-        $rootScope.isLoading = true
-      }
-      $http.get(url + ((data) ? '?' : '') + $httpParamSerializerJQLike(data), {timeout: timeout})
-        .success(function (data, status, headers, config) {
-          if (!noPageLoading) {
-            $rootScope.isLoading = false
-          }
-          if (angular.isFunction(success)) {
-            success(data, status, headers, config)
-          }
-        })
-        .error(function (data, status, headers, config) {
-          if (!noPageLoading) {
-            $rootScope.isLoading = false
-          }
-          if (angular.isFunction(fail)) {
-            fail(data, status, headers, config)
-          }
-        })
-    }
-
-    $rootScope.$httpJSONP = function (url, data, success, fail, timeout, noPageLoading) {
-      if (!noPageLoading) {
-        $rootScope.isLoading = true
-      }
-      $http.jsonp(url + '?' + $httpParamSerializerJQLike(data), {timeout: timeout})
-        .success(function (data, status, headers, config) {
-          if (!noPageLoading) {
-            $rootScope.isLoading = false
-          }
-          if (angular.isFunction(success)) {
-            success(data, status, headers, config)
-          }
-        })
-        .error(function (data, status, headers, config) {
-          if (!noPageLoading) {
-            $rootScope.isLoading = false
-          }
-          if (angular.isFunction(fail)) {
-            fail(data, status, headers, config)
-          }
-        })
-    }
 
     /**
      * 根据userAgent判断浏览器类型
@@ -160,41 +87,6 @@ angular.module('app-base', ['ngSanitize'])
     }
 
     /**
-     * 给字符串中换行的地方追加p标签
-     */
-    $rootScope.insertTagP = function (content) {
-      // 先判断原文中是否含有html标签，若有的话，只将中间没有内容（空格/tab等也视为无内容）的成对<p></p>标签删除掉，没有html的纯文本才进行标签处理
-      if (!/(<\/a>)|(<\/p>)|(<\/ul>)|(<\/div>)|(<\/dl>)|(<\/article>)|(<\/header>)|(<\/footer>)|(<\/pre>)/.test(content)) {
-        // replace newline character with html element <p></p>, \u0085代表下一行的字符，\u2028行分隔符，\u2029分段符
-        content = '<p>' + content.replace(/\B(\n|\r|(\r\n)|(\u0085)|(\u2028)|(\u2029))+\B/g, '</p><p>') + '</p>'
-        content = content.replace(/(<p>)\1/g, '$1')
-        content = content.replace(/<p>\s*?<\/p>/g, '')
-        content = content.replace(/<\/p>\s+?<p>/g, '</p><p>')
-        content = content.replace(/<p>(<h[1-6]>)/g, '$1')
-        content = content.replace(/(<\/h[1-6]>)<\/p>/g, '$1')
-      } else {
-        content = content.replace(/<p>\s*?<\/p>/g, '')
-        content = content.replace(/<\/p>\s+?<p>/g, '</p><p>')
-      }
-      return content
-    }
-
-    /**
-     * 代码高亮
-     */
-    $rootScope.highlightCode = function () {
-      setTimeout(function () {
-        $('pre code').each(function (i, block) {
-          hljs.highlightBlock(block)
-          if ($(this).hasClass('xml')) {
-            console.log('has class xml')
-            $(this).text($(this).html())
-          }
-        })
-      }, 0)
-    }
-
-    /**
      * 格式化日期，输出'2016-06-20 13:26'格式的字符串
      */
     $rootScope.formatDate = function (date) {
@@ -210,23 +102,72 @@ angular.module('app-base', ['ngSanitize'])
       return [year, month, day].join('-') + ' ' + hour + ':' + minute
     }
   }])
+  .service('Api', ['$rootScope', '$http', '$httpParamSerializerJQLike', function ($rootScope, $http, $httpParamSerializerJQLike) {
+    let _this = this
+    _this.get = (url, params) => {
+      const promise = $http({
+        method: 'GET',
+        url: url,
+        params: params || {},
+        timeout: 30000
+      })
+      return promise
+    }
+    _this.post = (url, data) => {
+      const promise = $http({
+        method: 'POST',
+        url: url,
+        data: data || {},
+        timeout: 30000
+      })
+      return promise
+    }
+    /**
+     * 代码高亮
+     */
+    _this.highlightCode = () => {
+      setTimeout(function () {
+        $('pre code').each(function (i, block) {
+          hljs.highlightBlock(block)
+          if ($(this).hasClass('xml')) {
+            $(this).text($(this).html())
+          }
+        })
+      }, 0)
+    }
+    /**
+     * 给字符串中换行的地方追加p标签
+     */
+    _this.insertTagP = (content) => {
+      // 先判断原文中是否含有html标签，若有的话，只将中间没有内容（空格/tab等也视为无内容）的成对<p></p>标签删除掉，没有html的纯文本才进行标签处理
+      if (!/(<\/a>)|(<\/p>)|(<\/ul>)|(<\/div>)|(<\/dl>)|(<\/article>)|(<\/header>)|(<\/footer>)|(<\/pre>)/.test(content)) {
+        // replace newline character with html element <p></p>, \u0085代表下一行的字符，\u2028行分隔符，\u2029分段符
+        content = '<p>' + content.replace(/\B(\n|\r|(\r\n)|(\u0085)|(\u2028)|(\u2029))+\B/g, '</p><p>') + '</p>'
+        content = content.replace(/(<p>)\1/g, '$1')
+        content = content.replace(/<p>\s*?<\/p>/g, '')
+        content = content.replace(/<\/p>\s+?<p>/g, '</p><p>')
+        content = content.replace(/<p>(<h[1-6]>)/g, '$1')
+        content = content.replace(/(<\/h[1-6]>)<\/p>/g, '$1')
+      } else {
+        content = content.replace(/<p>\s*?<\/p>/g, '')
+        content = content.replace(/<\/p>\s+?<p>/g, '</p><p>')
+      }
+      return content
+    }
+  }])
   .filter('hasParentComment', [function () {
     return function (originalArray, parentCommentId) {
-      var childComments = []
-      for (var i = 0, length = originalArray.length; i < length; i++) {
-        if (originalArray[i].comment_parent === parentCommentId) {
-          childComments.push(originalArray[i])
-        }
-      }
-      return childComments
+      return originalArray.filter((elem, index, arr) => {
+        return elem.comment_parent === parentCommentId
+      })
     }
   }])
   .directive('activeLink', ['$location', function ($location) {
-    var link = function (scope, element) {
-      scope.$watch(function () {
+    const link = (scope, element) => {
+      scope.$watch(() => {
         return $location.path()
-      }, function (path) {
-        var url = element.attr('href')
+      }, (path) => {
+        const url = element.attr('href')
         if (path.replace(/[0-9]*$/g, '') === url.replace(/^\/blog\/#/g, '').replace(/[0-9]*$/g, '')) {
           element.addClass('active')
           if (element.find('span.selected').length < 1) {

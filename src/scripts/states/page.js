@@ -1,11 +1,7 @@
-var page = {
+const page = {
   url: '/pages/:name',
   templateUrl: 'tpls/page.html',
-  controller: ['$rootScope', '$scope', '$stateParams', function($rootScope, $scope, $stateParams) {
-    $rootScope.$httpGet('/blog/v1/pages/' + $stateParams.name, null, function(data, status, headers, config) {
-      $scope.post = data.responseBody;
-    }, function(data, status, headers, config) {
-      console.log(data);
-    }, undefined, true);
+  controller: ['$rootScope', '$scope', '$stateParams', 'Api', function($rootScope, $scope, $stateParams, Api) {
+    Api.get(`/blog/v1/pages/${$stateParams.name}`).success(data => $scope.post = data.responseBody)
   }]
-};
+}

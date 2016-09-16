@@ -1,20 +1,7 @@
-var categories = {
+const categories = {
   url: '/categories',
   templateUrl: 'tpls/categories.html',
-  controller: ['$rootScope', '$scope', '$stateParams', function($rootScope, $scope, $stateParams) {
-    for (var i = 0; i < $rootScope.categories.length; i++) {
-      (function(index) {
-        $rootScope.$httpGet('/blog/v1/posts', {
-          sortby: 'ID',
-          order: 'rand',
-          cat: $rootScope.categories[index].slug
-        }, function(data, status, headers, config) {
-          $rootScope.categories[index].posts = data.responseBody;
-        }, function(data, status, headers, config) {
-          console.log(data);
-        }, undefined, true);
-      })(i);
-    }
+  controller: ['$rootScope', '$scope', '$stateParams', 'Api', function($rootScope, $scope, $stateParams, Api) {
     $scope.categoriesLogos = {
       'qq-diary': 'fa-qq',
       'qq-copy': 'fa-folder-o',
@@ -29,6 +16,13 @@ var categories = {
       'regulatory-affairs': 'fa-registered',
       'pharmaceutical-knowledge': 'fa-university',
       'reading-book': 'fa-book'
-    };
+    }
+    for (let i = 0, length = $rootScope.categories.length; i < length; i++) {
+      Api.get('/blog/v1/posts', {
+        sortby: 'ID',
+        order: 'rand',
+        cat: $rootScope.categories[i].slug
+      }).success(data => $rootScope.categories[i].posts = data.responseBody)
+    }
   }]
-};
+}
