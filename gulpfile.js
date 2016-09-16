@@ -127,7 +127,7 @@ gulp.task('cache-templates', () => {
       module: 'templates',
       standalone: true
     }))
-    .pipe(gulp.dest(SOURCE + 'scripts'))
+    .pipe(gulp.dest(SOURCE + 'scripts/temp'))
 })
 
 /***********************************************************************************
@@ -216,7 +216,7 @@ gulp.task('third', () => {
 gulp.task('js', ['js-states', 'cache-templates'], () => {
   return gulp.src([
     SOURCE + 'scripts/app-base.js',
-    SOURCE + 'scripts/templates.js',
+    SOURCE + 'scripts/temp/templates.js',
     SOURCE + 'scripts/temp/app-states.js',
     SOURCE + 'scripts/app.js'
   ])
