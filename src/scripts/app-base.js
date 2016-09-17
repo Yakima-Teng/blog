@@ -184,3 +184,27 @@ angular.module('app-base', ['ngSanitize'])
       link: link
     }
   }])
+  .directive('appFooter', [function () {
+    return {
+      restrict: 'E',
+      replace: true,
+      templateUrl: 'tpls/footer.html',
+      scope: false
+    }
+  }])
+  .directive('appSidebar', [function () {
+    return {
+      restrict: 'E',
+      replace: true,
+      templateUrl: 'tpls/sidebar.html',
+      scope: false
+    }
+  }])
+  .directive('appHeader', [function () {
+    return {
+      restrict: 'E',
+      replace: true,
+      templateUrl: 'tpls/header.html',
+      scope: false
+    }
+  }])

@@ -24,89 +24,14 @@
 </head>
 <body>
 <div class="app-wrapper">
-  <nav class="app-nav" id="app-nav">
-    <a active-link href="/blog/#/1" class="logo" data-title="首页" data-tooltip="进入首页">
-      <img src="./img/yakima_bright.jpg" alt="Yakima Teng">
-      <span class="line">Yakima Teng</span>
-    </a>
-    <!--<a href="/blog/#/categories" data-title="存档" data-tooltip="将本站的文章按分类和月份进行了归档"><i class="fa fa-history"></i> <span class="line">Archives</span></a>-->
-    <a active-link href="/blog/#/categories/pharmaceutical-information/1" data-title="药学资讯" data-tooltip="侧重点为药品注册相关的文章，多数来自互联网"><i class="fa fa-line-chart"></i> <span class="line">Pharmaceuticals</span></a>
-    <a active-link href="/blog/#/categories/html/1" data-title="HTML" data-tooltip="All are about html"><i class="fa fa-html5"></i> <span class="line">Html</span></a>
-    <a active-link href="/blog/#/categories/css/1" data-title="CSS" data-tooltip="Bootstrap, WechatUI, CSS2&amp;3 and more"><i class="fa fa-css3"></i> <span class="line">CSS</span></a>
-    <a active-link href="/blog/#/categories/javascript/1" data-title="JavaScript" data-tooltip="AngularJS, VueJS, jQuery and more"><i class="fa fa-line-chart"></i> <span class="line">JavaScript</span></a>
-    <!--<a href="/blog/#/pages/regulatory-affairs" data-title="药政导航" data-tooltip="这里列举了做国际药品注册经常会访问的站点"><i class="fa fa-cassmera"></i> <span class="line">药政导航</span></a>-->
-    <!--<a href="/blog/#/pages/open-access" data-title="开放期刊" data-tooltip="一些开放期刊杂志"><i class="fa fa-anchor"></i> <span class="line">开放期刊</span></a>-->
-    <a active-link href="/blog/#/pages/about" data-title="关于" data-tooltip="关于博主和这个站点的一些介绍"><i class="fa fa-gitlab"></i> <span class="line">About</span></a>
-    <!--<a href="/blog/#/pages/guestbook" data-title="留言板" data-tooltip="留言的地方"><i class="fa fa-anchor"></i> <span class="line">留言板</span></a>-->
-    <!-- <a href="" id="login" ng-click="login($event)" data-title="登陆" data-tooltip="点击进行登陆，当然，这个是给博主我自己用的链接"><i class="fa fa-cube"></i> <span class="line">Login</span></a> -->
-    <form ng-submit="search($event)">
-      <input type="text" placeholder="Search..." autocomplete="on" />
-      <button type="submit">^_^</button>
-    </form>
-  </nav>
+  <app-header></app-header>
   <div class="main-wrapper">
     <article class="site-content">
       <div class="inner" ui-view></div>
     </article>
-    <aside class="app-sidebar">
-      <section class="widget-text">
-        <img class="top" src="./img/34.jpg" alt="">
-        <img class="photo" src="./img/suolong.jpg" alt="">
-        <article class="content">
-          目前在魔都。13年毕业于北药，在浙江top10的一家上市药企做过2年的国际药品注册。15年末正式加入智商暴躁的前端程序员大军。
-          <br><a href="/blog/#/pages/about">更多内容请点击此处</a>
-        </article>
-        <footer class="social">
-          <span class="qq"></span>
-          <span class="wechat"></span>
-          <span class="email"></span>
-        </footer>
-      </section>
-      <section class="widget-normal" ng-if="categories.length">
-        <h4 class="widget-title"><span>分类目录</span></h4>
-        <ul class="categories">
-          <li ng-repeat="item in categories"><a ng-href="/blog/#/categories/{{item.slug}}/1">{{item.name}}</a></li>
-        </ul>
-      </section>
-      <section class="widget-normal" ng-if="archives.length">
-        <h4 class="widget-title"><span>文章归档</span></h4>
-        <ul class="archives">
-          <li ng-repeat="item in archives"><a ng-href="/blog/#/archives/{{item.year + '-' + item.month}}/1">{{item.year}}年{{item.month}}月</a></li>
-        </ul>
-      </section>
-      <section class="widget-normal" ng-if="friends.length">
-        <h4 class="widget-title"><span>一些链接</span></h4>
-        <ul class="links">
-          <li ng-repeat="item in friends"><a ng-href="{{item.url}}">{{item.name}}</a></li>
-        </ul>
-      </section>
-    </aside>
+    <app-sidebar></app-sidebar>
   </div>
-  <footer class="app-footer">
-    <div class="app-footer-widgets">
-      <section class="app-footer-widget" ng-if="recentComments.length">
-        <h4>Comments</h4>
-        <ul class="comments">
-          <li ng-repeat="item in recentComments"><a ng-href="/blog/#/posts/{{item.comment_post_ID}}">{{item.comment_excerpt}}</a></li>
-        </ul>
-      </section>
-      <section class="app-footer-widget" ng-if="pages.length">
-        <h4>Pages</h4>
-        <ul class="pages">
-          <li ng-repeat="item in pages"><a ng-href="/blog/#/pages/{{item.post_name}}">{{item.post_title}}</a></li>
-        </ul>
-      </section>
-      <section class="app-footer-widget" ng-if="randomPosts.length">
-        <h4>Articles</h4>
-        <ul class="posts">
-          <li ng-repeat="item in randomPosts"><a ng-href="/blog/#/posts/{{item.ID}}">{{item.post_title}}</a> <span>{{formatDate(item.post_date)}}</span></li>
-        </ul>
-      </section>
-    </div>
-    <small class="app-footer-copyright">
-      Copyright &copy; 2009-{{currentYear}} Yakima Teng.<span></span> Powered by Node.js &amp; WordPress &amp; MySql.
-    </small>
-  </footer>
+  <app-footer></app-footer>
   <div class="mask" ng-show="isLoading">
     <div class="spinner">
       <i class="fa fa-spinner fa-pulse fa-5x"></i>
