@@ -3,11 +3,10 @@
     <img src="./img/yakima_bright.jpg" alt="Yakima Teng">
     <span class="line">Yakima Teng</span>
   </a>
-  <a active-link href="/blog/#/categories/pharmaceutical-information/1" data-title="药学资讯" data-tooltip="侧重点为药品注册相关的文章，多数来自互联网"><i class="fa fa-line-chart"></i> <span class="line">Pharmaceuticals</span></a>
-  <a active-link href="/blog/#/categories/html/1" data-title="HTML" data-tooltip="All are about html"><i class="fa fa-html5"></i> <span class="line">Html</span></a>
-  <a active-link href="/blog/#/categories/css/1" data-title="CSS" data-tooltip="Bootstrap, WechatUI, CSS2&amp;3 and more"><i class="fa fa-css3"></i> <span class="line">CSS</span></a>
-  <a active-link href="/blog/#/categories/javascript/1" data-title="JavaScript" data-tooltip="AngularJS, VueJS, jQuery and more"><i class="fa fa-line-chart"></i> <span class="line">JavaScript</span></a>
-  <a active-link href="/blog/#/pages/about" data-title="关于" data-tooltip="关于博主和这个站点的一些介绍"><i class="fa fa-gitlab"></i> <span class="line">About</span></a>
+  <a ng-repeat="item in menus" active-link ng-href="{{item.href}}" data-title="{{item.title}}" data-tooltip="{{item.tip}}">
+    <i ng-class="item.fontAwesomeIconClass" class="fa"></i>
+    <span class="line">{{item.menu}}</span>
+  </a>
   <form ng-submit="search($event)">
     <input type="text" placeholder="Search..." autocomplete="on" />
     <button type="submit">^_^</button>

@@ -18,6 +18,43 @@ angular.module('app-base', ['ngSanitize'])
         name: '阮一峰'
       }
     ]
+    $rootScope.menus = [
+      {
+        menu: 'Pharmaceuticals',
+        title: '药学资讯',
+        tip: '侧重点为药品注册相关的文章，多数来自互联网',
+        href: '/blog/#/categories/pharmaceutical-information/1',
+        fontAwesomeIconClass: 'fa-line-chart'
+      },
+      {
+        menu: 'Html',
+        title: 'HTML',
+        tip: 'All are about html',
+        href: '/blog/#/categories/html/1',
+        fontAwesomeIconClass: 'fa-html5'
+      },
+      {
+        menu: 'CSS',
+        title: 'CSS',
+        tip: 'Bootstrap, WechatUI, CSS2&3 and more',
+        href: '/blog/#/categories/css/1',
+        fontAwesomeIconClass: 'fa-css3'
+      },
+      {
+        menu: 'JavaScript',
+        title: 'JavaScript',
+        tip: 'AngularJS, VueJS, jQuery and more',
+        href: '/blog/#/categories/javascript/1',
+        fontAwesomeIconClass: 'fa-line-chart'
+      },
+      {
+        menu: 'About',
+        title: '关于',
+        tip: '关于博主和这个站点的一些介绍',
+        href: '/blog/#/pages/about',
+        fontAwesomeIconClass: 'fa-gitlab'
+      }
+    ]
 
     /**
      * 根据userAgent判断浏览器类型
