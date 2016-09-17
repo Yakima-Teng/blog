@@ -73,7 +73,7 @@ dist和dev目录是运行npm run dev/build或其他gulp命令后生成的，git 
 │   ├── index.html              # app入口文件
 │   ├── tpls/                   # html模版文件
 │   ├── fonts/                  # 字体文件
-│   ├── references/             # 第三方脚本文件
+│   ├── libs/             # 第三方脚本文件
 │   ├── styles/                 # 各种样式文件
 │   ├── scripts/                # 各种脚本文件
 │   └── assets/                 # 图片文件

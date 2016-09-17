@@ -189,12 +189,12 @@ gulp.task('js-states', () => {
  ***********************************************************************************/
 gulp.task('third', () => {
   return gulp.src([
-    SOURCE + 'references/jquery-1.12.2.js',
-    SOURCE + 'references/angular.js',
-    SOURCE + 'references/angular-sanitize.js',
-    SOURCE + 'references/angular-ui-router.js',
-    SOURCE + 'references/tooltip.js',
-    SOURCE + 'references/highlight.pack.js'
+    SOURCE + 'libs/jquery-1.12.2.js',
+    SOURCE + 'libs/angular.js',
+    SOURCE + 'libs/angular-sanitize.js',
+    SOURCE + 'libs/angular-ui-router.js',
+    SOURCE + 'libs/tooltip.js',
+    SOURCE + 'libs/highlight.pack.js'
   ])
     // important: files will be concatenated in the order specified in gulp.src
     .pipe(concat('third.js'))
@@ -359,7 +359,7 @@ gulp.task('help', () => {
   console.log(' gulp clean                      清空dist目录下的文件')
   console.log(' gulp copy-index                 复制index.html文件到dist目录')
   console.log(' gulp copy-and-minify-images     复制并压缩图片文件到dist/img目录(移除原目录结构)')
-  console.log(' gulp third                      将src/references中引用的第三方js合并后输出到dist/js/third(.min).js')
+  console.log(' gulp third                      将src/libs中引用的第三方js合并后输出到dist/js/third(.min).js')
   console.log(' gulp copy-templates             将src/templates下的模版文件拷贝到dist/tpls目录下')
   console.log(' gulp cache-templates            将html模版文件转成javascript形式附加到Angular的缓存中，避免了对模版文件的ajax请求')
   console.log(' gulp copy-fonts                 将src/fonts下的字体文件拷贝至dist/fonts目录下')
