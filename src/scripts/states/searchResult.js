@@ -1,18 +1,21 @@
 const searchResult = {
   url: '/search?:keyword&:pagenumber',
-  templateUrl: 'tpls/search-result.html',
+  templateUrl: 'tpls/posts.html',
   controller: ['$rootScope', '$scope', '$stateParams', 'Api', function ($rootScope, $scope, $stateParams, Api) {
     const keyword = $stateParams.keyword
-    const curPageNumber = parseInt($stateParams.pagenumber)
-    $scope.isLoadingPosts = true
+    $scope.from = 'search'
+    $scope.value = keyword
     $scope.baseLink = `/blog/#/search?keyword=${keyword}&pagenumber=`
-    $scope.currentPostsPageId = curPageNumber
+    $scope.currentPostsPageId = parseInt($stateParams.pagenumber)
+    $scope.isLoadingPosts = true
     Api.get('/blog/v1/search', {
       keyword,
-      offset: (curPageNumber - 1) * 10,
+      sortby: 'post_date',
+      order: 'desc',
+      offset: ($scope.currentPostsPageId - 1) * 10,
       limit: '10'
     }).success(data => {
-      $scope.searchResult = data.responseBody
+      $scope.recentPosts = data.responseBody
     }).finally(() => $scope.isLoadingPosts = false)
   }]
 }
