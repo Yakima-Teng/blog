@@ -14,8 +14,8 @@
     </span>
   </footer>
   <section class="app-post-nav">
-    <span class="pre">上一篇文章的标题</span>
-    <span class="next">下一篇文章的标题</span>
+    <a ng-href="/blog/#/posts/{{item['ID']}}" class="pre">上一篇文章的标题上一篇文章的标题上一篇文章的标题上一篇文章的标题</a>
+    <a ng-href="/blog/#/posts/{{item['ID']}}" class="next">下一篇文章的标题</a>
   </section>
   <section class="app-post-comments">
     <section ng-repeat="commentOne in relatedComments | filter:getFirstLevelComments" class="post_comment">
