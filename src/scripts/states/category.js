@@ -13,7 +13,6 @@ const category = {
       limit: '10'
     }).success(data => {
       $scope.recentPosts = data.responseBody
-      $scope.isLoadingPosts = false
-    })
+    }).finally(() => $scope.isLoadingPosts = false)
   }]
 }

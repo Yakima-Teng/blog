@@ -8,7 +8,7 @@
     <span class="line">{{item.menu}}</span>
   </a>
   <form class="item-form" ng-submit="search($event)">
-    <input type="text" class="field" placeholder="Search..." autocomplete="on" />
+    <input ng-model="keyword" type="text" class="field" placeholder="Search..." autocomplete="on" />
     <button class="btn" type="submit">^_^</button>
   </form>
 </nav>

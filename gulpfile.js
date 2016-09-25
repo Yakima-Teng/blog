@@ -258,8 +258,8 @@ gulp.task('connect', () => {
     middleware (connect, opt) {
       return [
         proxy('/blog/v1', {
-          // target: 'http://localhost:18080',
-          target: 'http://yakima.duapp.com',
+          target: 'http://localhost:18080',
+          // target: 'http://yakima.duapp.com',
           changeOrigin: true
         })
       ]

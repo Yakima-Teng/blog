@@ -12,10 +12,12 @@ angular.module('app', ['app-base', 'ui.router', 'templates'])
       .state('具体页面', page)
       .state('指定月份', archive)
       .state('登陆管理', login)
+      .state('搜索结果', searchResult)
       .state('文章列表', posts)
   }])
   .run(['$rootScope', '$state', '$timeout', 'Api', function($rootScope, $state, $timeout, Api) {
     window.app = $rootScope
+    $rootScope.keyword = ''
     let over = {
       categories: false,
       randomPosts: false,
@@ -77,7 +79,7 @@ angular.module('app', ['app-base', 'ui.router', 'templates'])
 
     $rootScope.search = (e) => {
       e.preventDefault()
-      window.alert('Search function is not available now!')
+      window.location.href = `/blog/#/search?keyword=${$rootScope.keyword}&pagenumber=1`
     }
 
     $rootScope.currentYear = new Date().getFullYear()
