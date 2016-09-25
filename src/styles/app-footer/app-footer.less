@@ -87,10 +87,37 @@
 .app-footer-copyright {
   display: block;
   text-align: center;
-  font-size: 14px;
+  font-size: 0;
   height: 50px;
   line-height: 50px;
   text-shadow: rgba(0, 0, 0, 0.5) 0 1px 0;
   color: #6B6B6B;
   background: #d8d0b5 url("../img/skin1_copyright_bg.png") repeat-x;
+  overflow: hidden;
+  .item {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 14px;
+    &:last-child {
+      margin-left: 8px;
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .app-footer-widget {
+    display: block;
+    width: auto;
+    h4 {
+      text-align: center;
+    }
+  }
+}
+@media screen and (max-width: 600px) {
+  .app-footer-copyright {
+    .item {
+      &:last-child {
+        display: none;
+      }
+    }
+  }
 }
