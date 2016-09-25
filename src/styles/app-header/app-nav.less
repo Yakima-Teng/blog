@@ -126,6 +126,7 @@
     }
     .field {
       width: 80%;
+      color: #000;
       &:focus {
         background-color: #eee;
       }
@@ -159,6 +160,13 @@
       position: static;
       display: inline-block;
       transform: none;
+    }
+  }
+}
+@media screen and (max-width: 320px) {
+  .app-nav {
+    .item-form {
+      width: 280px;
     }
   }
 }
