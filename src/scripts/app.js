@@ -16,30 +16,64 @@ angular.module('app', ['app-base', 'ui.router', 'templates'])
   }])
   .run(['$rootScope', '$state', '$timeout', 'Api', function($rootScope, $state, $timeout, Api) {
     window.app = $rootScope
+    let over = {
+      categories: false,
+      randomPosts: false,
+      pages: false,
+      archives: false,
+      recentComments: false
+    }
+    function whetherToCancelLoading () {
+      const tempArr = Object.keys(over)
+      for (let value of tempArr) {
+        if (value === false) {
+          return
+        }
+      }
+      $timeout(() => {
+        $rootScope.isLoading = false
+      }, 300)
+    }
     $rootScope.isLoading = true
-    $timeout(() => {
-      $rootScope.isLoading = false
-    }, 1000)
     Api.get('/blog/v1/categories')
       .success(data => $rootScope.categories = data.responseBody)
       .error(() => {})
-      .finally(() => {})
+      .finally(() => {
+        over.categories = true
+        whetherToCancelLoading()
+      })
 
     Api.get('/blog/v1/posts', {
       sortby: 'ID',
       order: 'rand',
       limit: '10'
     }).success(data => $rootScope.randomPosts = data.responseBody)
+      .finally(() => {
+        over.randomPosts = true
+        whetherToCancelLoading()
+      })
 
     Api.get('/blog/v1/pages').success(data => $rootScope.pages = data.responseBody)
+      .finally(() => {
+        over.pages = true
+        whetherToCancelLoading()
+      })
 
     Api.get('/blog/v1/archive-data').success(data => $rootScope.archives = data.responseBody)
+      .finally(() => {
+        over.archives = true
+        whetherToCancelLoading()
+      })
 
     Api.get('/blog/v1/comments', {
       order: 'desc',
       offset: '0',
       limit: '10'
     }).success(data => $rootScope.recentComments = data.responseBody)
+      .finally(() => {
+        over.recentComments = true
+        whetherToCancelLoading()
+      })
 
     $rootScope.search = (e) => {
       e.preventDefault()
