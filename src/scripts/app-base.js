@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 4/16.
  */
-angular.module('app-base', ['ngSanitize'])
+angular.module('app-base', ['ngSanitize', 'ngAnimate'])
   .run(['$rootScope', '$http', '$httpParamSerializerJQLike', function ($rootScope, $http, $httpParamSerializerJQLike) {
     $rootScope.pageTitle = '滕运锋 | Yakima Teng'
     $rootScope.friends = [

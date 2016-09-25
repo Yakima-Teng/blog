@@ -191,6 +191,7 @@ gulp.task('third', () => {
   return gulp.src([
     SOURCE + 'libs/jquery-1.12.2.js',
     SOURCE + 'libs/angular.js',
+    SOURCE + 'libs/angular-animate.js',
     SOURCE + 'libs/angular-sanitize.js',
     SOURCE + 'libs/angular-ui-router.js',
     SOURCE + 'libs/tooltip.js',
