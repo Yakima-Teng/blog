@@ -19,7 +19,7 @@ img {
 }
 .app-wrapper {
   width: 100%;
-  min-width: 1024px;
+  // min-width: 1024px;
 }
 .main-wrapper {
   .clearfix();
@@ -38,5 +38,20 @@ img {
     //有时候侧栏会被主内容区的padding盖住，导致鼠标在侧栏被盖住的区域上方时无法点击链接、选择文字等，通过position+z-index来解决这个问题
     position: relative;
     z-index: 1;
+  }
+}
+@media screen and (max-width: 992px) {
+  .main-wrapper {
+    .site-content {
+      float: none;
+      display: block;
+      margin-right: 0;
+      padding-right: 10px;
+    }
+    .app-sidebar {
+      float: none;
+      display: block;
+      width: auto;
+    }
   }
 }

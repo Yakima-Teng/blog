@@ -209,3 +209,42 @@
     }
   }
 }
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .app-sidebar {
+    .widget-normal {
+      .list {
+        width: 20%;
+      }
+    }
+  }
+}
+@media screen and (min-width: 622px) and (max-width: 767px) {
+  .app-sidebar {
+    .widget-normal {
+      .list {
+        width: 25%;
+      }
+    }
+  }
+}
+@media screen and (min-width: 484px) and (max-width: 621px) {
+  .app-sidebar {
+    .widget-normal {
+      .list {
+        width: 33%;
+        &:nth-of-type(3n+2) {
+          width: 34%;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 483px) {
+  .app-sidebar {
+    .widget-normal {
+      .list {
+        width: 50%;
+      }
+    }
+  }
+}

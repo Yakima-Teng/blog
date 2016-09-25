@@ -4,7 +4,7 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
   font-size: 0;
   text-align: left;
-  a {
+  .item {
     border: 2px solid transparent;
     position: relative;
     display: inline-block;
@@ -89,9 +89,9 @@
       transition: 150ms height, 150ms bottom;
     }
   }
-  .logo {
+  .item-logo {
     padding-left: 50px;
-    img {
+    .img {
       position: absolute;
       left: 10px;
       top: 50%;
@@ -104,12 +104,12 @@
       transition: 150ms all linear 0ms;
     }
     &:hover {
-      img {
+      .img {
         filter: grayscale(0);
       }
     }
   }
-  form {
+  .item-form {
     position: absolute;
     right: 0;
     top: 50%;
@@ -117,24 +117,24 @@
     width: 300px;
     padding: 10px;
     font-size: 0;
-  }
-  input, button {
-    height: 30px;
-    line-height: 30px;
-    padding: 0 6px;
-    font-size: 14px;
-    box-sizing: border-box;
-  }
-  input {
-    width: 80%;
-    &:focus {
-      background-color: #eee;
+    .field, .btn {
+      height: 30px;
+      line-height: 30px;
+      padding: 0 6px;
+      font-size: 14px;
+      box-sizing: border-box;
     }
-  }
-  button {
-    width: 20%;
-    color: #ffe8e4;
-    background-color: #30a134;
+    .field {
+      width: 80%;
+      &:focus {
+        background-color: #eee;
+      }
+    }
+    .btn {
+      width: 20%;
+      color: #ffe8e4;
+      background-color: #30a134;
+    }
   }
 }
 
@@ -150,5 +150,15 @@
   }
   100% {
     left: 50%;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .app-nav {
+    text-align: center;
+    .item-form {
+      position: static;
+      display: inline-block;
+      transform: none;
+    }
   }
 }
