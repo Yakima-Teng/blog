@@ -1,9 +1,44 @@
 const post = {
-  url: '/posts/:id',
+  url: '/posts/:id?from&value',
   templateUrl: 'tpls/post.html',
   controller: ['$rootScope', '$scope', '$stateParams', '$timeout', '$interval', '$sce', 'Api', function ($rootScope, $scope, $stateParams, $timeout, $interval, $sce, Api) {
     $scope.postId = $stateParams.id
+    $scope.prePostId = ''
+    $scope.prePostStatus = '正在查询上一篇文章信息'
+    $scope.nextPostId = ''
+    $scope.nextPostStatus = '正在查询下一篇文章信息'
+    $scope.fromValueString = `?from=${$stateParams.from || 'posts'}&value=${$stateParams.value || ''}`
 
+    /***********************************************************************************
+     *                                                                                  *
+     * 获取上一篇和下一篇文章标题和id
+     *                                                                                  *
+     ***********************************************************************************/
+    Api.get('/blog/v1/post-siblings', {
+      id: $stateParams.id,
+      from: $stateParams.from || 'posts',
+      value: $stateParams.value || ''
+    }).success(data => {
+      if (data.responseBody.pre.postId === '') {
+        $scope.prePostId = ''
+        $scope.prePostStatus = '没有更早的文章了'
+      } else {
+        $scope.prePostId = data.responseBody.pre.postId
+        $scope.prePostStatus = data.responseBody.pre.postTitle
+      }
+      if (data.responseBody.next.postId === '') {
+        $scope.nextPostId = ''
+        $scope.nextPostStatus = '没有更新的文章了'
+      } else {
+        $scope.nextPostId = data.responseBody.next.postId
+        $scope.nextPostStatus = data.responseBody.next.postTitle
+      }
+    }).error(() => {
+      $scope.prePostId = ''
+      $scope.prePostStatus = '获取上一篇文章信息失败'
+      $scope.nextPostId = ''
+      $scope.nextPostStatus = '获取下一篇文章信息失败'
+    })
     $scope.comment = {
       parent: '',
       author: '',

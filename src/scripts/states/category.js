@@ -5,6 +5,8 @@ const category = {
     $scope.baseLink = `/blog/#/categories/${$stateParams.slug}/`
     $scope.currentPostsPageId = parseInt($stateParams.id)
     $scope.isLoadingPosts = true
+    $scope.from = 'categories'
+    $scope.value = $stateParams.slug
     Api.get('/blog/v1/excerpts', {
       sortby: 'ID',
       order: 'desc',

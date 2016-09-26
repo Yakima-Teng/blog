@@ -2,7 +2,7 @@
     <div>
         <article class="app-excerpt" ng-show="!isLoadingPosts && recentPosts.length" ng-repeat="item in recentPosts">
             <header class="app-excerpt-header">
-                <a ng-href="{{'/blog/#/posts/' + item['ID']}}">{{item['post_title']}}</a>
+                <a ng-href="{{'/blog/#/posts/' + item['ID'] + '?from=' + (from || 'posts') + '&value=' + (value || '')}}">{{item['post_title']}}</a>
             </header>
             <aside class="app-excerpt-byline">
                 <span class="category"><a ng-href="{{'/blog/#/categories/' + item.slug + '/1'}}">{{item.name}}</a></span>
@@ -14,7 +14,7 @@
             </footer>
             <footer ng-show="item.comment_count !== 0" class="app-excerpt-footer">
                 <span class="title">最新评论</span>
-                <span class="item"><a ng-href="{{'/blog/#/posts/' + item['ID']}}">{{item.recent_comment_content}}</a></span>
+                <span class="item"><a ng-href="{{'/blog/#/posts/' + item['ID'] + '?from=' + (from || 'posts') + '&value=' + (value || '')}}">{{item.recent_comment_content}}</a></span>
             </footer>
         </article>
         <article ng-show="!isLoadingPosts && !recentPosts.length">

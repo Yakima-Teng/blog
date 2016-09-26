@@ -5,6 +5,8 @@ const posts = {
     $scope.baseLink = '/blog/#/'
     $scope.currentPostsPageId = parseInt($stateParams.id)
     $scope.isLoadingPosts = true
+    $scope.from = 'posts'
+    $scope.value = ''
     Api.get('/blog/v1/excerpts', {
       sortby: 'ID',
       order: 'desc',
