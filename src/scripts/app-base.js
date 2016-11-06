@@ -141,10 +141,11 @@ angular.module('app-base', ['ngSanitize', 'ngAnimate'])
   }])
   .service('Api', ['$rootScope', '$http', '$httpParamSerializerJQLike', function ($rootScope, $http, $httpParamSerializerJQLike) {
     let _this = this
+    const originDomain = 'http://yakima.duapp.com'
     _this.get = (url, params) => {
       const promise = $http({
         method: 'GET',
-        url: url,
+        url: originDomain + url,
         params: params || {},
         timeout: 30000
       })
@@ -153,7 +154,7 @@ angular.module('app-base', ['ngSanitize', 'ngAnimate'])
     _this.post = (url, data) => {
       const promise = $http({
         method: 'POST',
-        url: url,
+        url: originDomain + url,
         data: data || {},
         timeout: 30000
       })
