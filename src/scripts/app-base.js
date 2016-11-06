@@ -16,6 +16,10 @@ angular.module('app-base', ['ngSanitize', 'ngAnimate'])
       {
         url: 'http://www.ruanyifeng.com/blog/',
         name: '阮一峰'
+      },
+      {
+        url: 'http://www.orzzone.com/wp-admin',
+        name: '管理'
       }
     ]
     $rootScope.menus = [
