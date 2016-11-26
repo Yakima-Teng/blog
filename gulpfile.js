@@ -19,6 +19,7 @@ const templateCache = require('gulp-angular-templatecache')
 const htmlreplace = require('gulp-html-replace')
 const gulpSequence = require('gulp-sequence')
 const babel = require('gulp-babel')
+const opn = require('opn')
 
 const SOURCE = './src/'
 let WWW = 'dist/'
@@ -251,7 +252,7 @@ gulp.task('clean', () => {
  *                                                                                  *
  ***********************************************************************************/
 gulp.task('connect', () => {
-  connect.server({
+  return connect.server({
     root: WWW,
     port: port,
     livereload: true,
@@ -265,7 +266,17 @@ gulp.task('connect', () => {
       ]
     }
   })
-  return
+})
+
+/**
+ * *********************************************************************************
+ *                                                                                  *
+ * automatically open blog in browser
+ * only available in npm run dev script
+ *                                                                                  *
+ ***********************************************************************************/
+gulp.task('open', () => {
+  return opn(`http://localhost:${port}/blog/`)
 })
 
 /***********************************************************************************
@@ -319,7 +330,7 @@ gulp.task('watch', () => {
  *                                                                                  *
  ***********************************************************************************/
 gulp.task('after-build', ['watch'], () => {
-  console.log(`Build operation completed! Open localhost:${port}/blog to see the website`)
+  console.log(`Dev operation completed! Please open localhost:${port}/blog/ to see the website`)
   return
 })
 
@@ -328,8 +339,8 @@ gulp.task('after-build', ['watch'], () => {
  * simple tip words after 'guld dev' command                                        *
  *                                                                                  *
  ***********************************************************************************/
-gulp.task('after-dev', ['watch'], () => {
-  console.log(`Dev operation completed! Open localhost:${port}/blog to see the website`)
+gulp.task('after-dev', ['watch', 'open'], () => {
+  console.log(`Dev operation completed! Please wait to open localhost:${port}/blog/ to see the website`)
   return
 })
 /***********************************************************************************

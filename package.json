@@ -30,6 +30,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^2.0.0",
     "http-proxy-middleware": "^0.17.1",
-    "less-plugin-autoprefix": "^1.5.1"
+    "less-plugin-autoprefix": "^1.5.1",
+    "opn": "^4.0.2"
   }
 }
