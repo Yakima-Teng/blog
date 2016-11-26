@@ -330,7 +330,7 @@ gulp.task('watch', () => {
  *                                                                                  *
  ***********************************************************************************/
 gulp.task('after-build', ['watch'], () => {
-  console.log(`Dev operation completed! Please open localhost:${port}/blog/ to see the website`)
+  console.log(`Build operation completed! Please open localhost:${port}/blog/ to see the website`)
   return
 })
 
