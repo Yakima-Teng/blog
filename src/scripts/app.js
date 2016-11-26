@@ -37,6 +37,7 @@ angular.module('app', ['app-base', 'ui.router', 'templates'])
       }, 300)
     }
     $rootScope.isLoading = true
+    $rootScope.isWaiting = false
     Api.get('/blog/v1/categories')
       .success(data => $rootScope.categories = data.responseBody)
       .error(() => {})

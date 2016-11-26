@@ -4,7 +4,7 @@ const category = {
   controller: ['$rootScope', '$scope', '$stateParams', 'Api', function($rootScope, $scope, $stateParams, Api) {
     $scope.baseLink = `/blog/#/categories/${$stateParams.slug}/`
     $scope.currentPostsPageId = parseInt($stateParams.id)
-    $scope.isLoadingPosts = true
+    $rootScope.isWaiting = true
     $scope.from = 'categories'
     $scope.value = $stateParams.slug
     Api.get('/blog/v1/excerpts', {
@@ -15,6 +15,6 @@ const category = {
       limit: '10'
     }).success(data => {
       $scope.recentPosts = data.responseBody
-    }).finally(() => $scope.isLoadingPosts = false)
+    }).finally(() => $rootScope.isWaiting = false)
   }]
 }

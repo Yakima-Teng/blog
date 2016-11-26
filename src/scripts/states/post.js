@@ -58,11 +58,12 @@ const post = {
     /**
      * 获取当前postId对应的文章内容
      */
+    $rootScope.isWaiting = true
     Api.get(`/blog/v1/posts/${$scope.postId}`).success(data => {
       $scope.post = data.responseBody
       $scope.post.post_content = $sce.trustAsHtml(Api.insertTagP($scope.post.post_content))
       Api.highlightCode()
-    })
+    }).finally(() => $rootScope.isWaiting = false)
 
     /**
      * 获取随机的一篇与当前文章相关的文章

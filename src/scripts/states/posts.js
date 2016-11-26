@@ -4,9 +4,9 @@ const posts = {
   controller: ['$rootScope', '$scope', '$stateParams', 'Api', function($rootScope, $scope, $stateParams, Api) {
     $scope.baseLink = '/blog/#/'
     $scope.currentPostsPageId = parseInt($stateParams.id)
-    $scope.isLoadingPosts = true
     $scope.from = 'posts'
     $scope.value = ''
+    $rootScope.isWaiting = true
     Api.get('/blog/v1/excerpts', {
       sortby: 'ID',
       order: 'desc',
@@ -14,7 +14,6 @@ const posts = {
       limit: '10'
     }).success(data => {
       $scope.recentPosts = data.responseBody
-      $scope.isLoadingPosts = false
-    })
+    }).finally(() => $rootScope.isWaiting = false)
   }]
 }

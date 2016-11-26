@@ -7,7 +7,7 @@ const searchResult = {
     $scope.value = keyword
     $scope.baseLink = `/blog/#/search?keyword=${keyword}&pagenumber=`
     $scope.currentPostsPageId = parseInt($stateParams.pagenumber)
-    $scope.isLoadingPosts = true
+    $rootScope.isWaiting = true
     Api.get('/blog/v1/search', {
       keyword,
       sortby: 'post_date',
@@ -16,6 +16,6 @@ const searchResult = {
       limit: '10'
     }).success(data => {
       $scope.recentPosts = data.responseBody
-    }).finally(() => $scope.isLoadingPosts = false)
+    }).finally(() => $rootScope.isWaiting = false)
   }]
 }

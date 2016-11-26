@@ -6,7 +6,7 @@ const archive = {
     $scope.value = `${$stateParams.year}-${$stateParams.month}`
     $scope.baseLink = `/blog/#/archives/${$stateParams.year}-${$stateParams.month}/`
     $scope.currentPostsPageId = parseInt($stateParams.id)
-    $scope.isLoadingPosts = true
+    $rootScope.isWaiting = true
     Api.get('/blog/v1/archives', {
       offset: (parseInt($stateParams.id) - 1) * 10,
       limit: '10',
@@ -14,7 +14,6 @@ const archive = {
       month: parseInt($stateParams.month)
     }).success(data => {
       $scope.recentPosts = data.responseBody
-      $scope.isLoadingPosts = false
-    })
+    }).finally(() => $rootScope.isWaiting = false)
   }]
 }

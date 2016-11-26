@@ -17,12 +17,15 @@ const categories = {
       'pharmaceutical-knowledge': 'fa-university',
       'reading-book': 'fa-book'
     }
+    $rootScope.isWaiting = true
     for (let i = 0, length = $rootScope.categories.length; i < length; i++) {
       Api.get('/blog/v1/posts', {
         sortby: 'ID',
         order: 'rand',
         cat: $rootScope.categories[i].slug
-      }).success(data => $rootScope.categories[i].posts = data.responseBody)
+      }).success(data => {
+        $rootScope.categories[i].posts = data.responseBody
+      }).finally(() => $rootScope.isWaiting = false)
     }
   }]
 }
