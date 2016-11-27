@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" ng-app="app">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{pageTitle}}</title>
+  <meta charset="utf-8">
+  <meta name="description" content="滕运锋,英文名Yakima Teng,2013年毕业于沈阳药科大学&middot;药学(食品药学方向)专业。博客主要记录了一些生活琐碎、思考感悟,以及药学和IT方面的一些技术文章。">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="blank">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="author" content="Yakima Teng, cleveryun@163.com">
+  <!--<link rel="prerender" href="/about">-->
+  <!--<link rel="prerender" href="/">-->
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+  <script type="text/javascript" src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="img/favicon.ico" />
+  <noscript>您的浏览器不支持JavaScript或者JavaScript的运行被您禁止了。</noscript>
+  <link rel="stylesheet" href="css/app.min.css">
+
+</head>
+<body>
+<div class="app-wrapper">
+  <app-header></app-header>
+  <div class="main-wrapper">
+    <article class="site-content">
+      <div class="inner" ui-view></div>
+    </article>
+    <app-sidebar></app-sidebar>
+  </div>
+  <app-footer></app-footer>
+  <div class="mask" ng-show="isLoading">
+    <div class="spinner">
+      <i class="fa fa-spinner fa-pulse fa-5x"></i>
+    </div>
+  </div>
+  <div class="mask" ng-show="isWaiting">
+    <div class="spinner">
+      <i class="fa fa-spinner fa-pulse fa-5x"></i>
+    </div>
+  </div>
+</div>
+<script src="js/third.min.js"></script>
+
+<script src="js/app.min.js"></script>
+
+</body>
+</html>
