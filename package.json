@@ -2,6 +2,10 @@
   "name": "blog",
   "version": "1.0.0",
   "description": "A blog (front-end part) build with Angular 1.5+",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yakima-Teng/blog.git"
+  },
   "author": "Yakima Teng",
   "email": "cleveryun@163.com",
   "main": "src/index.html",
