@@ -188,7 +188,7 @@ angular.module('app-base', ['ngSanitize', 'ngAnimate']).run(['$rootScope', '$htt
 }]).filter('hasParentComment', [function () {
   return function (originalArray, parentCommentId) {
     return originalArray.filter(function (elem, index, arr) {
-      return elem.comment_parent === parentCommentId;
+      return elem.comment_parent_id === parentCommentId;
     });
   };
 }]).directive('activeLink', ['$location', function ($location) {
@@ -236,16 +236,16 @@ angular.module('app-base', ['ngSanitize', 'ngAnimate']).run(['$rootScope', '$htt
 }]);
 
 angular.module('templates', []).run(['$templateCache', function ($templateCache) {
-  $templateCache.put('tpls/archive.html', '<section class="app-archives">\r\n    <div class="header">Title</div>\r\n    <ul>\r\n        <li ng-repeat="item in allPosts"><a ng-href="/blog/#/posts/{{item.ID}}">{{item.post_title}}</a></li>\r\n    </ul>\r\n</section>');
+  $templateCache.put('tpls/archive.html', '<section class="app-archives">\r\n  <div class="header">Title</div>\r\n  <ul>\r\n    <li ng-repeat="item in allPosts"><a ng-href="/blog/#/posts/{{item.post_id}}">{{item.post_title}}</a></li>\r\n  </ul>\r\n</section>');
   $templateCache.put('tpls/categories.html', '<ul class="categories">\r\n    <li ng-repeat="x in categories" class="category">\r\n        <a ng-href="/blog/#/categories/{{x.slug}}">\r\n            <header><i class="fa fa-3x" ng-class="categoriesLogos[x.slug]"></i></header>\r\n            <article>\r\n                {{x.name}}\r\n            </article>\r\n            <aside ng-show="!x.posts.length" class="dotting"></aside>\r\n            <aside ng-show="x.posts.length">{{x.posts.length}}</aside>\r\n        </a>\r\n    </li>\r\n</ul>');
-  $templateCache.put('tpls/category.html', '<article>\r\n    <ul class="category_posts">\r\n        <li ng-repeat="item in posts">\r\n            <a ng-href="/blog/#/posts/{{item.ID}}">\r\n                <span>{{item.post_title}}</span>\r\n                <span>{{item.post_date}}</span>\r\n            </a>\r\n        </li>\r\n    </ul>\r\n</article>');
-  $templateCache.put('tpls/footer.html', '<footer class="app-footer">\r\n  <div class="app-footer-widgets">\r\n    <section class="app-footer-widget" ng-if="recentComments.length">\r\n      <h4>Comments</h4>\r\n      <ul class="comments">\r\n        <li ng-repeat="item in recentComments"><a ng-href="/blog/#/posts/{{item.comment_post_ID}}">{{item.comment_excerpt}}</a></li>\r\n      </ul>\r\n    </section>\r\n    <section class="app-footer-widget" ng-if="pages.length">\r\n      <h4>Pages</h4>\r\n      <ul class="pages">\r\n        <li ng-repeat="item in pages"><a ng-href="/blog/#/pages/{{item.post_name}}">{{item.post_title}}</a></li>\r\n      </ul>\r\n    </section>\r\n    <section class="app-footer-widget" ng-if="randomPosts.length">\r\n      <h4>Articles</h4>\r\n      <ul class="posts">\r\n        <li ng-repeat="item in randomPosts"><a ng-href="/blog/#/posts/{{item.ID}}">{{item.post_title}}</a> <span>{{formatDate(item.post_date)}}</span></li>\r\n      </ul>\r\n    </section>\r\n  </div>\r\n  <small class="app-footer-copyright">\r\n    <span class="item">Copyright &copy; 2009-{{currentYear}} Yakima Teng.</span>\r\n    <span class="item">Powered by Node.js &amp; WordPress &amp; MySql.</span>\r\n  </small>\r\n</footer>');
-  $templateCache.put('tpls/header.html', '<nav class="app-nav" id="app-nav">\r\n  <a active-link href="/blog/#/1" class="item item-logo" data-title="首页" data-tooltip="进入首页">\r\n    <img class="img" src="./img/yakima_bright.jpg" alt="Yakima Teng">\r\n    <span class="line">Yakima Teng</span>\r\n  </a>\r\n  <a ng-repeat="item in menus" active-link class="item item-normal" ng-href="{{item.href}}" data-title="{{item.title}}" data-tooltip="{{item.tip}}">\r\n    <i ng-class="item.fontAwesomeIconClass" class="fa"></i>\r\n    <span class="line">{{item.menu}}</span>\r\n  </a>\r\n  <form class="item-form" ng-submit="search($event)">\r\n    <input ng-model="keyword" type="text" class="field" placeholder="Search..." autocomplete="on" />\r\n    <button class="btn" type="submit">^_^</button>\r\n  </form>\r\n</nav>');
-  $templateCache.put('tpls/login.html', '<!--<div id="output"></div>-->\r\n<div class="login">\r\n    <section class="form-item">\r\n        <aside class="left">\r\n            <label for="login-name">用户名</label>\r\n        </aside>\r\n        <article>\r\n            <input type="text" id="login-name" placeholder="your user name">\r\n        </article>\r\n    </section>\r\n    <section class="form-item">\r\n        <aside>\r\n            <label for="login-password">密&nbsp;码</label>\r\n        </aside>\r\n        <article>\r\n            <input type="text" id="login-password" placeholder="your password">\r\n        </article>\r\n    </section>\r\n    <section class="form-item">\r\n        <article>\r\n            <button>登陆</button>\r\n        </article>\r\n    </section>\r\n</div>');
+  $templateCache.put('tpls/category.html', '<article>\r\n    <ul class="category_posts">\r\n        <li ng-repeat="item in posts">\r\n            <a ng-href="/blog/#/posts/{{item.post_id}}">\r\n                <span>{{item.post_title}}</span>\r\n                <span>{{item.post_date}}</span>\r\n            </a>\r\n        </li>\r\n    </ul>\r\n</article>');
+  $templateCache.put('tpls/footer.html', '<footer class="app-footer">\r\n  <div class="app-footer-widgets">\r\n    <section class="app-footer-widget" ng-if="recentComments.length">\r\n      <h4>Comments</h4>\r\n      <ul class="comments">\r\n        <li ng-repeat="item in recentComments">\r\n          <a ng-href="/blog/#/posts/{{item.post_id}}">{{item.comment_content}}</a>\r\n        </li>\r\n      </ul>\r\n    </section>\r\n    <section class="app-footer-widget" ng-if="pages.length">\r\n      <h4>Pages</h4>\r\n      <ul class="pages">\r\n        <li ng-repeat="item in pages">\r\n          <a ng-href="/blog/#/pages/{{item.post_name}}">{{item.post_title}}</a>\r\n        </li>\r\n      </ul>\r\n    </section>\r\n    <section class="app-footer-widget" ng-if="randomPosts.length">\r\n      <h4>Articles</h4>\r\n      <ul class="posts">\r\n        <li ng-repeat="item in randomPosts">\r\n          <a ng-href="/blog/#/posts/{{item.post_id}}">{{item.post_title}}</a>\r\n          <span>{{formatDate(item.post_date)}}</span>\r\n        </li>\r\n      </ul>\r\n    </section>\r\n  </div>\r\n  <small class="app-footer-copyright">\r\n    <span class="item">Copyright &copy; 2009-{{currentYear}} Yakima Teng.</span>\r\n    <span class="item">Powered by Node.js &amp; WordPress &amp; MySql.</span>\r\n  </small>\r\n</footer>');
+  $templateCache.put('tpls/header.html', '<nav class="app-nav" id="app-nav">\r\n  <a active-link href="/blog/#/1" class="item item-logo" data-title="\u9996\u9875" data-tooltip="\u8FDB\u5165\u9996\u9875">\r\n    <img class="img" src="./img/yakima_bright.jpg" alt="Yakima Teng">\r\n    <span class="line">Yakima Teng</span>\r\n  </a>\r\n  <a ng-repeat="item in menus" active-link class="item item-normal" ng-href="{{item.href}}" data-title="{{item.title}}" data-tooltip="{{item.tip}}">\r\n    <i ng-class="item.fontAwesomeIconClass" class="fa"></i>\r\n    <span class="line">{{item.menu}}</span>\r\n  </a>\r\n  <form class="item-form" ng-submit="search($event)">\r\n    <input ng-model="keyword" type="text" class="field" placeholder="Search..." autocomplete="on" />\r\n    <button class="btn" type="submit">^_^</button>\r\n  </form>\r\n</nav>');
+  $templateCache.put('tpls/login.html', '<!--<div id="output"></div>-->\r\n<div class="login">\r\n    <section class="form-item">\r\n        <aside class="left">\r\n            <label for="login-name">\u7528\u6237\u540D</label>\r\n        </aside>\r\n        <article>\r\n            <input type="text" id="login-name" placeholder="your user name">\r\n        </article>\r\n    </section>\r\n    <section class="form-item">\r\n        <aside>\r\n            <label for="login-password">\u5BC6&nbsp;\u7801</label>\r\n        </aside>\r\n        <article>\r\n            <input type="text" id="login-password" placeholder="your password">\r\n        </article>\r\n    </section>\r\n    <section class="form-item">\r\n        <article>\r\n            <button>\u767B\u9646</button>\r\n        </article>\r\n    </section>\r\n</div>');
   $templateCache.put('tpls/page.html', '<section class="app-post">\r\n  <header class="app-post-header">\r\n    <h1 class="title">{{post.post_title}}</h1>\r\n  </header>\r\n  <aside class="app-post-byline">\r\n    <span class="date">{{formatDate(post.post_date)}}</span>\r\n  </aside>\r\n  <article class="app-post-content" ng-bind-html="post.post_content"></article>\r\n</section>\r\n');
-  $templateCache.put('tpls/post.html', '<article class="app-post">\r\n  <header class="app-post-header">\r\n    <h1 class="title">{{post.post_title}}</h1>\r\n  </header>\r\n  <aside class="app-post-byline">\r\n    <span class="category"><a ng-href="{{\'/blog/#/categories/\' + post.slug + \'/1\'}}">{{post.name}}</a></span>\r\n    <span class="date">{{formatDate(post[\'post_date\'])}}</span>\r\n  </aside>\r\n  <article class="app-post-content" ng-bind-html="post.post_content"></article>\r\n  <footer class="app-post-footer">\r\n    <span class="title">相关文章</span>\r\n    <span class="item" ng-repeat="item in relatedPosts">\r\n      <a ng-href="/blog/#/posts/{{item[\'ID\']}}">{{item.post_title}}</a>\r\n    </span>\r\n  </footer>\r\n  <section class="app-post-nav">\r\n    <a ng-href="{{nextPostId === \'\' ? \'\' : \'/blog/#/posts/\' + nextPostId + fromValueString}}" class="next">{{nextPostStatus}}</a>\r\n    <a ng-href="{{prePostId === \'\' ? \'\' : \'/blog/#/posts/\' + prePostId + fromValueString}}" class="pre">{{prePostStatus}}</a>\r\n  </section>\r\n  <section class="app-post-comments">\r\n    <section ng-repeat="commentOne in relatedComments | filter:getFirstLevelComments" class="post_comment">\r\n      <header class="header">\r\n        <a ng-href="{{commentOne.comment_author_url}}" class="post_comment_author">{{commentOne.comment_author}}</a>\r\n        <span class="item">{{formatDate(commentOne.comment_date)}}</span>\r\n        <span class="item">{{judgeBrowser(commentOne.comment_agent)}}</span>\r\n        <span ng-click="reply(commentOne)" class="item outstanding">回复</span>\r\n      </header>\r\n      <article class="post_comment_content">{{commentOne.comment_content}}</article>\r\n      <section ng-repeat="commentTwo in relatedComments | hasParentComment:commentOne.comment_ID" class="post_comment inner-comment">\r\n        <header class="header">\r\n          <a ng-href="{{commentTwo.comment_author_url}}" class="post_comment_author">{{commentTwo.comment_author}}</a>\r\n          <span class="item">{{formatDate(commentTwo.comment_date)}}</span>\r\n          <span class="item">{{judgeBrowser(commentTwo.comment_agent)}}</span>\r\n          <span ng-click="reply(commentTwo)" class="item outstanding">回复</span>\r\n        </header>\r\n        <article class="post_comment_content">{{commentTwo.comment_content}}</article>\r\n        <section ng-repeat="commentThree in relatedComments | hasParentComment:commentTwo.comment_ID" class="post_comment inner-comment">\r\n          <header class="header">\r\n            <a ng-href="{{commentThree.comment_author_url}}" class="post_comment_author">{{commentThree.comment_author}}</a>\r\n            <span class="item">{{formatDate(commentThree.comment_date)}}</span>\r\n            <span class="item">{{judgeBrowser(commentThree.comment_agent)}}</span>\r\n            <span ng-click="reply(commentThree)" class="item outstanding">回复</span>\r\n          </header>\r\n          <article class="post_comment_content">{{commentThree.comment_content}}</article>\r\n          <section ng-repeat="commentFour in relatedComments | hasParentComment:commentThree.comment_ID" class="post_comment inner-comment">\r\n            <header class="header">\r\n              <a ng-href="{{commentFour.comment_author_url}}" class="post_comment_author">{{commentFour.comment_author}}</a>\r\n              <span class="item">{{formatDate(commentFour.comment_date)}}</span>\r\n              <span class="item">{{judgeBrowser(commentFour.comment_agent)}}</span>\r\n              <span ng-click="reply(commentFour)" class="item outstanding">回复</span>\r\n            </header>\r\n            <article class="post_comment_content">{{commentFour.comment_content}}</article>\r\n            <section ng-repeat="commentFive in relatedComments | hasParentComment:commentFour.comment_ID" class="post_comment inner-comment">\r\n              <header class="header">\r\n                <a ng-href="{{commentFive.comment_author_url}}" class="post_comment_author">{{commentFive.comment_author}}</a>\r\n                <span class="item">{{formatDate(commentFive.comment_date)}}</span>\r\n                <span class="item">{{judgeBrowser(commentFive.comment_agent)}}</span>\r\n                <!-- <span ng-click="reply(commentFive)" class="item outstanding">回复</span> -->\r\n              </header>\r\n              <article class="post_comment_content">{{commentFive.comment_content}}</article>\r\n            </section>\r\n          </section>\r\n        </section>\r\n      </section>\r\n    </section>\r\n  </section>\r\n  <section class="app-post-comment-submit">\r\n    <div class="fields">\r\n      <div class="item">\r\n        <label for="commentAuthor" class="label">Name</label>\r\n        <input ng-model="comment.author" id="commentAuthor" type="text" class="field" placeholder="Your name">\r\n      </div>\r\n      <div class="item">\r\n        <label for="commentEmail" class="label">Email</label>\r\n        <input ng-model="comment.email" id="commentEmail" type="text" class="field" placeholder="Your email">\r\n      </div>\r\n      <div class="item">\r\n        <label for="commentUrl" class="label">Blog Url</label>\r\n        <input ng-model="comment.url" id="commentUrl" type="text" class="field" placeholder="your blog url">\r\n      </div>\r\n    </div>\r\n    <div class="content">\r\n      <div ng-class="{\'show\': comment.tip !== \'\'}" class="detail-mask">\r\n        <div class="tip">\r\n          <div class="text">{{comment.tip}}</div>\r\n          <div class="timing">（弹框将于{{comment.timing}}秒后关闭）</div>\r\n        </div>\r\n      </div>\r\n      <textarea ng-model="comment.message" class="detail" id="commentMessage" placeholder="为防止垃圾评论，要求评论内容需以英文开头，以中文结尾，比如：Hello,你真棒"></textarea>\r\n      <button ng-click="submitComment()" class="submit">发表评论</button>\r\n    </div>\r\n  </section>\r\n</article>');
-  $templateCache.put('tpls/posts.html', '<article class="app-posts">\r\n    <div>\r\n        <article class="app-excerpt" ng-show="!isWaiting && recentPosts.length" ng-repeat="item in recentPosts">\r\n            <header class="app-excerpt-header">\r\n                <a ng-href="{{\'/blog/#/posts/\' + item[\'ID\'] + \'?from=\' + (from || \'posts\') + \'&value=\' + (value || \'\')}}">{{item[\'post_title\']}}</a>\r\n            </header>\r\n            <aside class="app-excerpt-byline">\r\n                <span class="category"><a ng-href="{{\'/blog/#/categories/\' + item.slug + \'/1\'}}">{{item.name}}</a></span>\r\n                <span class="date">{{formatDate(item[\'post_date\'])}}</span>\r\n            </aside>\r\n            <article class="app-excerpt-content" ng-bind-html="item[\'post_excerpt\'].html"></article>\r\n            <footer ng-show="item.comment_count === 0" class="app-excerpt-footer">\r\n                <span class="title">暂无评论</span>\r\n            </footer>\r\n            <footer ng-show="item.comment_count !== 0" class="app-excerpt-footer">\r\n                <span class="title">最新评论</span>\r\n                <span class="item"><a ng-href="{{\'/blog/#/posts/\' + item[\'ID\'] + \'?from=\' + (from || \'posts\') + \'&value=\' + (value || \'\')}}">{{item.recent_comment_content}}</a></span>\r\n            </footer>\r\n        </article>\r\n        <article ng-show="!isWaiting && !recentPosts.length">\r\n            (⊙o⊙)哦，没有文章了\r\n        </article>\r\n        <!-- <article ng-show="isWaiting" class="waiting">\r\n            <i class="fa fa-cog fa-spin fa-3x fa-fw margin-bottom"></i>\r\n            加载中\r\n        </article> -->\r\n    </div>\r\n</article>\r\n<section class="app-page-nav" ng-if="recentPosts.length">\r\n    <a ng-if="currentPostsPageId > 1" ng-href="{{baseLink + (currentPostsPageId - 1)}}" class="first"></a>\r\n    <a ng-if="currentPostsPageId > 5 && recentPosts.length == 10" ng-repeat="i in [-5,-4,-3,-2,-1,0,1,2,3,4]" ng-class="{true: \'active\'}[i == 0]" ng-href="{{baseLink + (currentPostsPageId + i)}}">{{currentPostsPageId + i}}</a>\r\n    <a ng-if="currentPostsPageId > 5 && recentPosts.length < 10" ng-repeat="i in [-5,-4,-3,-2,-1,0]" ng-class="{true: \'active\'}[i == 0]" ng-href="{{baseLink + (currentPostsPageId + i)}}">{{currentPostsPageId + i}}</a>\r\n    <a ng-if="currentPostsPageId <= 5 && recentPosts.length == 10" ng-repeat="i in [1,2,3,4,5,6,7,8,9,10]" ng-class="{\'active\': i == currentPostsPageId}" ng-href="{{baseLink + i}}">{{i}}</a>\r\n    <a ng-if="currentPostsPageId <= 5 && recentPosts.length < 10 && i <= currentPostsPageId" ng-repeat="i in [1,2,3,4,5,6,7,8,9,10]" ng-class="{\'active\': i == currentPostsPageId}" ng-href="{{baseLink + i}}">{{i}}</a>\r\n    <a ng-if="recentPosts.length == 10" ng-href="{{baseLink + (currentPostsPageId + 1)}}" class="last"></a>\r\n</section>');
-  $templateCache.put('tpls/sidebar.html', '<aside class="app-sidebar">\r\n  <section class="widget-text">\r\n    <img class="top" src="./img/34.jpg" alt="">\r\n    <img class="photo" src="./img/suolong.jpg" alt="">\r\n    <article class="content">\r\n      目前在魔都。13年毕业于北药，在浙江top10的一家上市药企做过2年的国际药品注册。15年末正式加入智商暴躁的前端程序员大军。\r\n      <br><a href="/blog/#/pages/about">更多内容请点击此处</a>\r\n      <audio loop controls oncanplay="document.getElementById(\'audio\').volume = 0.3" id="audio" class="audio">\r\n        <source src="http://yakima.duapp.com/uploads/xiaoyaotan.mp3" type="audio/mpeg" />\r\n        Your browser does not support the audio element.\r\n      </audio>\r\n    </article>\r\n    <footer class="social">\r\n      <span class="qq"></span>\r\n      <span class="wechat"></span>\r\n      <span class="email"></span>\r\n    </footer>\r\n  </section>\r\n  <section class="widget-normal" ng-if="categories.length">\r\n    <h4 class="widget-title"><span>分类目录</span></h4>\r\n    <ul class="categories">\r\n      <li ng-repeat="item in categories" class="list"><a ng-href="/blog/#/categories/{{item.slug}}/1">{{item.name}}</a></li>\r\n    </ul>\r\n  </section>\r\n  <section class="widget-normal" ng-if="archives.length">\r\n    <h4 class="widget-title"><span>文章归档</span></h4>\r\n    <ul class="archives">\r\n      <li ng-repeat="item in archives" class="list"><a ng-href="/blog/#/archives/{{item.year + \'-\' + item.month}}/1">{{item.year}}年{{item.month}}月</a></li>\r\n    </ul>\r\n  </section>\r\n  <section class="widget-normal" ng-if="friends.length">\r\n    <h4 class="widget-title"><span>一些链接</span></h4>\r\n    <ul class="links">\r\n      <li ng-repeat="item in friends" class="list"><a ng-href="{{item.url}}">{{item.name}}</a></li>\r\n    </ul>\r\n  </section>\r\n</aside>');
+  $templateCache.put('tpls/post.html', '<article class="app-post">\r\n  <header class="app-post-header">\r\n    <h1 class="title">{{post.post_title}}</h1>\r\n  </header>\r\n  <aside class="app-post-byline">\r\n    <span class="category"><a ng-href="{{\'/blog/#/categories/\' + post.cat_slug + \'/1\'}}">{{post.cat_name}}</a></span>\r\n    <span class="date">{{formatDate(post.post_date)}}</span>\r\n  </aside>\r\n  <article class="app-post-content" ng-bind-html="post.post_content"></article>\r\n  <footer class="app-post-footer">\r\n    <span class="title">\u76F8\u5173\u6587\u7AE0</span>\r\n    <span class="item" ng-repeat="item in relatedPosts">\r\n      <a ng-href="/blog/#/posts/{{item.post_id}}">{{item.post_title}}</a>\r\n    </span>\r\n  </footer>\r\n  <section class="app-post-nav">\r\n    <a ng-href="{{nextPostId === \'\' ? \'\' : \'/blog/#/posts/\' + nextPostId + fromValueString}}" class="next">{{nextPostStatus}}</a>\r\n    <a ng-href="{{prePostId === \'\' ? \'\' : \'/blog/#/posts/\' + prePostId + fromValueString}}" class="pre">{{prePostStatus}}</a>\r\n  </section>\r\n  <section class="app-post-comments">\r\n    <section ng-repeat="commentOne in relatedComments | filter:getFirstLevelComments" class="post_comment">\r\n      <header class="header">\r\n        <a ng-href="{{commentOne.comment_author_url}}" class="post_comment_author">{{commentOne.comment_author}}</a>\r\n        <span class="item">{{formatDate(commentOne.comment_date)}}</span>\r\n        <span class="item">{{judgeBrowser(commentOne.comment_agent)}}</span>\r\n        <span ng-click="reply(commentOne)" class="item outstanding">\u56DE\u590D</span>\r\n      </header>\r\n      <article class="post_comment_content">{{commentOne.comment_content}}</article>\r\n      <section ng-repeat="commentTwo in relatedComments | hasParentComment:commentOne.comment_id" class="post_comment inner-comment">\r\n        <header class="header">\r\n          <a ng-href="{{commentTwo.comment_author_url}}" class="post_comment_author">{{commentTwo.comment_author}}</a>\r\n          <span class="item">{{formatDate(commentTwo.comment_date)}}</span>\r\n          <span class="item">{{judgeBrowser(commentTwo.comment_agent)}}</span>\r\n          <span ng-click="reply(commentTwo)" class="item outstanding">\u56DE\u590D</span>\r\n        </header>\r\n        <article class="post_comment_content">{{commentTwo.comment_content}}</article>\r\n        <section ng-repeat="commentThree in relatedComments | hasParentComment:commentTwo.comment_id" class="post_comment inner-comment">\r\n          <header class="header">\r\n            <a ng-href="{{commentThree.comment_author_url}}" class="post_comment_author">{{commentThree.comment_author}}</a>\r\n            <span class="item">{{formatDate(commentThree.comment_date)}}</span>\r\n            <span class="item">{{judgeBrowser(commentThree.comment_agent)}}</span>\r\n            <span ng-click="reply(commentThree)" class="item outstanding">\u56DE\u590D</span>\r\n          </header>\r\n          <article class="post_comment_content">{{commentThree.comment_content}}</article>\r\n          <section ng-repeat="commentFour in relatedComments | hasParentComment:commentThree.comment_id" class="post_comment inner-comment">\r\n            <header class="header">\r\n              <a ng-href="{{commentFour.comment_author_url}}" class="post_comment_author">{{commentFour.comment_author}}</a>\r\n              <span class="item">{{formatDate(commentFour.comment_date)}}</span>\r\n              <span class="item">{{judgeBrowser(commentFour.comment_agent)}}</span>\r\n              <span ng-click="reply(commentFour)" class="item outstanding">\u56DE\u590D</span>\r\n            </header>\r\n            <article class="post_comment_content">{{commentFour.comment_content}}</article>\r\n            <section ng-repeat="commentFive in relatedComments | hasParentComment:commentFour.comment_id" class="post_comment inner-comment">\r\n              <header class="header">\r\n                <a ng-href="{{commentFive.comment_author_url}}" class="post_comment_author">{{commentFive.comment_author}}</a>\r\n                <span class="item">{{formatDate(commentFive.comment_date)}}</span>\r\n                <span class="item">{{judgeBrowser(commentFive.comment_agent)}}</span>\r\n                <!-- <span ng-click="reply(commentFive)" class="item outstanding">\u56DE\u590D</span> -->\r\n              </header>\r\n              <article class="post_comment_content">{{commentFive.comment_content}}</article>\r\n            </section>\r\n          </section>\r\n        </section>\r\n      </section>\r\n    </section>\r\n  </section>\r\n  <section class="app-post-comment-submit">\r\n    <div class="fields">\r\n      <div class="item">\r\n        <label for="commentAuthor" class="label">Name</label>\r\n        <input ng-model="comment.author" id="commentAuthor" type="text" class="field" placeholder="Your name">\r\n      </div>\r\n      <div class="item">\r\n        <label for="commentEmail" class="label">Email</label>\r\n        <input ng-model="comment.email" id="commentEmail" type="text" class="field" placeholder="Your email">\r\n      </div>\r\n      <div class="item">\r\n        <label for="commentUrl" class="label">Blog Url</label>\r\n        <input ng-model="comment.url" id="commentUrl" type="text" class="field" placeholder="your blog url">\r\n      </div>\r\n    </div>\r\n    <div class="content">\r\n      <div ng-class="{\'show\': comment.tip !== \'\'}" class="detail-mask">\r\n        <div class="tip">\r\n          <div class="text">{{comment.tip}}</div>\r\n          <div class="timing">\uFF08\u5F39\u6846\u5C06\u4E8E{{comment.timing}}\u79D2\u540E\u5173\u95ED\uFF09</div>\r\n        </div>\r\n      </div>\r\n      <textarea ng-model="comment.message" class="detail" id="commentMessage" placeholder="\u4E3A\u9632\u6B62\u5783\u573E\u8BC4\u8BBA\uFF0C\u8981\u6C42\u8BC4\u8BBA\u5185\u5BB9\u9700\u4EE5\u82F1\u6587\u5F00\u5934\uFF0C\u4EE5\u4E2D\u6587\u7ED3\u5C3E\uFF0C\u6BD4\u5982\uFF1AHello,\u4F60\u771F\u68D2"></textarea>\r\n      <button ng-click="submitComment()" class="submit">\u53D1\u8868\u8BC4\u8BBA</button>\r\n    </div>\r\n  </section>\r\n</article>');
+  $templateCache.put('tpls/posts.html', '<article class="app-posts">\r\n    <div>\r\n        <article class="app-excerpt" ng-show="!isWaiting && recentPosts.length" ng-repeat="item in recentPosts">\r\n            <header class="app-excerpt-header">\r\n                <a ng-href="{{\'/blog/#/posts/\' + item.post_id + \'?from=\' + (from || \'posts\') + \'&value=\' + (value || \'\')}}">{{item[\'post_title\']}}</a>\r\n            </header>\r\n            <aside class="app-excerpt-byline">\r\n                <span class="category"><a ng-href="{{\'/blog/#/categories/\' + item.cat_slug + \'/1\'}}">{{item.cat_name}}</a></span>\r\n                <span class="date">{{formatDate(item.post_date)}}</span>\r\n            </aside>\r\n            <article class="app-excerpt-content" ng-bind-html="item.post_excerpt"></article>\r\n            <footer ng-show="item.comment_count === 0" class="app-excerpt-footer">\r\n                <span class="title">\u6682\u65E0\u8BC4\u8BBA</span>\r\n            </footer>\r\n            <footer ng-show="item.comment_count !== 0" class="app-excerpt-footer">\r\n                <span class="title">\u6700\u65B0\u8BC4\u8BBA</span>\r\n                <span class="item"><a ng-href="{{\'/blog/#/posts/\' + item.post_id + \'?from=\' + (from || \'posts\') + \'&value=\' + (value || \'\')}}">{{item.recent_comment_content}}</a></span>\r\n            </footer>\r\n        </article>\r\n        <article ng-show="!isWaiting && !recentPosts.length">\r\n            (\u2299o\u2299)\u54E6\uFF0C\u6CA1\u6709\u6587\u7AE0\u4E86\r\n        </article>\r\n        <!-- <article ng-show="isWaiting" class="waiting">\r\n            <i class="fa fa-cog fa-spin fa-3x fa-fw margin-bottom"></i>\r\n            \u52A0\u8F7D\u4E2D\r\n        </article> -->\r\n    </div>\r\n</article>\r\n<section class="app-page-nav" ng-if="recentPosts.length">\r\n    <a ng-if="currentPostsPageId > 1" ng-href="{{baseLink + (currentPostsPageId - 1)}}" class="first"></a>\r\n    <a ng-if="currentPostsPageId > 5 && recentPosts.length == 10" ng-repeat="i in [-5,-4,-3,-2,-1,0,1,2,3,4]" ng-class="{true: \'active\'}[i == 0]" ng-href="{{baseLink + (currentPostsPageId + i)}}">{{currentPostsPageId + i}}</a>\r\n    <a ng-if="currentPostsPageId > 5 && recentPosts.length < 10" ng-repeat="i in [-5,-4,-3,-2,-1,0]" ng-class="{true: \'active\'}[i == 0]" ng-href="{{baseLink + (currentPostsPageId + i)}}">{{currentPostsPageId + i}}</a>\r\n    <a ng-if="currentPostsPageId <= 5 && recentPosts.length == 10" ng-repeat="i in [1,2,3,4,5,6,7,8,9,10]" ng-class="{\'active\': i == currentPostsPageId}" ng-href="{{baseLink + i}}">{{i}}</a>\r\n    <a ng-if="currentPostsPageId <= 5 && recentPosts.length < 10 && i <= currentPostsPageId" ng-repeat="i in [1,2,3,4,5,6,7,8,9,10]" ng-class="{\'active\': i == currentPostsPageId}" ng-href="{{baseLink + i}}">{{i}}</a>\r\n    <a ng-if="recentPosts.length == 10" ng-href="{{baseLink + (currentPostsPageId + 1)}}" class="last"></a>\r\n</section>');
+  $templateCache.put('tpls/sidebar.html', '<aside class="app-sidebar">\r\n  <section class="widget-text">\r\n    <img class="top" src="./img/34.jpg" alt="">\r\n    <img class="photo" src="./img/suolong.jpg" alt="">\r\n    <article class="content">\r\n      \u76EE\u524D\u5728\u9B54\u90FD\u300213\u5E74\u6BD5\u4E1A\u4E8E\u5317\u836F\uFF0C\u5728\u6D59\u6C5Ftop10\u7684\u4E00\u5BB6\u4E0A\u5E02\u836F\u4F01\u505A\u8FC72\u5E74\u7684\u56FD\u9645\u836F\u54C1\u6CE8\u518C\u300215\u5E74\u672B\u6B63\u5F0F\u52A0\u5165\u667A\u5546\u66B4\u8E81\u7684\u524D\u7AEF\u7A0B\u5E8F\u5458\u5927\u519B\u3002\r\n      <br><a href="/blog/#/pages/about">\u66F4\u591A\u5185\u5BB9\u8BF7\u70B9\u51FB\u6B64\u5904</a>\r\n      <audio loop controls oncanplay="document.getElementById(\'audio\').volume = 0.3" id="audio" class="audio">\r\n        <source src="http://yakima.duapp.com/uploads/xiaoyaotan.mp3" type="audio/mpeg" />\r\n        Your browser does not support the audio element.\r\n      </audio>\r\n    </article>\r\n    <footer class="social">\r\n      <span class="qq"></span>\r\n      <span class="wechat"></span>\r\n      <span class="email"></span>\r\n    </footer>\r\n  </section>\r\n  <section class="widget-normal" ng-if="categories.length">\r\n    <h4 class="widget-title"><span>\u5206\u7C7B\u76EE\u5F55</span></h4>\r\n    <ul class="categories">\r\n      <li ng-repeat="item in categories" class="list"><a ng-href="/blog/#/categories/{{item.slug}}/1">{{item.name}}</a></li>\r\n    </ul>\r\n  </section>\r\n  <section class="widget-normal" ng-if="archives.length">\r\n    <h4 class="widget-title"><span>\u6587\u7AE0\u5F52\u6863</span></h4>\r\n    <ul class="archives">\r\n      <li ng-repeat="item in archives" class="list"><a ng-href="/blog/#/archives/{{item.year + \'-\' + item.month}}/1">{{item.year}}\u5E74{{item.month}}\u6708</a></li>\r\n    </ul>\r\n  </section>\r\n  <section class="widget-normal" ng-if="friends.length">\r\n    <h4 class="widget-title"><span>\u4E00\u4E9B\u94FE\u63A5</span></h4>\r\n    <ul class="links">\r\n      <li ng-repeat="item in friends" class="list"><a ng-href="{{item.url}}">{{item.name}}</a></li>\r\n    </ul>\r\n  </section>\r\n</aside>');
 }]);
 var archive = {
   url: '/archives/:year-:month/:id',
@@ -256,13 +256,24 @@ var archive = {
     $scope.baseLink = '/blog/#/archives/' + $stateParams.year + '-' + $stateParams.month + '/';
     $scope.currentPostsPageId = parseInt($stateParams.id);
     $rootScope.isWaiting = true;
-    Api.get('/blog/v1/archives', {
+    Api.get('/blog/v1/months/' + $stateParams.year + '/' + $stateParams.month, {
       offset: (parseInt($stateParams.id) - 1) * 10,
-      limit: '10',
-      year: parseInt($stateParams.year),
-      month: parseInt($stateParams.month)
+      limit: '10'
     }).success(function (data) {
-      $scope.recentPosts = data.responseBody;
+      if (data && data.code && data.code === '200') {
+        $scope.recentPosts = data.body.map(function (item) {
+          return {
+            post_id: item.post_id,
+            post_date: item.post_date,
+            post_title: item.post_title,
+            post_excerpt: item.post_excerpt,
+            cat_slug: item.cat_slug,
+            cat_name: item.cat_name,
+            comment_count: item.comment_count,
+            recent_comment_content: item.comment_recent
+          };
+        });
+      }
     }).finally(function () {
       return $rootScope.isWaiting = false;
     });
@@ -322,9 +333,26 @@ var category = {
       order: 'desc',
       cat: $stateParams.slug.toLowerCase(),
       offset: (parseInt($stateParams.id) - 1) * 10,
-      limit: '10'
+      limit: 10
     }).success(function (data) {
-      $scope.recentPosts = data.responseBody;
+      if (data && data.code && data.code === '200') {
+        $scope.recentPosts = data.body.map(function (item) {
+          return {
+            post_id: item.post_id,
+            post_title: item.post_title,
+            post_date: item.post_date,
+            post_excerpt: item.post_excerpt,
+            cat_slug: item.cat_slug,
+            cat_name: item.cat_name,
+            comment_count: item.comment_count,
+            recent_comment_content: item.comment_recent
+          };
+        });
+      } else if (data && data.code && data.code !== '200') {
+        window.alert(data.message + ': ' + data.code);
+      } else {
+        window.alert('查询文章列表失败');
+      }
     }).finally(function () {
       return $rootScope.isWaiting = false;
     });
@@ -343,7 +371,19 @@ var page = {
   controller: ['$rootScope', '$scope', '$stateParams', 'Api', function ($rootScope, $scope, $stateParams, Api) {
     $rootScope.isWaiting = true;
     Api.get('/blog/v1/pages/' + $stateParams.name).success(function (data) {
-      return $scope.post = data.responseBody;
+      if (data && data.code && data.code === '200') {
+        if (data && data.code && data.code === '200') {
+          $scope.post = {
+            post_id: data.body.post_id,
+            post_title: data.body.post_title,
+            post_content: data.body.post_content
+          };
+        }
+      } else if (data && data.code && data.code !== '200') {
+        window.alert(data.message + ' : ' + data.code);
+      } else {
+        window.alert('查询文章内容失败');
+      }
     }).finally(function () {
       return $rootScope.isWaiting = false;
     });
@@ -366,31 +406,30 @@ var post = {
      * 获取上一篇和下一篇文章标题和id
      *                                                                                  *
      ***********************************************************************************/
-    Api.get('/blog/v1/post-siblings', {
-      id: $stateParams.id,
+    Api.get('/blog/v1/post/siblings', {
+      postId: $stateParams.id,
       from: $stateParams.from || 'posts',
       value: $stateParams.value || ''
     }).success(function (data) {
-      if (data.responseBody.pre.postId === '') {
-        $scope.prePostId = '';
-        $scope.prePostStatus = '没有更早的文章了';
+      if (data && data.code && data.code === '200') {
+        $scope.prePostId = data.body.prev.post_id || '';
+        $scope.prePostStatus = data.body.prev.post_id ? data.body.prev.post_title : '没有更早的文章了';
+
+        $scope.nextPostId = data.body.next.post_id || '';
+        $scope.nextPostStatus = data.body.next.post_id ? data.body.next.post_title : '没有更新的文章了';
+      } else if (data && data.code && data.code !== '200') {
+        window.alert(data.message + ': ' + data.code);
       } else {
-        $scope.prePostId = data.responseBody.pre.postId;
-        $scope.prePostStatus = data.responseBody.pre.postTitle;
-      }
-      if (data.responseBody.next.postId === '') {
-        $scope.nextPostId = '';
-        $scope.nextPostStatus = '没有更新的文章了';
-      } else {
-        $scope.nextPostId = data.responseBody.next.postId;
-        $scope.nextPostStatus = data.responseBody.next.postTitle;
+        window.alert('Oh, there is something wrong');
       }
     }).error(function () {
       $scope.prePostId = '';
       $scope.prePostStatus = '获取上一篇文章信息失败';
+
       $scope.nextPostId = '';
       $scope.nextPostStatus = '获取下一篇文章信息失败';
     });
+
     $scope.comment = {
       parent: '',
       author: '',
@@ -412,9 +451,21 @@ var post = {
      */
     $rootScope.isWaiting = true;
     Api.get('/blog/v1/posts/' + $scope.postId).success(function (data) {
-      $scope.post = data.responseBody;
-      $scope.post.post_content = $sce.trustAsHtml(Api.insertTagP($scope.post.post_content));
-      Api.highlightCode();
+      if (data && data.code && data.code === '200') {
+        $scope.post = {
+          post_id: data.body.post_id,
+          post_title: data.body.post_title,
+          post_content: $sce.trustAsHtml(Api.insertTagP(data.body.post_content)),
+          post_date: data.body.post_date,
+          cat_slug: data.body.cat_slug,
+          cat_name: data.body.cat_name
+        };
+        Api.highlightCode();
+      } else if (data && data.code && data.code !== '200') {
+        window.alert(data.message + ': ' + data.code);
+      } else {
+        window.alert('Oh, there is something wrong');
+      }
     }).finally(function () {
       return $rootScope.isWaiting = false;
     });
@@ -424,10 +475,23 @@ var post = {
      */
     $scope.getRelatedPost = function () {
       return Api.get('/blog/v1/related-posts', {
-        id: $scope.postId,
-        limit: 1
+        postId: $scope.postId,
+        limit: 10
       }).success(function (data) {
-        return $scope.relatedPosts = data.responseBody;
+        if (data && data.code && data.code === '200') {
+          $scope.relatedPosts = data.body.map(function (item) {
+            return {
+              post_id: item.post_id,
+              post_title: item.post_title
+            };
+          });
+        } else if (data && data.code && data.code !== '200') {
+          window.alert(data.message + ' : ' + data.code);
+        } else {
+          window.alert('获取相关文章列表失败');
+        }
+      }).error(function () {
+        window.alert('获取相关文章列表失败');
       });
     };
 
@@ -439,7 +503,23 @@ var post = {
         postId: $scope.postId,
         limit: 20
       }).success(function (data) {
-        return $scope.relatedComments = data.responseBody;
+        if (data && data.code && data.code === '200') {
+          $scope.relatedComments = data.body.map(function (item) {
+            return {
+              comment_author: item.comment_author,
+              comment_author_url: item.comment_author_url,
+              comment_date: item.comment_date,
+              comment_agent: item.comment_agent,
+              comment_content: item.comment_content,
+              comment_id: item.comment_ID,
+              comment_parent_id: item.comment_parent_ID
+            };
+          });
+        } else if (data && data.code && data.code !== '200') {
+          window.alert(data.message + ': ' + data.code);
+        } else {
+          window.alert('拉取评论列表失败');
+        }
       });
     };
 
@@ -500,7 +580,7 @@ var post = {
      */
     $scope.reply = function (commentObj) {
       var c = commentObj;
-      $scope.comment.parent = c.comment_ID;
+      $scope.comment.parentId = c.comment_id;
       $scope.comment.replyHint = 'to [[' + c.comment_author + ']]: ';
       $scope.comment.message = $scope.comment.replyHint;
       // 点击评论按钮后跳转到评论输入框
@@ -517,30 +597,24 @@ var post = {
       $scope.comment.flag = false;
       // 如果用户在点击‘回复’按钮后删掉了评论正文开头处的回复提示文字，则不算进行回复，而是当做发布单独的新评论处理
       if ($scope.comment.replyHint === '' || $scope.comment.message.indexOf($scope.comment.replyHint) === -1) {
-        $scope.comment.parent = '0';
+        $scope.comment.parentId = '0';
         $scope.comment.replyHint = '';
       }
-      Api.post('/blog/v1/submit-comment', {
+      Api.post('/blog/v1/comment/create', {
         postId: $scope.postId,
-        parent: $scope.comment.parent,
+        parentId: $scope.comment.parentId,
         author: $scope.comment.author,
         email: $scope.comment.email,
         url: $scope.comment.url,
         message: $scope.comment.message
       }).success(function (data) {
-        var d = data.responseBody;
-        if (d.success === false) {
-          $scope.comment.tip = d.msg;
+        if (data && data.code && data.code === '200') {
+          $scope.comment.tip = data.message;
           $scope.countingDown(6, function () {
             $scope.comment.flag = true;
           });
-          return;
+          $scope.getComments();
         }
-        $scope.comment.tip = d.msg;
-        $scope.countingDown(6, function () {
-          $scope.comment.flag = true;
-        });
-        $scope.getComments();
       }).error(function () {
         $scope.comment.tip = '提交评论失败，可能是网络问题';
         $scope.countingDown(6, function () {
@@ -553,7 +627,7 @@ var post = {
      * 获取一级评论
      */
     $scope.getFirstLevelComments = function (comment) {
-      return comment.comment_parent === 0;
+      return comment.comment_parent_id === 0;
     };
 
     $scope.getRelatedPost();
@@ -576,7 +650,24 @@ var posts = {
       offset: (parseInt($stateParams.id) - 1) * 10,
       limit: '10'
     }).success(function (data) {
-      $scope.recentPosts = data.responseBody;
+      if (data && data.code && data.code === '200') {
+        $scope.recentPosts = data.body.map(function (item) {
+          return {
+            post_id: item.post_id,
+            post_title: item.post_title,
+            post_date: item.post_date,
+            post_excerpt: item.post_excerpt,
+            cat_slug: item.cat_slug,
+            cat_name: item.cat_name,
+            comment_count: item.comment_count,
+            recent_comment_content: item.comment_recent
+          };
+        });
+      } else if (data && data.code && data.code !== '200') {
+        window.alert(data.message + ': ' + data.code);
+      } else {
+        window.alert('There is something wrong');
+      }
     }).finally(function () {
       return $rootScope.isWaiting = false;
     });
@@ -689,33 +780,78 @@ angular.module('app', ['app-base', 'ui.router', 'templates']).config(['$statePro
   }
   $rootScope.isLoading = true;
   $rootScope.isWaiting = false;
-  Api.get('/blog/v1/categories').success(function (data) {
-    return $rootScope.categories = data.responseBody;
+  Api.get('/blog/v1/cats').success(function (data) {
+    if (data && data.code && data.code === '200') {
+      $rootScope.categories = data.body.map(function (item) {
+        return {
+          slug: item.cat_slug,
+          name: item.cat_name
+        };
+      });
+    } else if (data && data.code && data.code !== '200') {
+      window.alert(data.message + ': ' + data.code);
+    } else {
+      window.alert('Oh, there is something wrong');
+    }
   }).error(function () {}).finally(function () {
     over.categories = true;
     whetherToCancelLoading();
   });
 
-  Api.get('/blog/v1/posts', {
+  Api.get('/blog/v1/excerpts', {
     sortby: 'ID',
-    order: 'rand',
+    order: 'RAND',
     limit: '10'
   }).success(function (data) {
-    return $rootScope.randomPosts = data.responseBody;
+    if (data && data.code && data.code === '200') {
+      $rootScope.randomPosts = data.body.map(function (item) {
+        return {
+          post_id: item.post_id,
+          post_title: item.post_title,
+          post_date: item.post_date
+        };
+      });
+    } else if (data && data.code && data.code !== '200') {
+      window.alert(data.message + ': ' + data.code);
+    } else {
+      window.alert('Oh, there is something wrong');
+    }
   }).finally(function () {
     over.randomPosts = true;
     whetherToCancelLoading();
   });
 
   Api.get('/blog/v1/pages').success(function (data) {
-    return $rootScope.pages = data.responseBody;
+    if (data && data.code && data.code === '200') {
+      $rootScope.pages = data.body.map(function (item) {
+        return {
+          post_name: item.post_name,
+          post_title: item.post_title
+        };
+      });
+    } else if (data && data.code && data.code !== '200') {
+      window.alert(data.message + ': ' + data.code);
+    } else {
+      window.alert('Oh, there is something wrong');
+    }
   }).finally(function () {
     over.pages = true;
     whetherToCancelLoading();
   });
 
-  Api.get('/blog/v1/archive-data').success(function (data) {
-    return $rootScope.archives = data.responseBody;
+  Api.get('/blog/v1/months').success(function (data) {
+    if (data && data.code && data.code === '200') {
+      $rootScope.archives = data.body.map(function (item) {
+        return {
+          year: item.year,
+          month: item.month
+        };
+      });
+    } else if (data && data.code && data.code !== '200') {
+      window.alert(data.message + ': ' + data.code);
+    } else {
+      window.alert('Oh, there is something wrong');
+    }
   }).finally(function () {
     over.archives = true;
     whetherToCancelLoading();
@@ -726,7 +862,18 @@ angular.module('app', ['app-base', 'ui.router', 'templates']).config(['$statePro
     offset: '0',
     limit: '10'
   }).success(function (data) {
-    return $rootScope.recentComments = data.responseBody;
+    if (data && data.code && data.code === '200') {
+      $rootScope.recentComments = data.body.map(function (item) {
+        return {
+          post_id: item.post_ID,
+          comment_content: item.comment_content
+        };
+      });
+    } else if (data && data.code && data.code !== '200') {
+      window.alert(data.message + ': ' + data.code);
+    } else {
+      window.alert('Oh, there is something wrong');
+    }
   }).finally(function () {
     over.recentComments = true;
     whetherToCancelLoading();
