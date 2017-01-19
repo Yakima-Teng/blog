@@ -200,7 +200,7 @@ angular.module('app-base', ['ngSanitize', 'ngAnimate'])
   .filter('hasParentComment', [function () {
     return function (originalArray, parentCommentId) {
       return originalArray.filter((elem, index, arr) => {
-        return elem.comment_parent === parentCommentId
+        return elem.comment_parent_id === parentCommentId
       })
     }
   }])

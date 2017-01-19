@@ -38,31 +38,87 @@ angular.module('app', ['app-base', 'ui.router', 'templates'])
     }
     $rootScope.isLoading = true
     $rootScope.isWaiting = false
-    Api.get('/blog/v1/categories')
-      .success(data => $rootScope.categories = data.responseBody)
+    Api.get('/blog/v1/cats')
+      .success(data => {
+        if (data && data.code && data.code === '200') {
+          $rootScope.categories = data.body.map(item => {
+            return {
+              slug: item.cat_slug,
+              name: item.cat_name
+            }
+          })
+        } else if (data && data.code && data.code !== '200') {
+          window.alert(`${data.message}: ${data.code}`)
+        } else {
+          window.alert('Oh, there is something wrong')
+        }
+      })
       .error(() => {})
       .finally(() => {
         over.categories = true
         whetherToCancelLoading()
       })
 
-    Api.get('/blog/v1/posts', {
+    Api.get('/blog/v1/excerpts', {
       sortby: 'ID',
-      order: 'rand',
+      order: 'RAND',
       limit: '10'
-    }).success(data => $rootScope.randomPosts = data.responseBody)
+    })
+      .success(data => {
+        if (data && data.code && data.code === '200') {
+          $rootScope.randomPosts = data.body.map(item => {
+            return {
+              post_id: item.post_id,
+              post_title: item.post_title,
+              post_date: item.post_date
+            }
+          })
+        } else if (data && data.code && data.code !== '200') {
+          window.alert(`${data.message}: ${data.code}`)
+        } else {
+          window.alert('Oh, there is something wrong')
+        }
+      })
       .finally(() => {
         over.randomPosts = true
         whetherToCancelLoading()
       })
 
-    Api.get('/blog/v1/pages').success(data => $rootScope.pages = data.responseBody)
+    Api.get('/blog/v1/pages')
+      .success(data => {
+        if (data && data.code && data.code === '200') {
+          $rootScope.pages = data.body.map(item => {
+            return {
+              post_name: item.post_name,
+              post_title: item.post_title
+            }
+          })
+        } else if (data && data.code && data.code !== '200') {
+          window.alert(`${data.message}: ${data.code}`)
+        } else {
+          window.alert('Oh, there is something wrong')
+        }
+      })
       .finally(() => {
         over.pages = true
         whetherToCancelLoading()
       })
 
-    Api.get('/blog/v1/archive-data').success(data => $rootScope.archives = data.responseBody)
+    Api.get('/blog/v1/months')
+      .success(data => {
+        if (data && data.code && data.code === '200') {
+          $rootScope.archives = data.body.map(item => {
+            return {
+              year: item.year,
+              month: item.month
+            }
+          })
+        } else if (data && data.code && data.code !== '200') {
+          window.alert(`${data.message}: ${data.code}`)
+        } else {
+          window.alert('Oh, there is something wrong')
+        }
+      })
       .finally(() => {
         over.archives = true
         whetherToCancelLoading()
@@ -72,7 +128,21 @@ angular.module('app', ['app-base', 'ui.router', 'templates'])
       order: 'desc',
       offset: '0',
       limit: '10'
-    }).success(data => $rootScope.recentComments = data.responseBody)
+    })
+      .success(data => {
+        if (data && data.code && data.code === '200') {
+          $rootScope.recentComments = data.body.map(item => {
+            return {
+              post_id: item.post_ID,
+              comment_content: item.comment_content
+            }
+          })
+        } else if (data && data.code && data.code !== '200') {
+          window.alert(`${data.message}: ${data.code}`)
+        } else {
+          window.alert('Oh, there is something wrong')
+        }
+      })
       .finally(() => {
         over.recentComments = true
         whetherToCancelLoading()

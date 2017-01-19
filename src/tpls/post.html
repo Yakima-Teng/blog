@@ -3,14 +3,14 @@
     <h1 class="title">{{post.post_title}}</h1>
   </header>
   <aside class="app-post-byline">
-    <span class="category"><a ng-href="{{'/blog/#/categories/' + post.slug + '/1'}}">{{post.name}}</a></span>
-    <span class="date">{{formatDate(post['post_date'])}}</span>
+    <span class="category"><a ng-href="{{'/blog/#/categories/' + post.cat_slug + '/1'}}">{{post.cat_name}}</a></span>
+    <span class="date">{{formatDate(post.post_date)}}</span>
   </aside>
   <article class="app-post-content" ng-bind-html="post.post_content"></article>
   <footer class="app-post-footer">
     <span class="title">相关文章</span>
     <span class="item" ng-repeat="item in relatedPosts">
-      <a ng-href="/blog/#/posts/{{item['ID']}}">{{item.post_title}}</a>
+      <a ng-href="/blog/#/posts/{{item.post_id}}">{{item.post_title}}</a>
     </span>
   </footer>
   <section class="app-post-nav">
@@ -26,7 +26,7 @@
         <span ng-click="reply(commentOne)" class="item outstanding">回复</span>
       </header>
       <article class="post_comment_content">{{commentOne.comment_content}}</article>
-      <section ng-repeat="commentTwo in relatedComments | hasParentComment:commentOne.comment_ID" class="post_comment inner-comment">
+      <section ng-repeat="commentTwo in relatedComments | hasParentComment:commentOne.comment_id" class="post_comment inner-comment">
         <header class="header">
           <a ng-href="{{commentTwo.comment_author_url}}" class="post_comment_author">{{commentTwo.comment_author}}</a>
           <span class="item">{{formatDate(commentTwo.comment_date)}}</span>
@@ -34,7 +34,7 @@
           <span ng-click="reply(commentTwo)" class="item outstanding">回复</span>
         </header>
         <article class="post_comment_content">{{commentTwo.comment_content}}</article>
-        <section ng-repeat="commentThree in relatedComments | hasParentComment:commentTwo.comment_ID" class="post_comment inner-comment">
+        <section ng-repeat="commentThree in relatedComments | hasParentComment:commentTwo.comment_id" class="post_comment inner-comment">
           <header class="header">
             <a ng-href="{{commentThree.comment_author_url}}" class="post_comment_author">{{commentThree.comment_author}}</a>
             <span class="item">{{formatDate(commentThree.comment_date)}}</span>
@@ -42,7 +42,7 @@
             <span ng-click="reply(commentThree)" class="item outstanding">回复</span>
           </header>
           <article class="post_comment_content">{{commentThree.comment_content}}</article>
-          <section ng-repeat="commentFour in relatedComments | hasParentComment:commentThree.comment_ID" class="post_comment inner-comment">
+          <section ng-repeat="commentFour in relatedComments | hasParentComment:commentThree.comment_id" class="post_comment inner-comment">
             <header class="header">
               <a ng-href="{{commentFour.comment_author_url}}" class="post_comment_author">{{commentFour.comment_author}}</a>
               <span class="item">{{formatDate(commentFour.comment_date)}}</span>
@@ -50,7 +50,7 @@
               <span ng-click="reply(commentFour)" class="item outstanding">回复</span>
             </header>
             <article class="post_comment_content">{{commentFour.comment_content}}</article>
-            <section ng-repeat="commentFive in relatedComments | hasParentComment:commentFour.comment_ID" class="post_comment inner-comment">
+            <section ng-repeat="commentFive in relatedComments | hasParentComment:commentFour.comment_id" class="post_comment inner-comment">
               <header class="header">
                 <a ng-href="{{commentFive.comment_author_url}}" class="post_comment_author">{{commentFive.comment_author}}</a>
                 <span class="item">{{formatDate(commentFive.comment_date)}}</span>

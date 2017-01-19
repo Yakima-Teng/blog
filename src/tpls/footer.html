@@ -3,19 +3,26 @@
     <section class="app-footer-widget" ng-if="recentComments.length">
       <h4>Comments</h4>
       <ul class="comments">
-        <li ng-repeat="item in recentComments"><a ng-href="/blog/#/posts/{{item.comment_post_ID}}">{{item.comment_excerpt}}</a></li>
+        <li ng-repeat="item in recentComments">
+          <a ng-href="/blog/#/posts/{{item.post_id}}">{{item.comment_content}}</a>
+        </li>
       </ul>
     </section>
     <section class="app-footer-widget" ng-if="pages.length">
       <h4>Pages</h4>
       <ul class="pages">
-        <li ng-repeat="item in pages"><a ng-href="/blog/#/pages/{{item.post_name}}">{{item.post_title}}</a></li>
+        <li ng-repeat="item in pages">
+          <a ng-href="/blog/#/pages/{{item.post_name}}">{{item.post_title}}</a>
+        </li>
       </ul>
     </section>
     <section class="app-footer-widget" ng-if="randomPosts.length">
       <h4>Articles</h4>
       <ul class="posts">
-        <li ng-repeat="item in randomPosts"><a ng-href="/blog/#/posts/{{item.ID}}">{{item.post_title}}</a> <span>{{formatDate(item.post_date)}}</span></li>
+        <li ng-repeat="item in randomPosts">
+          <a ng-href="/blog/#/posts/{{item.post_id}}">{{item.post_title}}</a>
+          <span>{{formatDate(item.post_date)}}</span>
+        </li>
       </ul>
     </section>
   </div>
