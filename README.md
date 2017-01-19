@@ -8,9 +8,14 @@
 
 * 前端自动化采用的是gulp；
 
-* 该单页应用（SPA）的在线地址为：[https://yakima-teng.github.io/blog/](https://yakima-teng.github.io/blog/);
+* 该单页应用（SPA）的在线地址为：[https://www.orzzone.com/blog/](https://www.orzzone.com/blog/);
 
-* 界面主体UI不是我设计的,当初是看到一个wordpress博客的样子挺好看的就模仿了过来。
+* 界面主体UI不是我设计的,当初是看到一个wordpress博客的样子挺好看的就模仿了过来，然后根据自己的需要修改了下。
+
+## 功能列表
+
+- 支持评论嵌套（最多五层）；
+- 支持在文章页根据来源显示对应的上一篇和下一篇文章（比如显示某个分类目录中的上一篇/下一篇文章，比如显示某个月份里的上一篇/下一篇文章）；
 
 ## 使用说明
 
@@ -24,7 +29,7 @@ $ npm run dev # 开发时使用，生成的文件在dev目录下，使用未压�
 $ npm run build # 生成生产环境下使用的文件(dist目录下)，使用压缩的.css, .js
 ```
 
-通过npm run dev或npm run build命令开启服务后，用浏览器打开ttp://localhost:3000/blog即可访问本地demo文件。
+通过npm run dev或npm run build命令开启服务后，用浏览器打开ttp://localhost:3000/blog（正常情况下程序会自动打开网页，如果没有自动打开请自行手动打开）即可访问本地demo文件。
 
 实际上执行npm run dev或npm run build与执行gulp dev或gulp build是等价的，具体可以看package.json中scripts的内容。对于开发环境和生产环境，默认都开启了文件监控，因为angular的依赖注入原因，不排除你修改代码后在开发环境下一切正常但切换到生产环境时缺因为js文件压缩的原因在浏览器上出现了报错，为了发现这种问题，在生产环境下也开启了文件监控便于调试。（注意，注入依赖时请一定使用数组形式，否则就会出现这种问题）。
 
@@ -39,19 +44,19 @@ $ gulp
 然后你会看到类似下面这样的提示信息：
 
 <div align="center">
-  <img src="snapshots/gulp-help.png" alt="gulp-help" width="99%">
+  <img src="https://raw.githubusercontent.com/Yakima-Teng/blog/master/snapshots/gulp-help.png" alt="gulp-help" width="99%">
 </div>
 
 ## 截图
 
 <div align="center">
-  <img src="snapshots/post_English.png" alt="post_English" width="99%">
+  <img src="https://raw.githubusercontent.com/Yakima-Teng/blog/master/snapshots/post_English.png" alt="post_English" width="99%">
 
-  <img src="snapshots/post_Chinese.png" alt="post_Chinese" width="99%">
+  <img src="https://raw.githubusercontent.com/Yakima-Teng/blog/master/snapshots/post_Chinese.png" alt="post_Chinese" width="99%">
 
-  <img src="snapshots/footer.png" alt="footer" width="99%">
+  <img src="https://raw.githubusercontent.com/Yakima-Teng/blog/master/snapshots/footer.png" alt="footer" width="99%">
 
-  <img src="snapshots/list.png" alt="list" width="99%">
+  <img src="https://raw.githubusercontent.com/Yakima-Teng/blog/master/snapshots/list.png" alt="list" width="99%">
 </div>
 
 ## 运行环境

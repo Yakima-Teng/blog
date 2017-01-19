@@ -24,7 +24,7 @@ const opn = require('opn')
 const SOURCE = './src/'
 let WWW = 'dist/'
 let DEST = './' + WWW + 'blog/'
-let port = 3001
+let port = 3000
 
 /***********************************************************************************
  *                                                                                  *
