@@ -8,10 +8,12 @@
   </aside>
   <article class="app-post-content" ng-bind-html="post.post_content"></article>
   <footer class="app-post-footer">
-    <span class="title">相关文章</span>
-    <span class="item" ng-repeat="item in relatedPosts">
-      <a ng-href="/blog/#/posts/{{item.post_id}}">{{item.post_title}}</a>
-    </span>
+    <header class="title">相关文章</header>
+    <ul class="items">
+      <li class="item" ng-repeat="item in relatedPosts">
+        <a ng-href="/blog/#/posts/{{item.post_id}}" class="link">{{item.post_title}}</a>
+      </li>
+    </ul>
   </footer>
   <section class="app-post-nav">
     <a ng-href="{{nextPostId === '' ? '' : '/blog/#/posts/' + nextPostId + fromValueString}}" class="next">{{nextPostStatus}}</a>

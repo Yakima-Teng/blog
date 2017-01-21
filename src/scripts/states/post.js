@@ -81,11 +81,11 @@ const post = {
       .finally(() => $rootScope.isWaiting = false)
 
     /**
-     * 获取随机的一篇与当前文章相关的文章
+     * 获取随机的20篇与当前文章相关的文章
      */
     $scope.getRelatedPost = () => Api.get('/blog/v1/related-posts', {
       postId: $scope.postId,
-      limit: 10
+      limit: 20
     })
       .success(data => {
         if (data && data.code && data.code === '200') {

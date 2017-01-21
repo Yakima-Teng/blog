@@ -2,7 +2,7 @@ const archive = {
   url: '/archives/:year-:month/:id',
   templateUrl: 'tpls/posts.html',
   controller: ['$rootScope', '$scope', '$stateParams', 'Api', function($rootScope, $scope, $stateParams, Api) {
-    $scope.from = 'archives'
+    $scope.from = 'months'
     $scope.value = `${$stateParams.year}-${$stateParams.month}`
     $scope.baseLink = `/blog/#/archives/${$stateParams.year}-${$stateParams.month}/`
     $scope.currentPostsPageId = parseInt($stateParams.id)

@@ -87,26 +87,30 @@
       border-top: 1px dashed #29292d;
       border-bottom: 1px dashed #64656c;
     }
-    span {
+    .title {
       display: inline-block;
       vertical-align: middle;
       font-size: 14px;
       margin-right: 15px;
-      &:last-child {
-        margin-right: 0;
-      }
-    }
-    .title {
       &:before {
-        content: "\f0e6";
+        content: "\f0f4";
         font-family: FontAwesome;
         margin-right: 10px;
         font-size: 14px;
         left: 0;
       }
     }
+    .items {
+      font-size: 0;
+      .item {
+        display: inline-block;
+        vertical-align: middle;
+        width: 44%;
+        margin-left: 4%;
+      }
+    }
     .item {
-      a {
+      .link {
         position: relative;
         display: block;
         height: 20px;
@@ -114,6 +118,7 @@
         padding: 0 10px;
         color: #a1a1a1;
         background-color: #333335;
+        font-size: 14px;
         &:hover {
           color: #fff;
         }
