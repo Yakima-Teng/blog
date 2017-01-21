@@ -3159,23 +3159,29 @@ img {
   border-top: 1px dashed #29292d;
   border-bottom: 1px dashed #64656c;
 }
-.app-post .app-post-footer span {
+.app-post .app-post-footer .title {
   display: inline-block;
   vertical-align: middle;
   font-size: 14px;
   margin-right: 15px;
 }
-.app-post .app-post-footer span:last-child {
-  margin-right: 0;
-}
 .app-post .app-post-footer .title:before {
-  content: "\f0e6";
+  content: "\f0f4";
   font-family: FontAwesome;
   margin-right: 10px;
   font-size: 14px;
   left: 0;
 }
-.app-post .app-post-footer .item a {
+.app-post .app-post-footer .items {
+  font-size: 0;
+}
+.app-post .app-post-footer .items .item {
+  display: inline-block;
+  vertical-align: middle;
+  width: 44%;
+  margin-left: 4%;
+}
+.app-post .app-post-footer .item .link {
   position: relative;
   display: block;
   height: 20px;
@@ -3183,11 +3189,12 @@ img {
   padding: 0 10px;
   color: #a1a1a1;
   background-color: #333335;
+  font-size: 14px;
 }
-.app-post .app-post-footer .item a:hover {
+.app-post .app-post-footer .item .link:hover {
   color: #fff;
 }
-.app-post .app-post-footer .item a:before {
+.app-post .app-post-footer .item .link:before {
   content: '';
   position: absolute;
   width: 0;
@@ -3197,7 +3204,7 @@ img {
   right: 100%;
   top: 0;
 }
-.app-post .app-post-footer .item a:after {
+.app-post .app-post-footer .item .link:after {
   content: '';
   position: absolute;
   width: 4px;
