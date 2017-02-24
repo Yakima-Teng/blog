@@ -145,7 +145,7 @@ angular.module('app-base', ['ngSanitize', 'ngAnimate'])
   }])
   .service('Api', ['$rootScope', '$http', '$httpParamSerializerJQLike', function ($rootScope, $http, $httpParamSerializerJQLike) {
     let _this = this
-    const originDomain = window.location.href.indexOf('localhost') === -1 ? `${location.protocol}//yakima.duapp.com` : ''
+    const originDomain = window.location.href.indexOf('localhost') === -1 ? `${location.protocol}//www.orzzone.com:18080` : ''
     _this.get = (url, params) => {
       const promise = $http({
         method: 'GET',
