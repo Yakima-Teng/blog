@@ -8,7 +8,7 @@
 
 * 前端自动化采用的是gulp；
 
-* 该单页应用（SPA）的在线地址为：[https://www.orzzone.com:18080/blog/](https://www.orzzone.com:18080/blog/);
+* 该单页应用（SPA）的在线地址为：[http://www.orzzone.com:18080/blog/](http://www.orzzone.com:18080/blog/);
 
 * 界面主体UI不是我设计的,当初是看到一个wordpress博客的样子挺好看的就模仿了过来，然后根据自己的需要修改了下。
 
@@ -95,7 +95,7 @@ dist和dev目录是运行npm run dev/build或其他gulp命令后生成的，git 
 
 * [AngularJS: API](https://docs.angularjs.org/api)
 
-* [DEMO](https://www.orzzone.com:18080/blog/)
+* [DEMO](http://www.orzzone.com:18080/blog/)
 
 ## LICENSE
 
