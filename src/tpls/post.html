@@ -3,7 +3,7 @@
     <h1 class="title">{{post.post_title}}</h1>
   </header>
   <aside class="app-post-byline">
-    <span class="category"><a ng-href="{{'/blog/#/categories/' + post.cat_slug + '/1'}}">{{post.cat_name}}</a></span>
+    <span class="category"><a ng-href="{{'#/categories/' + post.cat_slug + '/1'}}">{{post.cat_name}}</a></span>
     <span class="date">{{formatDate(post.post_date)}}</span>
   </aside>
   <article class="app-post-content" ng-bind-html="post.post_content"></article>
@@ -11,13 +11,13 @@
     <header class="title">相关文章</header>
     <ul class="items">
       <li class="item" ng-repeat="item in relatedPosts">
-        <a ng-href="/blog/#/posts/{{item.post_id}}" class="link">{{item.post_title}}</a>
+        <a ng-href="#/posts/{{item.post_id}}" class="link">{{item.post_title}}</a>
       </li>
     </ul>
   </footer>
   <section class="app-post-nav">
-    <a ng-href="{{nextPostId === '' ? '' : '/blog/#/posts/' + nextPostId + fromValueString}}" class="next">{{nextPostStatus}}</a>
-    <a ng-href="{{prePostId === '' ? '' : '/blog/#/posts/' + prePostId + fromValueString}}" class="pre">{{prePostStatus}}</a>
+    <a ng-href="{{nextPostId === '' ? '' : '#/posts/' + nextPostId + fromValueString}}" class="next">{{nextPostStatus}}</a>
+    <a ng-href="{{prePostId === '' ? '' : '#/posts/' + prePostId + fromValueString}}" class="pre">{{prePostStatus}}</a>
   </section>
   <section class="app-post-comments">
     <section ng-repeat="commentOne in relatedComments | filter:getFirstLevelComments" class="post_comment">

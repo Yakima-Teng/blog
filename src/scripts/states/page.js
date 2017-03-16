@@ -3,7 +3,7 @@ const page = {
   templateUrl: 'tpls/page.html',
   controller: ['$rootScope', '$scope', '$stateParams', 'Api', function($rootScope, $scope, $stateParams, Api) {
     $rootScope.isWaiting = true
-    Api.get(`/blog/v1/pages/${$stateParams.name}`).success(data => {
+    Api.get(`v1/pages/${$stateParams.name}`).success(data => {
       if (data && data.code && data.code === '200') {
         if (data && data.code && data.code === '200') {
           $scope.post = {

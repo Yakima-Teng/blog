@@ -5,7 +5,7 @@ const searchResult = {
     const keyword = $stateParams.keyword
     $scope.from = 'search'
     $scope.value = keyword
-    $scope.baseLink = `/blog/#/search?keyword=${keyword}&pagenumber=`
+    $scope.baseLink = `#/search?keyword=${keyword}&pagenumber=`
     $scope.currentPostsPageId = parseInt($stateParams.pagenumber)
     $rootScope.isWaiting = true
     Api.get('/blog/v1/search', {

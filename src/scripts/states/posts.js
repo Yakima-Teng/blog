@@ -2,7 +2,7 @@ const posts = {
   url: '/:id',
   templateUrl: 'tpls/posts.html',
   controller: ['$rootScope', '$scope', '$stateParams', 'Api', function($rootScope, $scope, $stateParams, Api) {
-    $scope.baseLink = '/blog/#/'
+    $scope.baseLink = '#/'
     $scope.currentPostsPageId = parseInt($stateParams.id)
     $scope.from = 'posts'
     $scope.value = ''

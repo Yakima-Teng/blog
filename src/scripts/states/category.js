@@ -2,7 +2,7 @@ const category = {
   url: '/categories/:slug/:id',
   templateUrl: 'tpls/posts.html',
   controller: ['$rootScope', '$scope', '$stateParams', 'Api', function($rootScope, $scope, $stateParams, Api) {
-    $scope.baseLink = `/blog/#/categories/${$stateParams.slug}/`
+    $scope.baseLink = `#/categories/${$stateParams.slug}/`
     $scope.currentPostsPageId = parseInt($stateParams.id)
     $rootScope.isWaiting = true
     $scope.from = 'categories'

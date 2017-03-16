@@ -150,7 +150,7 @@ angular.module('app', ['app-base', 'ui.router', 'templates'])
 
     $rootScope.search = (e) => {
       e.preventDefault()
-      window.location.href = `/blog/#/search?keyword=${$rootScope.keyword}&pagenumber=1`
+      window.location.hash = `#/search?keyword=${$rootScope.keyword}&pagenumber=1`
     }
 
     $rootScope.currentYear = new Date().getFullYear()

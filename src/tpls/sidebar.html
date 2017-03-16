@@ -4,7 +4,7 @@
     <img class="photo" src="./img/suolong.jpg" alt="">
     <article class="content">
       目前在魔都。13年毕业于北药，在浙江top10的一家上市药企做过2年的国际药品注册。15年末正式加入智商暴躁的前端程序员大军。
-      <br><a href="/blog/#/pages/about">更多内容请点击此处</a>
+      <br><a href="#/pages/about">更多内容请点击此处</a>
       <audio loop controls oncanplay="document.getElementById('audio').volume = 0.3" id="audio" class="audio">
         <source src="http://yakima.duapp.com/uploads/xiaoyaotan.mp3" type="audio/mpeg" />
         Your browser does not support the audio element.
@@ -19,13 +19,13 @@
   <section class="widget-normal" ng-if="categories.length">
     <h4 class="widget-title"><span>分类目录</span></h4>
     <ul class="categories">
-      <li ng-repeat="item in categories" class="list"><a ng-href="/blog/#/categories/{{item.slug}}/1">{{item.name}}</a></li>
+      <li ng-repeat="item in categories" class="list"><a ng-href="#/categories/{{item.slug}}/1">{{item.name}}</a></li>
     </ul>
   </section>
   <section class="widget-normal" ng-if="archives.length">
     <h4 class="widget-title"><span>文章归档</span></h4>
     <ul class="archives">
-      <li ng-repeat="item in archives" class="list"><a ng-href="/blog/#/archives/{{item.year + '-' + item.month}}/1">{{item.year}}年{{item.month}}月</a></li>
+      <li ng-repeat="item in archives" class="list"><a ng-href="#/archives/{{item.year + '-' + item.month}}/1">{{item.year}}年{{item.month}}月</a></li>
     </ul>
   </section>
   <section class="widget-normal" ng-if="friends.length">

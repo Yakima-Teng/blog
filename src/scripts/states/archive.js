@@ -4,7 +4,7 @@ const archive = {
   controller: ['$rootScope', '$scope', '$stateParams', 'Api', function($rootScope, $scope, $stateParams, Api) {
     $scope.from = 'months'
     $scope.value = `${$stateParams.year}-${$stateParams.month}`
-    $scope.baseLink = `/blog/#/archives/${$stateParams.year}-${$stateParams.month}/`
+    $scope.baseLink = `#/archives/${$stateParams.year}-${$stateParams.month}/`
     $scope.currentPostsPageId = parseInt($stateParams.id)
     $rootScope.isWaiting = true
     Api.get(`/blog/v1/months/${$stateParams.year}/${$stateParams.month}`, {
