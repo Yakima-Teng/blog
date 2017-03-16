@@ -18,7 +18,7 @@ angular.module('app-base', ['ngSanitize', 'ngAnimate'])
         name: '阮一峰'
       },
       {
-        url: 'http://www.orzzone.com/wp-admin',
+        url: 'http://www.orzzone.com/blog/wp-admin',
         name: '管理'
       }
     ]
