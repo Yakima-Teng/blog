@@ -33,8 +33,6 @@ $ npm run build # 生成生产环境下使用的文件(dist目录下)，使用�
 
 实际上执行npm run dev或npm run build与执行gulp dev或gulp build是等价的，具体可以看package.json中scripts的内容。对于开发环境和生产环境，默认都开启了文件监控，因为angular的依赖注入原因，不排除你修改代码后在开发环境下一切正常但切换到生产环境时缺因为js文件压缩的原因在浏览器上出现了报错，为了发现这种问题，在生产环境下也开启了文件监控便于调试。（注意，注入依赖时请一定使用数组形式，否则就会出现这种问题）。
 
-请勿修改gulpfile.js中'connect'任务下的target值，否则将导致无法获取文章、评论、目录等数据。
-
 gulp命令相关的task可以直接看gulpfile.js文件，已经美化了注释，可读性还可以，也可以直接在项目根目录开启命令行工具，执行:
 
 ``` bash
@@ -80,7 +78,7 @@ dist和dev目录是运行npm run dev/build或其他gulp命令后生成的，git 
 │   ├── index.html              # app入口文件
 │   ├── tpls/                   # html模版文件
 │   ├── fonts/                  # 字体文件
-│   ├── libs/             # 第三方脚本文件
+│   ├── libs/                   # 第三方脚本文件
 │   ├── styles/                 # 各种样式文件
 │   ├── scripts/                # 各种脚本文件
 │   └── assets/                 # 图片文件
