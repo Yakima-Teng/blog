@@ -7,46 +7,62 @@ const imagemin = require('gulp-imagemin')
 const less = require('gulp-less')
 const LessAutoPrefix = require('less-plugin-autoprefix')
 const autoPrefix = new LessAutoPrefix({
-  browers: ['last 2 versions']
+  browers: ['last 20 versions']
 })
 const rename = require('gulp-rename')
 const minifycss = require('gulp-clean-css')
 const uglify = require('gulp-uglify')
 const concat = require('gulp-concat')
-const connect = require('gulp-connect')
+const browserSync = require('browser-sync').create()
 const proxy = require('http-proxy-middleware')
 const templateCache = require('gulp-angular-templatecache')
 const htmlreplace = require('gulp-html-replace')
 const gulpSequence = require('gulp-sequence')
 const babel = require('gulp-babel')
-const opn = require('opn')
 
-const SOURCE = './src/'
-let WWW = 'dist/'
-let DEST = './' + WWW + 'blog/'
-let port = 3000
+/**
+ * *********************************************************************************
+ *                                                                                  *
+ * 基础配置
+ *                                                                                  *
+ ***********************************************************************************/
+const frontEndPort = 4000
+const mockServerPort = 5678
+const domain = {
+  mock: 'http://127.0.0.1:' + mockServerPort,
+  test: 'http://www.orzzone.com:18080'
+}
+let ENV = 'PRODUCTION'
+// 发布后的文件所在目录
+let distFolder = path.join(__dirname, 'dist')
+// 在url中访问前端文件时，distFolder目录对应的url路径
+const urlPathForDistFolder = '/projects/blog/'
+// 开发时自动在浏览器中打开的网址
+const autoOpenUrl = urlPathForDistFolder + 'index.html'
+// 代码源文件所在目录
+const sourceFolder = path.join(__dirname, 'src')
 
 /***********************************************************************************
  *                                                                                  *
- * reset value of variables WWW and DEST                                            *
+ * reset value of variable distFolder                                               *
  * will be the first task among series of 'gulp dev' tasks                          *
  *                                                                                  *
  ***********************************************************************************/
 gulp.task('before-dev', () => {
-  WWW = 'dev/'
-  DEST = './' + WWW + 'blog/'
+  ENV = 'DEVELOPMENT'
+  distFolder = path.join(__dirname, 'dev')
   return
 })
 
 /***********************************************************************************
  *                                                                                  *
- * reset value of variables WWW and DEST                                            *
+ * reset value of variable distFolder                                               *
  * will be the first task among series of 'gulp build' tasks                        *
  *                                                                                  *
  ***********************************************************************************/
 gulp.task('before-build', () => {
-  WWW = 'dist/'
-  DEST = './' + WWW + 'blog/'
+  ENV = 'PRODUCTION'
+  distFolder = path.join(__dirname, 'dist')
   return
 })
 
@@ -58,9 +74,9 @@ gulp.task('before-build', () => {
  *                                                                                  *
  ***********************************************************************************/
 gulp.task('copy-index', () => {
-  return gulp.src(SOURCE + 'index.html')
-    .pipe(gulp.dest(DEST))
-    .pipe(connect.reload())
+  return gulp.src(path.join(sourceFolder, 'index.html'))
+    .pipe(gulp.dest(distFolder))
+    .pipe(browserSync.stream())
 })
 
 /***********************************************************************************
@@ -70,14 +86,14 @@ gulp.task('copy-index', () => {
  *                                                                                  *
  ***********************************************************************************/
 gulp.task('html-replace', ['copy-index'], () => {
-  return gulp.src(DEST + 'index.html')
+  return gulp.src(path.join(distFolder, 'index.html'))
     .pipe(htmlreplace({
       'css': 'css/app.min.css',
       'third': 'js/third.min.js',
       'app': 'js/app.min.js'
     }))
-    .pipe(gulp.dest(DEST))
-    .pipe(connect.reload())
+    .pipe(gulp.dest(distFolder))
+    .pipe(browserSync.stream())
 })
 
 /***********************************************************************************
@@ -90,16 +106,16 @@ gulp.task('html-replace', ['copy-index'], () => {
  ***********************************************************************************/
 gulp.task('copy-and-minify-images', () => {
   return gulp.src([
-    SOURCE + 'assets/**/*.jpg',
-    SOURCE + 'assets/**/*.jpeg',
-    SOURCE + 'assets/**/*.png',
-    SOURCE + 'assets/**/*.gif',
-    SOURCE + 'assets/**/*.ico'
+    path.join(sourceFolder, 'assets', '**', '*.jpg'),
+    path.join(sourceFolder, 'assets', '**', '*.jpeg'),
+    path.join(sourceFolder, 'assets', '**', '*.png'),
+    path.join(sourceFolder, 'assets', '**', '*.gif'),
+    path.join(sourceFolder, 'assets', '**', '*.ico')
   ])
   .pipe(flatten())
   .pipe(imagemin())
-  .pipe(gulp.dest(DEST + 'img'))
-  .pipe(connect.reload())
+  .pipe(gulp.dest(path.join(distFolder, 'img')))
+  .pipe(browserSync.stream())
 })
 
 /***********************************************************************************
@@ -110,9 +126,9 @@ gulp.task('copy-and-minify-images', () => {
  *                                                                                  *
  ***********************************************************************************/
 gulp.task('copy-templates', () => {
-  return gulp.src(SOURCE + 'tpls/**/*.html')
-    .pipe(gulp.dest(DEST + 'tpls'))
-    .pipe(connect.reload())
+  return gulp.src(path.join(sourceFolder, 'tpls', '**', '*.html'))
+    .pipe(gulp.dest(path.join(distFolder, 'tpls')))
+    .pipe(browserSync.stream())
 })
 
 /***********************************************************************************
@@ -123,13 +139,13 @@ gulp.task('copy-templates', () => {
  *                                                                                  *
  ***********************************************************************************/
 gulp.task('cache-templates', () => {
-  return gulp.src(SOURCE + 'tpls/**/*.html')
+  return gulp.src(path.join(sourceFolder, 'tpls', '**', '*.html'))
     .pipe(templateCache('templates.js', {
       root: 'tpls/',
       module: 'templates',
       standalone: true
     }))
-    .pipe(gulp.dest(SOURCE + 'scripts/temp'))
+    .pipe(gulp.dest(path.join(sourceFolder, 'scripts', 'temp')))
 })
 
 /***********************************************************************************
@@ -139,8 +155,8 @@ gulp.task('cache-templates', () => {
  *                                                                                  *
  ***********************************************************************************/
 gulp.task('copy-fonts', () => {
-  return gulp.src(SOURCE + 'fonts/*.*')
-    .pipe(gulp.dest(DEST + 'fonts'))
+  return gulp.src(path.join(sourceFolder, 'fonts', '*.*'))
+    .pipe(gulp.dest(path.join(distFolder, 'fonts')))
 })
 
 /***********************************************************************************
@@ -150,23 +166,31 @@ gulp.task('copy-fonts', () => {
  *                                                                                  *
  ***********************************************************************************/
 gulp.task('less', () => {
-  return gulp.src(SOURCE + 'styles/app.less')
-    .pipe(less({
-      paths: [path.join(__dirname, 'src', 'styles')],
-      plugins: [autoPrefix]
-    }))
-    .on('error', e => console.log(e))
-    // ouput app.css
-    .pipe(gulp.dest(DEST + 'css'))
-    .pipe(rename({
-      suffix: '.min'
-    }))
-    .pipe(minifycss({
-      compatibility: 'ie8'
-    }))
-    // output app.min.css
-    .pipe(gulp.dest(DEST + 'css'))
-    .pipe(connect.reload())
+  if (ENV === 'DEVELOPMENT') {
+    return gulp.src(path.join(sourceFolder, 'styles', 'app.less'))
+      .pipe(less({
+        paths: [path.join(sourceFolder, 'styles')],
+        plugins: [autoPrefix]
+      }))
+      .on('error', e => console.log(e))
+      // ouput app.css
+      .pipe(gulp.dest(path.join(distFolder, 'css')))
+      .pipe(browserSync.stream())
+  } else {
+    return gulp.src(path.join(sourceFolder, 'styles', 'app.less'))
+      .pipe(less({
+        paths: [path.join(sourceFolder, 'styles')],
+        plugins: [autoPrefix]
+      }))
+      .on('error', e => console.log(e))
+      .pipe(rename({
+        suffix: '.min'
+      }))
+      .pipe(minifycss({}))
+      // output app.min.css
+      .pipe(gulp.dest(path.join(distFolder, 'css')))
+      .pipe(browserSync.stream())
+  }
 })
 
 /***********************************************************************************
@@ -176,9 +200,9 @@ gulp.task('less', () => {
  *                                                                                  *
  ***********************************************************************************/
 gulp.task('js-states', () => {
-  return gulp.src([SOURCE + 'scripts/states/**/*.js'])
+  return gulp.src([path.join(sourceFolder, 'scripts', 'states', '**', '*.js')])
     .pipe(concat('app-states.js'))
-    .pipe(gulp.dest(SOURCE + 'scripts/temp'))
+    .pipe(gulp.dest(path.join(sourceFolder, 'scripts', 'temp')))
 })
 
 /***********************************************************************************
@@ -189,25 +213,39 @@ gulp.task('js-states', () => {
  *                                                                                  *
  ***********************************************************************************/
 gulp.task('third', () => {
-  return gulp.src([
-    SOURCE + 'libs/jquery-1.12.2.js',
-    SOURCE + 'libs/angular.js',
-    SOURCE + 'libs/angular-animate.js',
-    SOURCE + 'libs/angular-sanitize.js',
-    SOURCE + 'libs/angular-ui-router.js',
-    SOURCE + 'libs/tooltip.js',
-    SOURCE + 'libs/highlight.pack.js'
-  ])
-    // important: files will be concatenated in the order specified in gulp.src
-    .pipe(concat('third.js'))
-    // output non-minified version
-    .pipe(gulp.dest(DEST + 'js'))
-    // output minified version
-    .pipe(uglify())
-    .pipe(rename({
-      extname: '.min.js'
-    }))
-    .pipe(gulp.dest(DEST + 'js'))
+  if (ENV === 'DEVELOPMENT') {
+    return gulp.src([
+      path.join(sourceFolder, 'libs', 'jquery-1.12.2.js'),
+      path.join(sourceFolder, 'libs', 'angular.js'),
+      path.join(sourceFolder, 'libs', 'angular-animate.js'),
+      path.join(sourceFolder, 'libs', 'angular-sanitize.js'),
+      path.join(sourceFolder, 'libs', 'angular-ui-router.js'),
+      path.join(sourceFolder, 'libs', 'tooltip.js'),
+      path.join(sourceFolder, 'libs', 'highlight.pack.js')
+    ])
+      // important: files will be concatenated in the order specified in gulp.src
+      .pipe(concat('third.js'))
+      // output non-minified version
+      .pipe(gulp.dest(path.join(distFolder, 'js')))
+  } else {
+    return gulp.src([
+      path.join(sourceFolder, 'libs', 'jquery-1.12.2.js'),
+      path.join(sourceFolder, 'libs', 'angular.js'),
+      path.join(sourceFolder, 'libs', 'angular-animate.js'),
+      path.join(sourceFolder, 'libs', 'angular-sanitize.js'),
+      path.join(sourceFolder, 'libs', 'angular-ui-router.js'),
+      path.join(sourceFolder, 'libs', 'tooltip.js'),
+      path.join(sourceFolder, 'libs', 'highlight.pack.js')
+    ])
+      // important: files will be concatenated in the order specified in gulp.src
+      .pipe(concat('third.js'))
+      // output minified version
+      .pipe(uglify())
+      .pipe(rename({
+        extname: '.min.js'
+      }))
+      .pipe(gulp.dest(path.join(distFolder, 'js')))
+  }
 })
 
 /***********************************************************************************
@@ -216,23 +254,37 @@ gulp.task('third', () => {
  *                                                                                  *
  ***********************************************************************************/
 gulp.task('js', ['js-states', 'cache-templates'], () => {
-  return gulp.src([
-    SOURCE + 'scripts/app-base.js',
-    SOURCE + 'scripts/temp/templates.js',
-    SOURCE + 'scripts/temp/app-states.js',
-    SOURCE + 'scripts/app.js'
-  ])
-  .pipe(concat('app.js'))
-  .pipe(babel({
-    presets: ['es2015']
-  }))
-  .pipe(gulp.dest(DEST + 'js'))
-  .pipe(uglify())
-  .pipe(rename({
-    suffix: '.min'
-  }))
-  .pipe(gulp.dest(DEST + 'js'))
-  .pipe(connect.reload())
+  if (ENV === 'DEVELOPMENT') {
+    return gulp.src([
+      path.join(sourceFolder, 'scripts', 'app-base.js'),
+      path.join(sourceFolder, 'scripts', 'temp', 'templates.js'),
+      path.join(sourceFolder, 'scripts', 'temp', 'app-states.js'),
+      path.join(sourceFolder, 'scripts', 'app.js')
+    ])
+    .pipe(concat('app.js'))
+    .pipe(babel({
+      presets: ['es2015']
+    }))
+    .pipe(gulp.dest(path.join(distFolder, 'js')))
+    .pipe(browserSync.stream())
+  } else {
+    return gulp.src([
+      path.join(sourceFolder, 'scripts', 'app-base.js'),
+      path.join(sourceFolder, 'scripts', 'temp', 'templates.js'),
+      path.join(sourceFolder, 'scripts', 'temp', 'app-states.js'),
+      path.join(sourceFolder, 'scripts', 'app.js')
+    ])
+    .pipe(concat('app.js'))
+    .pipe(babel({
+      presets: ['es2015']
+    }))
+    .pipe(uglify())
+    .pipe(rename({
+      suffix: '.min'
+    }))
+    .pipe(gulp.dest(path.join(distFolder, 'js')))
+    .pipe(browserSync.stream())
+  }
 })
 
 /***********************************************************************************
@@ -242,7 +294,7 @@ gulp.task('js', ['js-states', 'cache-templates'], () => {
  *                                                                                  *
  ***********************************************************************************/
 gulp.task('clean', () => {
-  return del([WWW])
+  return del([distFolder])
 })
 
 /***********************************************************************************
@@ -251,32 +303,22 @@ gulp.task('clean', () => {
  * with proxy set for '/blog/v1' to target server
  *                                                                                  *
  ***********************************************************************************/
-gulp.task('connect', () => {
-  return connect.server({
-    root: WWW,
-    port: port,
-    livereload: true,
-    middleware (connect, opt) {
-      return [
-        proxy('/blog/v1', {
-          target: 'http://localhost:18080',
-          // target: 'http://yakima.duapp.com',
-          changeOrigin: true
-        })
-      ]
-    }
-  })
-})
 
-/**
- * *********************************************************************************
- *                                                                                  *
- * automatically open blog in browser
- * only available in npm run dev script
- *                                                                                  *
- ***********************************************************************************/
-gulp.task('open', () => {
-  return opn(`http://localhost:${port}/blog/`)
+gulp.task('browser-sync', function () {
+  browserSync.init({
+    server: {
+      baseDir: './',
+      directory: true,
+      routes: {
+        [urlPathForDistFolder]: distFolder
+      }
+    },
+    port: frontEndPort,
+    startPath: autoOpenUrl,
+    middleware: [
+      proxy('/blog/v1', { target: domain.test, changeOrigin: true })
+    ]
+  })
 })
 
 /***********************************************************************************
@@ -294,30 +336,31 @@ gulp.task('default', () => {
  *                                                                                  *
  ***********************************************************************************/
 gulp.task('watch', () => {
-  gulp.watch(SOURCE + 'index.html', ['copy-index']).on('change', event => {
+  gulp.watch(path.join(sourceFolder, 'index.html'), ['copy-index']).on('change', event => {
     console.log(`File ${event.path} was ${event.type}, running task \"copy-index\"...`)
   })
   gulp.watch([
-    SOURCE + 'assets/**/*.jpg',
-    SOURCE + 'assets/**/*.jpeg',
-    SOURCE + 'assets/**/*.png',
-    SOURCE + 'assets/**/*.gif'
+    path.join(sourceFolder, 'assets', '**', '*.jpg'),
+    path.join(sourceFolder, 'assets', '**', '*.jpeg'),
+    path.join(sourceFolder, 'assets', '**', '*.png'),
+    path.join(sourceFolder, 'assets', '**', '*.gif'),
+    path.join(sourceFolder, 'assets', '**', '*.ico')
   ], ['copy-and-minify-images'])
     .on('change', event => {
       console.log(`File ${event.path} was ${event.type}, running task \"copy-and-minify-images\"...`)
     })
   gulp.watch([
-    SOURCE + 'styles/**/*.less',
-    SOURCE + 'styles/**/*.css'
+    path.join(sourceFolder, 'styles', '**', '*.less'),
+    path.join(sourceFolder, 'styles', '**', '*.css')
   ], ['less'])
     .on('change', event => {
       console.log(`File ${event.path} was ${event.type}, running task \"less\"...`)
     })
   gulp.watch([
-    SOURCE + 'scripts/states/**/*.js',
-    SOURCE + 'scripts/app-base.js',
-    SOURCE + 'tpls/**/*.html',
-    SOURCE + 'scripts/app.js'
+    path.join(sourceFolder, 'scripts', 'states', '**', '*.js'),
+    path.join(sourceFolder, 'scripts', 'app-base.js'),
+    path.join(sourceFolder, 'tpls', '**', '*.html'),
+    path.join(sourceFolder, 'scripts', 'app.js'),
   ], ['js']).on('change', event => {
     console.log(`File ${event.path} was ${event.type}, running task \"js\"...`)
   })
@@ -330,7 +373,7 @@ gulp.task('watch', () => {
  *                                                                                  *
  ***********************************************************************************/
 gulp.task('after-build', ['watch'], () => {
-  console.log(`Build operation completed! Please open localhost:${port}/blog/ to see the website`)
+  console.log(`Build operation completed! Please open localhost:${frontEndPort + autoOpenUrl} to see the website`)
   return
 })
 
@@ -339,8 +382,8 @@ gulp.task('after-build', ['watch'], () => {
  * simple tip words after 'guld dev' command                                        *
  *                                                                                  *
  ***********************************************************************************/
-gulp.task('after-dev', ['watch', 'open'], () => {
-  console.log(`Dev operation completed! Please wait to open localhost:${port}/blog/ to see the website`)
+gulp.task('after-dev', ['watch'], () => {
+  console.log(`Dev operation completed! Please wait to open localhost:${frontEndPort + autoOpenUrl}/blog/ to see the website`)
   return
 })
 /***********************************************************************************
@@ -350,7 +393,7 @@ gulp.task('after-dev', ['watch', 'open'], () => {
  * 'connect' task is excuted for convenient checkinig purpose                       *
  *                                                                                  *
  ***********************************************************************************/
-gulp.task('build', gulpSequence('before-build', ['clean', 'connect'], ['html-replace', 'third', 'copy-and-minify-images', 'copy-fonts', 'less', 'js'], 'after-build'))
+gulp.task('build', gulpSequence('before-build', ['clean', 'browser-sync'], ['html-replace', 'third', 'copy-and-minify-images', 'copy-fonts', 'less', 'js'], 'after-build'))
 
 /***********************************************************************************
  *                                                                                  *
@@ -358,7 +401,7 @@ gulp.task('build', gulpSequence('before-build', ['clean', 'connect'], ['html-rep
  * almost same tasks as 'gulp build' command excerpt for available watch function   *
  *                                                                                  *
  ***********************************************************************************/
-gulp.task('dev', gulpSequence('before-dev', ['clean', 'connect'], ['copy-index', 'third', 'copy-and-minify-images', 'copy-fonts', 'less', 'js'], 'after-dev'))
+gulp.task('dev', gulpSequence('before-dev', ['clean', 'browser-sync'], ['copy-index', 'third', 'copy-and-minify-images', 'copy-fonts', 'less', 'js'], 'after-dev'))
 
 /***********************************************************************************
  *                                                                                  *
