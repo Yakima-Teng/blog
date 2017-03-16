@@ -59,7 +59,7 @@ const post = {
     /**
      * 获取当前postId对应的文章内容
      */
-    $rootScope.isWaiting = true
+    Api.wait(true)
     Api.get(`/blog/v1/posts/${$scope.postId}`)
       .success(data => {
         if (data && data.code && data.code === '200') {
@@ -78,7 +78,7 @@ const post = {
           window.alert('Oh, there is something wrong')
         }
       })
-      .finally(() => $rootScope.isWaiting = false)
+      .finally(() => Api.wait(false))
 
     /**
      * 获取随机的20篇与当前文章相关的文章

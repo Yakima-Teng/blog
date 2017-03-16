@@ -18,6 +18,7 @@ angular.module('app', ['app-base', 'ui.router', 'templates'])
   .run(['$rootScope', '$state', '$timeout', 'Api', function($rootScope, $state, $timeout, Api) {
     window.app = $rootScope
     $rootScope.keyword = ''
+    angular.element('body').css({ 'display': 'block' })
     let over = {
       categories: false,
       randomPosts: false,
@@ -33,11 +34,9 @@ angular.module('app', ['app-base', 'ui.router', 'templates'])
         }
       }
       $timeout(() => {
-        $rootScope.isLoading = false
+        Api.load(false)
       }, 300)
     }
-    $rootScope.isLoading = true
-    $rootScope.isWaiting = false
     Api.get('/blog/v1/cats')
       .success(data => {
         if (data && data.code && data.code === '200') {

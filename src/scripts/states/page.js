@@ -2,7 +2,7 @@ const page = {
   url: '/pages/:name',
   templateUrl: 'tpls/page.html',
   controller: ['$rootScope', '$scope', '$stateParams', 'Api', function($rootScope, $scope, $stateParams, Api) {
-    $rootScope.isWaiting = true
+    Api.wait(true)
     Api.get(`/blog/v1/pages/${$stateParams.name}`).success(data => {
       if (data && data.code && data.code === '200') {
         if (data && data.code && data.code === '200') {
@@ -17,6 +17,6 @@ const page = {
       } else {
         window.alert('查询文章内容失败')
       }
-    }).finally(() => $rootScope.isWaiting = false)
+    }).finally(() => Api.wait(false))
   }]
 }

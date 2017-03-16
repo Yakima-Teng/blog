@@ -6,7 +6,7 @@ const posts = {
     $scope.currentPostsPageId = parseInt($stateParams.id)
     $scope.from = 'posts'
     $scope.value = ''
-    $rootScope.isWaiting = true
+    Api.wait(true)
     Api.get('/blog/v1/excerpts', {
       sortby: 'ID',
       order: 'desc',
@@ -33,6 +33,6 @@ const posts = {
           window.alert('There is something wrong')
         }
       })
-      .finally(() => $rootScope.isWaiting = false)
+      .finally(() => Api.wait(false))
   }]
 }

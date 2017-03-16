@@ -4,7 +4,7 @@ const category = {
   controller: ['$rootScope', '$scope', '$stateParams', 'Api', function($rootScope, $scope, $stateParams, Api) {
     $scope.baseLink = `#/categories/${$stateParams.slug}/`
     $scope.currentPostsPageId = parseInt($stateParams.id)
-    $rootScope.isWaiting = true
+    Api.wait(true)
     $scope.from = 'categories'
     $scope.value = $stateParams.slug
     Api.get('/blog/v1/excerpts', {
@@ -32,6 +32,6 @@ const category = {
       } else {
         window.alert('查询文章列表失败')
       }
-    }).finally(() => $rootScope.isWaiting = false)
+    }).finally(() => Api.wait(false))
   }]
 }

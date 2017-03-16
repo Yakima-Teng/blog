@@ -59,6 +59,15 @@ angular.module('app-base', ['ngSanitize', 'ngAnimate'])
         fontAwesomeIconClass: 'fa-gitlab'
       }
     ]
+    $rootScope.states = {
+      isLoading: true,
+      isAlerting: false,
+      alertingText: '',
+      alertingOkCallback () {},
+      alertingCancelCallback () {},
+      isWaiting: false,
+      presenting: ''
+    }
 
     /**
      * 根据userAgent判断浏览器类型
@@ -196,6 +205,57 @@ angular.module('app-base', ['ngSanitize', 'ngAnimate'])
       }
       return content
     }
+    // typeOf, return 'array', 'object', 'function', 'null', 'undefined', 'string', 'number'
+    _this.typeOf = input => {
+      return ({}).toString.call(input).slice(8, -1).toLowerCase()
+    }
+
+    // 合并对象属性（在原始对象上进行修改）
+    _this.merge = (obj, options) => {
+      if (obj && options) {
+        for (let p in options) {
+          if (_this.typeOf(obj[p]) === 'object' && _this.typeOf(options[p]) === 'object') {
+            merge(obj[p], options[p])
+          } else {
+            obj[p] = options[p]
+          }
+        }
+      }
+      return obj
+    }
+
+    _this.load = bool => _this.merge($rootScope.states, { isLoading: bool })
+
+    _this.alert = ({ text, callback }) => {
+      _this.merge($rootScope.states, {
+        isAlerting: true,
+        alertingText: text,
+        alertingOkCallback () {
+          callback && callback()
+          _this.merge($rootScope.states, { isAlerting: false })
+        },
+        alertingCancelCallback: null
+      })
+    }
+
+    _this.confirm = ({ text, okCallback, cancelCallback }) => {
+      _this.merge($rootScope.states, {
+        isAlerting: true,
+        alertingText: text,
+        alertingOkCallback () {
+          okCallback && okCallback()
+          _this.merge($rootScope.states, { isAlerting: false })
+        },
+        alertingCancelCallback () {
+          cancelCallback && cancelCallback()
+          _this.merge($rootScope.states, { isAlerting: false })
+        }
+      })
+    }
+
+    _this.wait = bool => _this.merge($rootScope.states, { isWaiting: bool })
+
+    _this.present = val => _this.merge($rootScope.states, { presenting: val })
   }])
   .filter('hasParentComment', [function () {
     return function (originalArray, parentCommentId) {
@@ -247,6 +307,30 @@ angular.module('app-base', ['ngSanitize', 'ngAnimate'])
       restrict: 'E',
       replace: true,
       templateUrl: 'tpls/header.html',
+      scope: false
+    }
+  }])
+  .directive('appLoading', [function () {
+    return {
+      restrict: 'E',
+      replace: true,
+      templateUrl: 'tpls/app-loading.html',
+      scope: false
+    }
+  }])
+  .directive('appWaiting', [function () {
+    return {
+      restrict: 'E',
+      replace: true,
+      templateUrl: 'tpls/app-waiting.html',
+      scope: false
+    }
+  }])
+  .directive('appAlerting', [function () {
+    return {
+      restrict: 'E',
+      replace: true,
+      templateUrl: 'tpls/app-alerting.html',
       scope: false
     }
   }])

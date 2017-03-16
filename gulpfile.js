@@ -74,9 +74,14 @@ gulp.task('before-build', () => {
  *                                                                                  *
  ***********************************************************************************/
 gulp.task('copy-index', () => {
-  return gulp.src(path.join(sourceFolder, 'index.html'))
-    .pipe(gulp.dest(distFolder))
-    .pipe(browserSync.stream())
+  if (ENV === 'DEVELOPMENT') {
+    return gulp.src(path.join(sourceFolder, 'index.html'))
+      .pipe(gulp.dest(distFolder))
+      .pipe(browserSync.stream())
+  } else {
+    return gulp.src(path.join(sourceFolder, 'index.html'))
+      .pipe(gulp.dest(distFolder))
+  }
 })
 
 /***********************************************************************************
@@ -336,9 +341,15 @@ gulp.task('default', () => {
  *                                                                                  *
  ***********************************************************************************/
 gulp.task('watch', () => {
-  gulp.watch(path.join(sourceFolder, 'index.html'), ['copy-index']).on('change', event => {
-    console.log(`File ${event.path} was ${event.type}, running task \"copy-index\"...`)
-  })
+  if (ENV === 'DEVELOPMENT') {
+    gulp.watch(path.join(sourceFolder, 'index.html'), ['copy-index']).on('change', event => {
+      console.log(`File ${event.path} was ${event.type}, running task \"copy-index\"...`)
+    })
+  } else {
+    gulp.watch(path.join(sourceFolder, 'index.html'), ['html-replace']).on('change', event => {
+      console.log(`File ${event.path} was ${event.type}, running task \"copy-index\"...`)
+    })
+  }
   gulp.watch([
     path.join(sourceFolder, 'assets', '**', '*.jpg'),
     path.join(sourceFolder, 'assets', '**', '*.jpeg'),
