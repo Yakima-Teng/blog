@@ -30,7 +30,7 @@ const frontEndPort = 4000
 const mockServerPort = 5678
 const domain = {
   mock: 'http://127.0.0.1:' + mockServerPort,
-  test: 'http://www.orzzone.com:18080'
+  server: 'http://www.orzzone.com:18080'
 }
 let ENV = 'PRODUCTION'
 // 发布后的文件所在目录
@@ -332,7 +332,10 @@ gulp.task('browser-sync', function () {
     port: frontEndPort,
     startPath: autoOpenUrl,
     middleware: [
-      proxy('/blog/v1', { target: domain.test, changeOrigin: true })
+      proxy('/blog/v1', {
+        target: ENV === 'DEVELOPMENT' ? domain.mock : domain.server,
+        changeOrigin: true
+      })
     ]
   })
 })
@@ -423,7 +426,7 @@ gulp.task('build', gulpSequence('before-build', ['clean', 'browser-sync'], ['htm
  * almost same tasks as 'gulp build' command excerpt for available watch function   *
  *                                                                                  *
  ***********************************************************************************/
-gulp.task('dev', gulpSequence('before-dev', ['clean', 'browser-sync'], ['copy-index', 'third', 'copy-media', 'copy-and-minify-images', 'copy-fonts', 'less', 'js'], 'after-dev'))
+gulp.task('dev', gulpSequence('before-dev', ['clean', 'browser-sync', 'mock-server'], ['copy-index', 'third', 'copy-media', 'copy-and-minify-images', 'copy-fonts', 'less', 'js'], 'after-dev'))
 
 /***********************************************************************************
  *                                                                                  *
@@ -444,7 +447,134 @@ gulp.task('help', () => {
   console.log(' copy-media                      拷贝媒体文件')
   console.log(' gulp js-states                  将src/scripts/states目录下的视图controllers合并到src/scripts/temp/app-states.js')
   console.log(' gulp js                         合并src/scripts/下我们自己写的js源文件至dist/js/app(.min).js')
-  console.log(' gulp build                      执行多种开发任务，启用压缩的样式和脚本文件，并对经常修改的脚本、样式、html、图片文件开启了监听自动刷新功能')
-  console.log(' gulp dev                        基本同gulp build，但文件生成目录由build改为dev，并且启用的是未压缩的样式和脚本文件')
+  console.log(' gulp build                      执行多种开发任务，启用压缩的样式和脚本文件，并对经常修改的脚本、样式、html、图片文件开启了监听自动刷新功能，使用线上数据')
+  console.log(' gulp dev                        基本同gulp build，但文件生成目录由build改为dev，并且启用的是未压缩的样式和脚本文件，带数据模拟')
   console.log(' -------------------------------- 说明结束 --------------------------------')
+})
+
+gulp.task('mock-server', function () {
+  var http = require('http')
+  var fs = require('fs')
+  var express = require('express')
+  var app = express()
+
+  // 创建mock目录
+  manufactureInfrastructure(['mock'])
+
+  app.all('*', function (req, res, next) {
+    var apiPath = req.url
+    var fileName = transferPathToFileName(apiPath)
+    if (!fileName) {
+      res.json({ error: 'fileName不存在' })
+      return
+    }
+    var filePathAndName = path.join(__dirname, 'mock', fileName + '.json')
+    fs.access(filePathAndName, fs.F_OK, function (err) {
+      if (err) {
+        if (err.code === 'ENOENT') {
+          fs.writeFile(filePathAndName, '{}', function (error) {
+            console.log(error ? filePathAndName + '文件创建失败！' : filePathAndName + '文件创建成功！')
+          })
+        } else {
+          console.log(err)
+        }
+      } else {
+        fs.readFile(filePathAndName, function (err, data) {
+          if (err) {
+            res.json(err)
+            return
+          }
+          res.json(JSON.parse(data.toString()))
+        })
+      }
+    })
+  })
+  // catch 404 and forward to error handler
+  app.use(function (req, res, next) {
+    var err = new Error('Not Found')
+    err.status = 404
+    next(err)
+  })
+  // error handlers (will print stacktrace)
+  app.use(function (err, req, res, next) {
+    res.status(err.status || 500).json({
+      message: err.message,
+      error: err
+    })
+  })
+  app.set('port', mockServerPort)
+  var server = http.createServer(app)
+  server.listen(mockServerPort)
+  server.on('error', onError)
+  server.on('listening', onListening)
+  // Event listener for HTTP server "error" event.
+  function onError (error) {
+    if (error.syscall !== 'listen') {
+      throw error
+    }
+
+    const bind = typeof mockServerPort === 'string'
+      ? 'Pipe ' + mockServerPort
+      : 'Port ' + mockServerPort
+
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+      case 'EACCES':
+        console.error(bind + ' requires elevated privileges')
+        process.exit(1)
+        break
+      case 'EADDRINUSE':
+        console.error(bind + ' is already in use')
+        process.exit(1)
+        break
+      default:
+        throw error
+    }
+  }
+
+  // translate '/a/b-d/c#d?q=hello' to 'a-b-d-c'
+  function transferPathToFileName (pathValue) {
+    if (!/^\/.*$/.test(pathValue)) {
+      console.log('[PATH ERROR]: path should start with symbol '/' instead of your ' + pathValue)
+      return false
+    }
+    return pathValue.split('#')[0].split('?')[0].split(/^\//)[1].replace(/\//g, '-').replace(/-[0-9]+/g, '-num').replace(/-pages-.+$/, '-pages-name')
+  }
+
+  // Event listener for HTTP server "listening" event.
+  function onListening () {
+    const addr = server.address()
+    const bind = typeof addr === 'string'
+      ? 'pipe ' + addr
+      : 'port ' + addr.port
+
+    console.log('[MAIN] Mock server listening on ' + bind)
+  }
+
+  // 构建项目文件夹
+  function manufactureInfrastructure (arrPaths) {
+    arrPaths.forEach(makePathSync)
+  }
+
+  // 代码来源：https://github.com/joehewitt/mkdir/blob/master/lib/mkdir.js
+  function makePathSync (dirPath, mode) {
+    dirPath = path.resolve(dirPath)
+
+    if (typeof mode === 'undefined') {
+      mode = parseInt('0777', 8) & (-process.umask())
+    }
+
+    try {
+      if (!fs.statSync(dirPath).isDirectory()) {
+        throw new Error(`${dirPath} exists and is not a directory`)
+      }
+    } catch (err) {
+      if (err.code === 'ENOENT') {
+        makePathSync(path.dirname(dirPath), mode)
+        fs.mkdirSync(dirPath, mode)
+      } else {
+        throw err
+      }
+    }
+  }
 })

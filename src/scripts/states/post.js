@@ -96,7 +96,7 @@ const post = {
             }
           })
         } else if (data && data.code && data.code !== '200') {
-          window.alert(`${data.message} : ${data.code}`)
+          Api.alert({ text: `${data.message}，错误代码：${data.code}` })
         } else {
           Api.alert({ text: '获取相关文章列表失败' })
         }

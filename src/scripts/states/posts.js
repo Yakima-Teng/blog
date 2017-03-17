@@ -28,9 +28,9 @@ const posts = {
             }
           })
         } else if (data && data.code && data.code !== '200') {
-          window.alert(`${data.message}: ${data.code}`)
+          Api.alert({ text: `${data.message}，错误代码：${data.code}` })
         } else {
-          window.alert('There is something wrong')
+          Api.alert({ text: 'There is something wrong' })
         }
       })
       .finally(() => Api.wait(false))

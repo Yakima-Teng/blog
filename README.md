@@ -24,12 +24,14 @@
 ``` bash
 $ npm install # 安装所需依赖包
 
-$ npm run dev # 开发时使用，生成的文件在dev目录下，使用未压缩的.css, .js
+$ npm run dev # 开发时使用，生成的文件在dev目录下，使用未压缩的.css, .js（会将请求转发至本地数据模拟服务器）
 
-$ npm run build # 生成生产环境下使用的文件(dist目录下)，使用压缩的.css, .js
+$ npm run build # 生成生产环境下使用的文件(dist目录下)，使用压缩的.css, .js（会将请求转发至线上服务器）
 ```
 
-通过npm run dev或npm run build命令开启服务后，用浏览器打开ttp://localhost:3000/blog（正常情况下程序会自动打开网页，如果没有自动打开请自行手动打开）即可访问本地demo文件。
+通过npm run dev或npm run build命令开启服务后，用浏览器打开ttp://localhost:4000/projects/blog/dist/index.html（正常情况下程序会自动打开网页，如果没有自动打开请自行手动打开）即可访问本地demo文件。
+
+需要说明的一点是，运行npm run dev命令后前端请求得到的数据是本地的模拟数据，而运行npm run build命令后前端请求得到的数据是从线上服务器拉取的，由于线上服务器随时可能修改，如果本地运行npm run build后发现数据拉取异常的话，请使用npm run dev命令（或直接修改gulpfile.js中的请求代理地址）。
 
 实际上执行npm run dev或npm run build与执行gulp dev或gulp build是等价的，具体可以看package.json中scripts的内容。对于开发环境和生产环境，默认都开启了文件监控，因为angular的依赖注入原因，不排除你修改代码后在开发环境下一切正常但切换到生产环境时缺因为js文件压缩的原因在浏览器上出现了报错，为了发现这种问题，在生产环境下也开启了文件监控便于调试。（注意，注入依赖时请一定使用数组形式，否则就会出现这种问题）。
 

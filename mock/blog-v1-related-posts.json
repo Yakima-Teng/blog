@@ -1,0 +1,65 @@
+{
+  "code": "200",
+  "message": "成功返回数据",
+  "body": [{
+    "post_id": 2373,
+    "post_title": "Operators in JavaScript"
+  }, {
+    "post_id": 2695,
+    "post_title": "JavaScript的组成"
+  }, {
+    "post_id": 3156,
+    "post_title": "JavaScript中局部变量和全局变量"
+  }, {
+    "post_id": 2389,
+    "post_title": "Simplest Image Rollovers Effect Created by JavaScript"
+  }, {
+    "post_id": 2725,
+    "post_title": "JavaScript Reserved Words"
+  }, {
+    "post_id": 2665,
+    "post_title": "Regular Expression"
+  }, {
+    "post_id": 2667,
+    "post_title": "AJAX"
+  }, {
+    "post_id": 2697,
+    "post_title": "JavaScript数据类型转换"
+  }, {
+    "post_id": 2699,
+    "post_title": "JavaScript变量作用域和闭包"
+  }, {
+    "post_id": 2703,
+    "post_title": "JavaScript运算符"
+  }, {
+    "post_id": 2394,
+    "post_title": "evt and window.event in JavaScript"
+  }, {
+    "post_id": 2691,
+    "post_title": "HTML对象"
+  }, {
+    "post_id": 2489,
+    "post_title": "JavaScript中的事件"
+  }, {
+    "post_id": 2470,
+    "post_title": "Regular Expressions and JavaScript"
+  }, {
+    "post_id": 2669,
+    "post_title": "Common Window Properties"
+  }, {
+    "post_id": 2398,
+    "post_title": "parentNode, childNodes, children and parentElement in JavaScript"
+  }, {
+    "post_id": 2359,
+    "post_title": "JavaScript Event Handlers"
+  }, {
+    "post_id": 2701,
+    "post_title": "JavaScript命名规范"
+  }, {
+    "post_id": 3016,
+    "post_title": "原生JS写的Ajax封装函数"
+  }, {
+    "post_id": 2693,
+    "post_title": "JavaScript变量类型"
+  }]
+}

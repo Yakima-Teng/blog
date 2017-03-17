@@ -1,0 +1,14 @@
+{
+  "code": "200",
+  "message": "成功返回数据",
+  "body": {
+    "prev": {
+      "post_id": 3156,
+      "post_title": "JavaScript中局部变量和全局变量"
+    },
+    "next": {
+      "post_id": 3166,
+      "post_title": "Win7在CMD中进入指定目录"
+    }
+  }
+}
