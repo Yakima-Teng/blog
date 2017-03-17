@@ -232,7 +232,9 @@ angular.module('app-base', ['ngSanitize', 'ngAnimate'])
         alertingText: text,
         alertingOkCallback () {
           callback && callback()
+          console.log($rootScope.states.isAlerting)
           _this.merge($rootScope.states, { isAlerting: false })
+          console.log($rootScope.states.isAlerting)
         },
         alertingCancelCallback: null
       })

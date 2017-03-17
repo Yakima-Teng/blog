@@ -3,8 +3,8 @@
     <header class="header">提示信息</header>
     <article class="article">{{states.alertingText}}</article>
     <footer class="footer">
-      <button ng-click="states.alertingOkCallback" class="btn btn-ok">确定</button>
-      <button ng-show="states.alertingCancelCallback" ng-click="states.alertingCancelCallback && states.alertingCancelCallback()" class="btn btn-cancel">取消</button>
+      <button ng-click="states.alertingOkCallback()" class="btn btn-ok">确定</button>
+      <button ng-show="states.alertingCancelCallback" ng-click="states.alertingCancelCallback()" class="btn btn-cancel">取消</button>
     </footer>
   </div>
 </div>

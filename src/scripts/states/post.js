@@ -27,9 +27,9 @@ const post = {
           $scope.nextPostId = data.body.next.post_id || ''
           $scope.nextPostStatus = data.body.next.post_id ? data.body.next.post_title : '没有更新的文章了'
         } else if (data && data.code && data.code !== '200') {
-          window.alert(`${data.message}: ${data.code}`)
+          Api.alert({ text: `${data.message}，错误代码：${data.code}` })
         } else {
-          window.alert('Oh, there is something wrong')
+          Api.alert({ text: 'Oh, there is something wrong' })
         }
       })
       .error(() => {
@@ -73,9 +73,9 @@ const post = {
           }
           Api.highlightCode()
         } else if (data && data.code && data.code !== '200') {
-          window.alert(`${data.message}: ${data.code}`)
+          Api.alert({ text: `${data.message}，错误代码：${data.code}` })
         } else {
-          window.alert('Oh, there is something wrong')
+          Api.alert({ text: 'Oh, there is something wrong' })
         }
       })
       .finally(() => Api.wait(false))
@@ -98,11 +98,11 @@ const post = {
         } else if (data && data.code && data.code !== '200') {
           window.alert(`${data.message} : ${data.code}`)
         } else {
-          window.alert('获取相关文章列表失败')
+          Api.alert({ text: '获取相关文章列表失败' })
         }
       })
       .error(() => {
-        window.alert('获取相关文章列表失败')
+        Api.alert({ text: '获取相关文章列表失败' })
       })
 
     /**
@@ -126,9 +126,9 @@ const post = {
             }
           })
         } else if (data && data.code && data.code !== '200') {
-          window.alert(`${data.message}: ${data.code}`)
+          Api.alert({ text: `${data.message}，错误代码：${data.code}` })
         } else {
-          window.alert('拉取评论列表失败')
+          Api.alert({ text: '拉取评论列表失败' })
         }
       })
 

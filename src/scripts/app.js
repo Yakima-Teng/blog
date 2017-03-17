@@ -47,9 +47,9 @@ angular.module('app', ['app-base', 'ui.router', 'templates'])
             }
           })
         } else if (data && data.code && data.code !== '200') {
-          window.alert(`${data.message}: ${data.code}`)
+          Api.alert({ text: `${data.message}，错误代码：${data.code}` })
         } else {
-          window.alert('Oh, there is something wrong')
+          Api.alert({ text: 'Oh, there is something wrong' })
         }
       })
       .error(() => {})
@@ -73,9 +73,9 @@ angular.module('app', ['app-base', 'ui.router', 'templates'])
             }
           })
         } else if (data && data.code && data.code !== '200') {
-          window.alert(`${data.message}: ${data.code}`)
+          Api.alert({ text: `${data.message}，错误代码：${data.code}` })
         } else {
-          window.alert('Oh, there is something wrong')
+          Api.alert({ text: 'Oh, there is something wrong' })
         }
       })
       .finally(() => {
@@ -93,9 +93,9 @@ angular.module('app', ['app-base', 'ui.router', 'templates'])
             }
           })
         } else if (data && data.code && data.code !== '200') {
-          window.alert(`${data.message}: ${data.code}`)
+          Api.alert({ text: `${data.message}，错误代码：${data.code}` })
         } else {
-          window.alert('Oh, there is something wrong')
+          Api.alert({ text: 'Oh, there is something wrong' })
         }
       })
       .finally(() => {
@@ -113,9 +113,9 @@ angular.module('app', ['app-base', 'ui.router', 'templates'])
             }
           })
         } else if (data && data.code && data.code !== '200') {
-          window.alert(`${data.message}: ${data.code}`)
+          Api.alert({ text: `${data.message}，错误代码：${data.code}` })
         } else {
-          window.alert('Oh, there is something wrong')
+          Api.alert({ text: 'Oh, there is something wrong' })
         }
       })
       .finally(() => {
@@ -137,9 +137,9 @@ angular.module('app', ['app-base', 'ui.router', 'templates'])
             }
           })
         } else if (data && data.code && data.code !== '200') {
-          window.alert(`${data.message}: ${data.code}`)
+          Api.alert({ text: `${data.message}，错误代码：${data.code}` })
         } else {
-          window.alert('Oh, there is something wrong')
+          Api.alert({ text: 'Oh, there is something wrong' })
         }
       })
       .finally(() => {
