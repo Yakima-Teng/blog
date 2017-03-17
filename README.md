@@ -75,6 +75,7 @@ dist和dev目录是运行npm run dev/build或其他gulp命令后生成的，git 
 .
 ├── dev/                        # 用于存放开发环境下生成的文件
 ├── dist/                       # 用于存放生产环境下生成的文件
+├── mock/                       # 本地模拟数据（json文件）
 ├── snapshots/                  # app快照
 ├── src/
 │   ├── index.html              # app入口文件
