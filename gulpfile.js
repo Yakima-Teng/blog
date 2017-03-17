@@ -36,7 +36,7 @@ let ENV = 'PRODUCTION'
 // 发布后的文件所在目录
 let distFolder = path.join(__dirname, 'dist')
 // 在url中访问前端文件时，distFolder目录对应的url路径
-const urlPathForDistFolder = '/projects/blog/'
+const urlPathForDistFolder = '/projects/blog/dist/'
 // 开发时自动在浏览器中打开的网址
 const autoOpenUrl = urlPathForDistFolder + 'index.html'
 // 代码源文件所在目录
@@ -253,6 +253,17 @@ gulp.task('third', () => {
   }
 })
 
+/**
+ * *********************************************************************************
+ *                                                                                  *
+ * copy .mp3 files
+ *                                                                                  *
+ ***********************************************************************************/
+gulp.task('copy-media', () => {
+  return gulp.src(path.join(sourceFolder, 'media', '*.mp3'))
+    .pipe(gulp.dest(path.join(distFolder, 'media')))
+})
+
 /***********************************************************************************
  *                                                                                  *
  * produce DEST /scripts/app(.min).js files                                         *
@@ -404,7 +415,7 @@ gulp.task('after-dev', ['watch'], () => {
  * 'connect' task is excuted for convenient checkinig purpose                       *
  *                                                                                  *
  ***********************************************************************************/
-gulp.task('build', gulpSequence('before-build', ['clean', 'browser-sync'], ['html-replace', 'third', 'copy-and-minify-images', 'copy-fonts', 'less', 'js'], 'after-build'))
+gulp.task('build', gulpSequence('before-build', ['clean', 'browser-sync'], ['html-replace', 'third', 'copy-media', 'copy-and-minify-images', 'copy-fonts', 'less', 'js'], 'after-build'))
 
 /***********************************************************************************
  *                                                                                  *
@@ -412,7 +423,7 @@ gulp.task('build', gulpSequence('before-build', ['clean', 'browser-sync'], ['htm
  * almost same tasks as 'gulp build' command excerpt for available watch function   *
  *                                                                                  *
  ***********************************************************************************/
-gulp.task('dev', gulpSequence('before-dev', ['clean', 'browser-sync'], ['copy-index', 'third', 'copy-and-minify-images', 'copy-fonts', 'less', 'js'], 'after-dev'))
+gulp.task('dev', gulpSequence('before-dev', ['clean', 'browser-sync'], ['copy-index', 'third', 'copy-media', 'copy-and-minify-images', 'copy-fonts', 'less', 'js'], 'after-dev'))
 
 /***********************************************************************************
  *                                                                                  *
@@ -430,6 +441,7 @@ gulp.task('help', () => {
   console.log(' gulp cache-templates            将html模版文件转成javascript形式附加到Angular的缓存中，避免了对模版文件的ajax请求')
   console.log(' gulp copy-fonts                 将src/fonts下的字体文件拷贝至dist/fonts目录下')
   console.log(' gulp less                       将src/styles/app.less文件编译(并添加浏览器厂商前缀)到dist/css下并命名为app(.min).css')
+  console.log(' copy-media                      拷贝媒体文件')
   console.log(' gulp js-states                  将src/scripts/states目录下的视图controllers合并到src/scripts/temp/app-states.js')
   console.log(' gulp js                         合并src/scripts/下我们自己写的js源文件至dist/js/app(.min).js')
   console.log(' gulp build                      执行多种开发任务，启用压缩的样式和脚本文件，并对经常修改的脚本、样式、html、图片文件开启了监听自动刷新功能')
