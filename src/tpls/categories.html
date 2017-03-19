@@ -1,12 +1,12 @@
 <ul class="categories">
-    <li ng-repeat="x in categories" class="category">
-        <a ng-href="#/categories/{{x.slug}}">
-            <header><i class="fa fa-3x" ng-class="categoriesLogos[x.slug]"></i></header>
-            <article>
-                {{x.name}}
-            </article>
-            <aside ng-show="!x.posts.length" class="dotting"></aside>
-            <aside ng-show="x.posts.length">{{x.posts.length}}</aside>
-        </a>
-    </li>
+  <li ng-repeat="x in categories" class="category">
+    <a ng-href="#/categories/{{x.slug}}">
+      <header><i class="fa fa-3x" ng-class="categoriesLogos[x.slug]"></i></header>
+      <article>
+        {{x.name}}
+      </article>
+      <aside ng-show="!x.posts.length" class="dotting"></aside>
+      <aside ng-show="x.posts.length">{{x.posts.length}}</aside>
+    </a>
+  </li>
 </ul>
