@@ -15,7 +15,7 @@ const searchResult = {
       offset: ($scope.currentPostsPageId - 1) * 10,
       limit: '10'
     }).success(data => {
-      $scope.recentPosts = data.responseBody
+      $scope.recentPosts = data.body
     }).finally(() => Api.wait(false))
   }]
 }

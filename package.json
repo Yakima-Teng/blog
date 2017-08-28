@@ -4,7 +4,7 @@
   "description": "A blog (front-end part) build with Angular 1.5+",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Yakima-Teng/blog.git"
+    "url": "git+https://git.oschina.net/yakima/blog.git"
   },
   "author": "Yakima Teng",
   "email": "cleveryun@163.com",
