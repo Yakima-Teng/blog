@@ -272,7 +272,8 @@ angular.module('app-base', ['ngSanitize', 'ngAnimate'])
         return $location.path()
       }, (path) => {
         const url = element.attr('href')
-        if (path.replace(/[0-9]*$/g, '') === url.replace(/^\/blog\/#/g, '').replace(/[0-9]*$/g, '')) {
+        console.log(path, url)
+        if (path.replace(/[0-9]*$/g, '') === url.replace(/^#/g, '').replace(/[0-9]*$/g, '')) {
           element.addClass('active')
           if (element.find('span.selected').length < 1) {
             element.append('<span class="selected"></span>')
