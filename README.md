@@ -8,7 +8,7 @@
 
 * 前端自动化采用的是gulp；
 
-* 该单页应用（SPA）的在线地址为：[http://www.orzzone.com:18080/projects/blog/dist/index.html](http://www.orzzone.com:18080/projects/blog/dist/index.html);
+* 该单页应用（SPA）的在线地址为：[http://yakima.oschina.io/blog](http://yakima.oschina.io/blog);
 
 * 界面主体UI不是我设计的,当初是看到一个wordpress博客的样子挺好看的就模仿了过来，然后根据自己的需要修改了下。
 
@@ -44,19 +44,19 @@ $ gulp
 然后你会看到类似下面这样的提示信息：
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/Yakima-Teng/blog/master/snapshots/gulp-help.png" alt="gulp-help" width="99%">
+  <img src="http://git.oschina.net/yakima/blog/blob/master/snapshots/gulp-help.png" alt="gulp-help" width="99%">
 </div>
 
 ## 截图
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/Yakima-Teng/blog/master/snapshots/post_English.png" alt="post_English" width="99%">
+  <img src="http://git.oschina.net/yakima/blog/blob/master/snapshots/post_English.png" alt="post_English" width="99%">
 
-  <img src="https://raw.githubusercontent.com/Yakima-Teng/blog/master/snapshots/post_Chinese.png" alt="post_Chinese" width="99%">
+  <img src="http://git.oschina.net/yakima/blog/blob/master/snapshots/post_Chinese.png" alt="post_Chinese" width="99%">
 
-  <img src="https://raw.githubusercontent.com/Yakima-Teng/blog/master/snapshots/footer.png" alt="footer" width="99%">
+  <img src="http://git.oschina.net/yakima/blog/blob/master/snapshots/footer.png" alt="footer" width="99%">
 
-  <img src="https://raw.githubusercontent.com/Yakima-Teng/blog/master/snapshots/list.png" alt="list" width="99%">
+  <img src="http://git.oschina.net/yakima/blog/blob/master/snapshots/list.png" alt="list" width="99%">
 </div>
 
 ## 运行环境
@@ -96,7 +96,7 @@ dist和dev目录是运行npm run dev/build或其他gulp命令后生成的，git 
 
 * [AngularJS: API](https://docs.angularjs.org/api)
 
-* [DEMO](http://www.orzzone.com:18080/projects/blog/dist/index.html)
+* [DEMO](http://yakima.oschina.io/blog)
 
 ## LICENSE
 

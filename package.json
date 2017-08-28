@@ -13,6 +13,7 @@
     "dev": "gulp dev",
     "build": "gulp build",
     "deploy": "gh-pages -d dist",
+    "deployToOSChina": "gh-pages -d dist -b oschina-pages -o oschina -r https://git.oschina.net/yakima/blog.git",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "license": "MIT",

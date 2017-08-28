@@ -178,7 +178,7 @@ angular.module('app-base', ['ngSanitize', 'ngAnimate'])
      */
     _this.highlightCode = () => {
       setTimeout(function () {
-        $('pre code').each(function (i, block) {
+        $('pre').each(function (i, block) {
           hljs.highlightBlock(block)
           if ($(this).hasClass('xml')) {
             $(this).text($(this).html())
