@@ -44,19 +44,19 @@ $ gulp
 然后你会看到类似下面这样的提示信息：
 
 <div align="center">
-  <img src="http://git.oschina.net/yakima/blog/blob/master/snapshots/gulp-help.png" alt="gulp-help" width="99%">
+  <img src="http://git.oschina.net/yakima/blog/raw/master/snapshots/gulp-help.png" alt="gulp-help" width="99%">
 </div>
 
 ## 截图
 
 <div align="center">
-  <img src="http://git.oschina.net/yakima/blog/blob/master/snapshots/post_English.png" alt="post_English" width="99%">
+  <img src="http://git.oschina.net/yakima/blog/raw/master/snapshots/post_English.png" alt="post_English" width="99%">
 
-  <img src="http://git.oschina.net/yakima/blog/blob/master/snapshots/post_Chinese.png" alt="post_Chinese" width="99%">
+  <img src="http://git.oschina.net/yakima/blog/raw/master/snapshots/post_Chinese.png" alt="post_Chinese" width="99%">
 
-  <img src="http://git.oschina.net/yakima/blog/blob/master/snapshots/footer.png" alt="footer" width="99%">
+  <img src="http://git.oschina.net/yakima/blog/raw/master/snapshots/footer.png" alt="footer" width="99%">
 
-  <img src="http://git.oschina.net/yakima/blog/blob/master/snapshots/list.png" alt="list" width="99%">
+  <img src="http://git.oschina.net/yakima/blog/raw/master/snapshots/list.png" alt="list" width="99%">
 </div>
 
 ## 运行环境
