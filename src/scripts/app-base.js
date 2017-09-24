@@ -154,7 +154,7 @@ angular.module('app-base', ['ngSanitize', 'ngAnimate'])
   }])
   .service('Api', ['$rootScope', '$http', '$httpParamSerializerJQLike', function ($rootScope, $http, $httpParamSerializerJQLike) {
     let _this = this
-    const originDomain = window.location.href.indexOf('localhost') === -1 ? `${location.protocol}//www.orzzone.com:18080` : ''
+    const originDomain = window.location.href.indexOf('localhost') === -1 ? `${location.protocol}//www.yxeye.com` : ''
     _this.get = (url, params) => {
       const promise = $http({
         method: 'GET',
@@ -232,9 +232,7 @@ angular.module('app-base', ['ngSanitize', 'ngAnimate'])
         alertingText: text,
         alertingOkCallback () {
           callback && callback()
-          console.log($rootScope.states.isAlerting)
           _this.merge($rootScope.states, { isAlerting: false })
-          console.log($rootScope.states.isAlerting)
         },
         alertingCancelCallback: null
       })
@@ -272,7 +270,6 @@ angular.module('app-base', ['ngSanitize', 'ngAnimate'])
         return $location.path()
       }, (path) => {
         const url = element.attr('href')
-        console.log(path, url)
         if (path.replace(/[0-9]*$/g, '') === url.replace(/^#/g, '').replace(/[0-9]*$/g, '')) {
           element.addClass('active')
           if (element.find('span.selected').length < 1) {

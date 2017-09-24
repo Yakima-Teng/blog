@@ -8,7 +8,7 @@
 
 * 前端自动化采用的是gulp；
 
-* 该单页应用（SPA）的在线地址为：[http://yakima.oschina.io/blog](http://yakima.oschina.io/blog);
+* 该SPA使用的接口服务为在线服务，若要查看效果，请将仓库克隆到本地，npm i安装相关依赖，然后运行npm run build命令;
 
 * 界面主体UI不是我设计的,当初是看到一个wordpress博客的样子挺好看的就模仿了过来，然后根据自己的需要修改了下。
 
@@ -95,8 +95,6 @@ dist和dev目录是运行npm run dev/build或其他gulp命令后生成的，git 
 ## 相关文档
 
 * [AngularJS: API](https://docs.angularjs.org/api)
-
-* [DEMO](http://yakima.oschina.io/blog)
 
 ## LICENSE
 
